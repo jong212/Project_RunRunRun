@@ -5,6 +5,10 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
+    private void Awake()
+    {
+        Screen.SetResolution(960, 540, false);
+    }
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
