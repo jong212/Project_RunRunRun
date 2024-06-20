@@ -10,6 +10,6 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     public void JoinRoom()
     {
-        GameObject.Find("CreateAndJoin").GetComponent<CreateAndJoin>().JoinRoomInList(Name.text);
+        ConnectToServer.instance.JoinRoomInList(Name.text);
     }
 }
