@@ -85,10 +85,7 @@ namespace Photon.Pun.Demo.PunBasics
 		{
 			_isAnimating = true;
 			_offset = new Vector3(radius,0f,0f);
-            if (particles != null)
-            {
-                particles.SetActive(true);
-            }
+			particles.SetActive(true);
 		}
 
 		/// <summary>
@@ -96,10 +93,7 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 		public void StopLoaderAnimation()
 		{
-            if (this.particles != null)
-            {
-                particles.SetActive(false);
-            }
+			particles.SetActive(false);
 		}
 
 		#endregion

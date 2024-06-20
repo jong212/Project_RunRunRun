@@ -47,7 +47,6 @@ namespace Photon.Pun.Demo.Procedural
                     Debug.LogError("Invalid Seed entered. Only numeric Seeds are allowed.");
                 }
             });
-            this.seedInputField.text = (Random.Range(0, 256)).ToString();
 
             worldSizeDropdown = GetComponentsInChildren<Dropdown>()[0];
             worldSizeDropdown.interactable = PhotonNetwork.PhotonServerSettings.StartInOfflineMode;

@@ -338,9 +338,7 @@ namespace Photon.Pun.Demo.Cockpit
 			_regionPingProcessActive = true;
 			if (debug)	Debug.Log("PunCockpit:PingRegions:ConnectToNameServer");
 
-
-            _lbc = new LoadBalancingClient();
-            
+			_lbc = new LoadBalancingClient (PhotonNetwork.NetworkingClient.ExpectedProtocol);
 			_lbc.AddCallbackTarget(this);
 
 

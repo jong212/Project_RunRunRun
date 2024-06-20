@@ -33,7 +33,5 @@ namespace Photon.Chat
         Disconnecting,
         /// <summary>The client is no longer connected (to any server).</summary>
         Disconnected,
-        /// <summary>Client was unable to connect to Name Server and will attempt to connect with an alternative network protocol (TCP).</summary>
-        ConnectWithFallbackProtocol
     }
 }
