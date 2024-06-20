@@ -35,6 +35,84 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     int currentPage = 1, maxPage, multiple;
 
 
+
+
+    private Dictionary<int, bool> playerReadyState = new Dictionary<int, bool>(); // 플레이어 ID와 준비 상태를 저장하는 딕셔너리
+    public Button ReadyButton; // 준비 버튼 추가
+    void Start()
+    {
+        ReadyButton.onClick.AddListener(OnReadyButtonClicked);
+    }
+    void OnReadyButtonClicked()
+    {
+        PV.RPC("ChangeReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+    [PunRPC]
+    void ChangeReadyState(int playerId)
+    {
+        if (playerReadyState.ContainsKey(playerId))
+        {
+            playerReadyState[playerId] = !playerReadyState[playerId];
+        }
+        else
+        {
+            playerReadyState.Add(playerId, true);
+        }
+
+        // 플레이어 리스트 갱신
+        RoomRenewal();
+
+        // 모든 플레이어가 준비 완료인지 체크
+        CheckAllPlayersReady();
+    }
+
+
+    void CheckAllPlayersReady()
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (!playerReadyState.ContainsKey(player.ActorNumber) || !playerReadyState[player.ActorNumber])
+            {
+                return; // 준비하지 않은 플레이어가 있음
+            }
+        }
+
+        // 모든 플레이어가 준비 완료됨
+        StartGame();
+    }
+
+    void StartGame()
+    {
+        // 게임 시작 로직
+        ChatRPC("<color=green>모든 플레이어가 준비 완료되었습니다. 게임을 시작합니다!</color>");
+        // 예: PhotonNetwork.LoadLevel("GameScene");
+    }
+    public override void OnLeftRoom()
+    {
+        ResetRoomState();
+    }
+    void ResetRoomState()
+    {
+        playerReadyState.Clear(); // 플레이어 준비 상태 초기화
+        ListText.text = "";
+        RoomInfoText.text = "";
+        ChatInput.text = "";
+        for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #region 방리스트 갱신
     // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
     public void MyListClick(int num)
@@ -109,6 +187,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         LobbyPanel.SetActive(false);
         RoomPanel.SetActive(false);
+        ResetRoomState(); // 기능 추가 중
     }
     #endregion
 
@@ -127,7 +206,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
     }
-
+  
     public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); } 
 
     public override void OnJoinRandomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); }
@@ -178,5 +257,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             ChatText[ChatText.Length - 1].text = msg;
         }
     }
+   
     #endregion
 }
