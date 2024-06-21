@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+ 
+ - OnLeftRoom : 로컬 콜백함수 // 해당 플레이어의 클라이언트에서만 디버깅 걸린다는 뜻 
+ - 커스텀속성 변경시 : 로컬 + 다른 클라창들  모두 동기화 됨 + OnPlayerPropertiesUpdate 콜백함수 있음
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -43,76 +49,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         ReadyButton.onClick.AddListener(OnReadyButtonClicked);
     }
+
+    //기능 추가 
+
+    // A 버튼을 클릭하면
     void OnReadyButtonClicked()
     {
-        PV.RPC("ChangeReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+        // A-1 값 있음 True 로 가져오고 아님 False
+        // 로컬플레이어에 해당하는 isready "키" 가 "CustomProperties"사전에 있는지 체크하고 있으면 그게 참인지 거짓 값인지를 가져와서 isready에 넣는다
+        bool isReady = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
+
+        // A-2 버튼 클릭했으니 가져온 값 반대로 세팅
+        // 세팅할때 Setcustomproperties 함수에 세팅 하는 이유가 해당 함수를 통해 Customproperties 값이 바뀌면 > OnPlayerPropertiesUpdate 콜핵함수를 호출시키고 모든 클라에게 공유되기 때문 (서버 전용 전역변수 느낌,그렇다고 서버 변수는 아님)
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", !isReady } });
     }
-    [PunRPC]
-    void ChangeReadyState(int playerId)
+
+        // A-3 A-2 과정이 끝나면 자동으로 콜백 함수가 불러짐 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if (playerReadyState.ContainsKey(playerId))
+        if (changedProps.ContainsKey("isReady"))
         {
-            playerReadyState[playerId] = !playerReadyState[playerId];
+            UpdatePlayerReadyStates();
         }
-        else
-        {
-            playerReadyState.Add(playerId, true);
-        }
-
-        // 플레이어 리스트 갱신
-        RoomRenewal();
-
-        // 모든 플레이어가 준비 완료인지 체크
-        CheckAllPlayersReady();
     }
-
-
-    void CheckAllPlayersReady()
-    {
-        foreach (var player in PhotonNetwork.PlayerList)
-        {
-            if (!playerReadyState.ContainsKey(player.ActorNumber) || !playerReadyState[player.ActorNumber])
-            {
-                return; // 준비하지 않은 플레이어가 있음
-            }
-        }
-
-        // 모든 플레이어가 준비 완료됨
-        StartGame();
-    }
-
-    void StartGame()
-    {
-        // 게임 시작 로직
-        ChatRPC("<color=green>모든 플레이어가 준비 완료되었습니다. 게임을 시작합니다!</color>");
-        // 예: PhotonNetwork.LoadLevel("GameScene");
-    }
-    public override void OnLeftRoom()
-    {
-        ResetRoomState();
-    }
-    void ResetRoomState()
-    {
-        playerReadyState.Clear(); // 플레이어 준비 상태 초기화
-        ListText.text = "";
-        RoomInfoText.text = "";
-        ChatInput.text = "";
-        for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #region 방리스트 갱신
     // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
     public void MyListClick(int num)
@@ -187,7 +146,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         LobbyPanel.SetActive(false);
         RoomPanel.SetActive(false);
-        ResetRoomState(); // 기능 추가 중
     }
     #endregion
 
@@ -205,6 +163,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
+
+        UpdatePlayerReadyStates();//기능 추가
     }
   
     public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); } 
@@ -215,12 +175,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         RoomRenewal();
         ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
+
+        UpdatePlayerReadyStates(); // 기능 추가
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+
         RoomRenewal();
         ChatRPC("<color=yellow>" + otherPlayer.NickName + "님이 퇴장하셨습니다</color>");
+        //otherPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+
+        UpdatePlayerReadyStates(); //기능 추가
     }
 
     void RoomRenewal()
@@ -230,8 +196,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
         RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " / " + PhotonNetwork.CurrentRoom.PlayerCount + "명 / " + PhotonNetwork.CurrentRoom.MaxPlayers + "최대";
     }
-    #endregion
+    //기능 추가
+    void UpdatePlayerReadyStates()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("isReady"))
+            {
+                bool isReady = (bool)player.CustomProperties["isReady"];
+                Debug.Log(player.NickName + " is " + (isReady ? "ready" : "not ready"));
+            }
+            else
+            {
+                Debug.Log(player.NickName + " has not set ready state.");
+            }
+        }
+    }
 
+    #endregion
+    public override void OnLeftRoom()
+    {
+        // Set the local player's isReady state to false when they leave the room
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+    }
 
     #region 채팅
     public void Send()

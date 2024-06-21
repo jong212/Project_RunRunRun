@@ -34,5 +34,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - ChatRPC
   - ChangeReadyState
+  - SyncReadyState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
