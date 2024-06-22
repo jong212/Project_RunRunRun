@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Water_2_BuildIn
+  m_Shader: {fileID: 4800000, guid: a06f2f72196f4d842b12a88d1bb38e41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHABLEND_ON
+  - _EMISSION
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Pattern:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _Blend1: 0
+    - _Blend2: 0
+    - _Depth: 5
+    - _DepthMultiply: 2
+    - _DisplacementAmount: 0
+    - _DistortionStr: 0.24
+    - _EdgeLength: 25.95
+    - _EnvironmentReflections: 1
+    - _FoamDistortionAmount: 0.03
+    - _FoamDistortionScale: 0
+    - _FoamDistortionSpeed: 0
+    - _FoamScale: 4
+    - _FoamWidth: 0.4
+    - _FresnelBias: 0
+    - _FresnelPower: 5
+    - _FresnelScale: 0.1
+    - _Layer1Speed: 0.6
+    - _Layer1Tiling: 0.2
+    - _Layer2Speed: 0.4
+    - _Layer2Tiling: 0.15
+    - _Layer3Speed: 0.2
+    - _Layer3Tiling: 0.2
+    - _Metallic: 0
+    - _PatternInvertBW: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RefractionScale: 1
+    - _RefractionSpeed: 1
+    - _RefractionStr: 0
+    - _ScaleDistortion: 2.4
+    - _ShoreWaveScale: 2.4
+    - _ShoreWaveSpeed: -1.8
+    - _ShoreWaveWidth: 0.05
+    - _ShoreWidth: 1
+    - _Smoothness: 0.712
+    - _SpecularHighlights: 1
+    - _TessEdgeLength: 16
+    - _TessMaxDisp: 25
+    - _TessValue: 16
+    - _Tessellation: 4
+    - _WaveBigPower: 2.87
+    - _WaveBigScale: 0.88
+    - _WaveBigSpeed: 1.5
+    - _WaveBlend: 0
+    - _WaveScale: 0.04
+    - _WaveSmallPower: 1.96
+    - _WaveSmallScale: 0.3
+    - _WaveSmallSpeed: 1
+    - _WaveSpeed: 4
+    - _WavesMultiply: 3.4
+    - _WavesNormalStr: 0.38
+    - __dirty: 1
+    m_Colors:
+    - _Color1: {r: 0.1137255, g: 0.3960785, b: 0.6, a: 1}
+    - _Color2: {r: 0.4453542, g: 0.659279, b: 0.6792453, a: 1}
+    - _ColorDepth: {r: 0, g: 0.65605116, b: 1, a: 1}
+    - _ColorSurface: {r: 0.0509804, g: 0.6705883, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Layer1Direction: {r: 0.5, g: 0, b: 0, a: 0}
+    - _Layer2Direction: {r: 0.5, g: 0, b: 0, a: 0}
+    - _Layer3Direction: {r: 0, g: -0.5, b: 0, a: 0}
+    - _RefractionDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _RefractionTillingNoise: {r: 0.3, g: 1, b: 0, a: 0}
+    - _WaveTiling: {r: 0.2, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
