@@ -1,6 +1,6 @@
 ﻿/*
  
- - OnLeftRoom : 로컬 콜백함수 // 해당 플레이어의 클라이언트에서만 디버깅 걸린다는 뜻 
+ - OnLeftRoom : 본인 클라에서만 호출
  - 커스텀속성 변경시 : 로컬 + 다른 클라창들  모두 동기화 됨 + OnPlayerPropertiesUpdate 콜백함수 있음
  */
 
@@ -133,12 +133,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
-    // 로컬 클라
+    // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+
         LoginPanel.SetActive(false);
         LobbyPanel.SetActive(true);
-        RoomPanel.SetActive(false);
+
         Debug.Log("d");
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
@@ -147,8 +148,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Disconnect() => PhotonNetwork.Disconnect();
 
+    //Lobby에서 X 버튼 누를 때 콜백 되는 함수 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        LoginPanel.SetActive(true);
+
         LobbyPanel.SetActive(false);
         RoomPanel.SetActive(false);
     }
@@ -162,9 +166,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
+    // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedRoom()
     {
+        LobbyPanel.SetActive(false);
         RoomPanel.SetActive(true);
+
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
@@ -220,13 +227,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // 본인 클라에서만 호출
     #endregion
     public override void OnLeftRoom()
     {
+        RoomPanel.SetActive(false);
+
+        LobbyPanel.SetActive(true);
         // Set the local player's isReady state to false when they leave the room
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
     }
-
+  
     #region 채팅
     public void Send()
     {
