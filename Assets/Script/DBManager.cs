@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 
 public class DBManager : MonoBehaviour
@@ -179,7 +180,10 @@ public class DBManager : MonoBehaviour
         {
             Input_CheckIdPw_Error.text = "로그인 성공!";
             //여기에 네트워크 매니저 connect 함수를 호출하고 싶어
-            networkManager.Connect();
+            
+            string characterId = GetCharacterId(Input_Id.text);
+            networkManager.Connect(characterId);
+
         }
         else
         {
@@ -269,6 +273,14 @@ public class DBManager : MonoBehaviour
 
             Btn_confirm.SetActive(!Btn_confirm.activeSelf);
         }
+    }
+
+    // 플레이어 캐릭터 아이디 가져오기
+    public string GetCharacterId(string playerId)
+    {
+        string query = $"SELECT CharacterId FROM u_info WHERE Nickname = '{playerId}'";
+        string result = SendQuery(query, "u_info");
+        return result;
     }
 
     public void OnSubmit_Join_success_btn()

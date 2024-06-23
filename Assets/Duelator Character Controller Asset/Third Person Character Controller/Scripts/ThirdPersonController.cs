@@ -92,6 +92,17 @@ public class ThirdPersonController : MonoBehaviourPun
         PV = GetComponent<PhotonView>();  // PhotonView 초기화
 
         // 카메라 설정
+
+    }
+    private void Start()
+    {
+        if (PhotonNetwork.InLobby)
+        {
+            mainCamera.SetActive(true);
+            freeLookCamera.SetActive(true);
+            return;
+        }
+
         if (!PV.IsMine)
         {
             // 다른 플레이어의 카메라는 비활성화
@@ -131,7 +142,7 @@ public class ThirdPersonController : MonoBehaviourPun
     }
     void Update()
     {
-        if (PV.IsMine)  // 자신이 소유한 객체일 때만 업데이트
+        if (PV.IsMine || PhotonNetwork.InLobby)  // 자신이 소유한 객체일 때만 업데이트
         {
             SimpleMovement();
             JumpingAndGravity();

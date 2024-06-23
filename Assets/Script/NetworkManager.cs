@@ -41,6 +41,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
+    private string characterId; // 로그인 시 받은 캐릭터 ID 저장
+    private string characterId_chk; // 다른 캐릭터로 변경했는지 체크하기 위한 변수
+    public GameObject localPlayerPrefab;
 
 
 
@@ -127,10 +130,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
+
+
     }
-
-    public void Connect() => PhotonNetwork.ConnectUsingSettings();
-
+    public void Connect(string characterId)
+    {
+        this.characterId = characterId;
+        this.characterId_chk = characterId;
+        PhotonNetwork.ConnectUsingSettings();
+    }
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
     // 로컬 클라 에서만 호출 도는 메서드
@@ -139,18 +147,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         LoginPanel.SetActive(false);
         LobbyPanel.SetActive(true);
-
-        Debug.Log("d");
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "characterId", characterId } });
+        CreateLocalPlayer();
         myList.Clear();
     }
 
+    void CreateLocalPlayer()
+    {
+        if (localPlayerPrefab == null || characterId != characterId_chk)
+        {
+            string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString().Split(':')[1].Trim() : "DefaultPlayerPrefab";
+            localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(0, 2, 0), Quaternion.identity);
+            characterId_chk = characterId;
+        }
+    }
     public void Disconnect() => PhotonNetwork.Disconnect();
 
     //Lobby에서 X 버튼 누를 때 콜백 되는 함수 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
+        
         LoginPanel.SetActive(true);
 
         LobbyPanel.SetActive(false);
@@ -166,19 +185,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
-    // 로컬 클라 에서만 호출 도는 메서드
+    // 방 입장 // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedRoom()
     {
+        if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         LobbyPanel.SetActive(false);
         RoomPanel.SetActive(true);
 
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
-        Vector3 spawnPosition = new Vector3(0, 2, 0); // 원하는 스폰 위치 설정
+        Vector3 spawnPosition = new Vector3(0, 2, 0);  
         PhotonNetwork.Instantiate("Player", spawnPosition, Quaternion.identity);
 
-        UpdatePlayerReadyStates();//기능 추가
+        UpdatePlayerReadyStates(); 
     }
   
     public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); } 
@@ -190,7 +210,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomRenewal();
         ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
 
-        UpdatePlayerReadyStates(); // 기능 추가
+        UpdatePlayerReadyStates();  
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -198,9 +218,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         RoomRenewal();
         ChatRPC("<color=yellow>" + otherPlayer.NickName + "님이 퇴장하셨습니다</color>");
-        //otherPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+     
 
-        UpdatePlayerReadyStates(); //기능 추가
+        UpdatePlayerReadyStates();  
     }
 
     void RoomRenewal()
@@ -210,7 +230,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
         RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " / " + PhotonNetwork.CurrentRoom.PlayerCount + "명 / " + PhotonNetwork.CurrentRoom.MaxPlayers + "최대";
     }
-    //기능 추가
+   
     void UpdatePlayerReadyStates()
     {
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -227,12 +247,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // 본인 클라에서만 호출
+    // 방 나옴 // 본인 클라에서만 호출
     #endregion
     public override void OnLeftRoom()
     {
+        if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         RoomPanel.SetActive(false);
-
         LobbyPanel.SetActive(true);
         // Set the local player's isReady state to false when they leave the room
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });

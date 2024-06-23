@@ -785,6 +785,7 @@ MonoBehaviour:
   ChatInput: {fileID: 1115473765}
   StatusText: {fileID: 1029676632}
   PV: {fileID: 194483780}
+  localPlayerPrefab: {fileID: 0}
   ReadyButton: {fileID: 643775632}
 --- !u!4 &194483779
 Transform:
@@ -13101,17 +13102,17 @@ PrefabInstance:
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.295512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.23
+      value: 5.4300003
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.96125
+      value: -8.79
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
@@ -13121,17 +13122,17 @@ PrefabInstance:
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2046133
+      value: 0.20461327
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000029171796
+      value: -0.0000003364355
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000006097952
+      value: 0.00000007032708
       objectReference: {fileID: 0}
     - target: {fileID: 684705645375711508, guid: 9959a26aa45220a4d9e6dd6171ccd968,
         type: 3}
