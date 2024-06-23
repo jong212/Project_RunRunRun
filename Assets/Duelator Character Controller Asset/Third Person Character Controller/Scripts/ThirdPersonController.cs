@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : MonoBehaviourPun
 {
     #region Private Fields
     private CharacterController controller;
-
+    private PhotonView PV;  // PhotonView 변수 추가
+    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private GameObject freeLookCamera;
     private DemoInputControls playerInputControls;
 
     private Vector2 moveInput;
@@ -85,6 +89,21 @@ public class ThirdPersonController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        PV = GetComponent<PhotonView>();  // PhotonView 초기화
+
+        // 카메라 설정
+        if (!PV.IsMine)
+        {
+            // 다른 플레이어의 카메라는 비활성화
+            mainCamera.SetActive(false);
+            freeLookCamera.SetActive(false);
+        }
+        else
+        {
+            // 자신의 카메라는 활성화
+            mainCamera.SetActive(true);
+            freeLookCamera.SetActive(true);
+        }
     }
     private void OnEnable()
     {
@@ -112,10 +131,13 @@ public class ThirdPersonController : MonoBehaviour
     }
     void Update()
     {
-        SimpleMovement();
-        JumpingAndGravity();
-        AnimationHandler();
-        CrouchHandler();
+        if (PV.IsMine)  // 자신이 소유한 객체일 때만 업데이트
+        {
+            SimpleMovement();
+            JumpingAndGravity();
+            AnimationHandler();
+            CrouchHandler();
+        }
     }
     private void SimpleMovement()
     {

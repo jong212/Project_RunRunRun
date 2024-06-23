@@ -17,6 +17,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("DisconnectPanel")]
     public InputField NickNameInput;
 
+    [Header("LoginPanel")]
+    public GameObject LoginPanel;
     [Header("LobbyPanel")]
     public GameObject LobbyPanel;
     public InputField RoomInput;
@@ -131,10 +133,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
+    // 로컬 클라
     public override void OnJoinedLobby()
     {
+        LoginPanel.SetActive(false);
         LobbyPanel.SetActive(true);
         RoomPanel.SetActive(false);
+        Debug.Log("d");
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
         myList.Clear();
@@ -163,6 +168,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
+        Vector3 spawnPosition = new Vector3(0, 2, 0); // 원하는 스폰 위치 설정
+        PhotonNetwork.Instantiate("Player", spawnPosition, Quaternion.identity);
 
         UpdatePlayerReadyStates();//기능 추가
     }
