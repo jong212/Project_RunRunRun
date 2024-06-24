@@ -12,6 +12,7 @@ public class ThirdPersonController : MonoBehaviourPun
     private PhotonView PV;  // PhotonView 변수 추가
     public GameObject lobbyObject;
     public GameObject gameobj;
+    public GameObject freeLook;
     private DemoInputControls playerInputControls;
 
     private Vector2 moveInput;
@@ -107,6 +108,7 @@ public class ThirdPersonController : MonoBehaviourPun
             Cursor.lockState = CursorLockMode.None;
             lobbyObject.SetActive(true);
             gameobj.SetActive(false);
+           
         }
         else
         {
@@ -114,6 +116,12 @@ public class ThirdPersonController : MonoBehaviourPun
             {
                 lobbyObject.SetActive(true);
                 gameobj.SetActive(false);
+            } else
+            {
+                if (!PV.IsMine)
+                {
+                    freeLook.SetActive(false);
+                }
             }
 
 

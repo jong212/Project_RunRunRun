@@ -35,5 +35,7 @@ MonoBehaviour:
   - ChatRPC
   - ChangeReadyState
   - SyncReadyState
+  - StartCountdown
+  - StopCountdown
   DisableAutoOpenWizard: 1
   ShowSettings: 1

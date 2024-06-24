@@ -234,23 +234,84 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
         RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " / " + PhotonNetwork.CurrentRoom.PlayerCount + "명 / " + PhotonNetwork.CurrentRoom.MaxPlayers + "최대";
     }
-   
+
+    private bool allPlayersReady = false;
+    private Coroutine countdownCoroutine;
+
     void UpdatePlayerReadyStates()
     {
+        bool allReady = true;
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.CustomProperties.ContainsKey("isReady"))
             {
                 bool isReady = (bool)player.CustomProperties["isReady"];
                 Debug.Log(player.NickName + " is " + (isReady ? "ready" : "not ready"));
+                if (!isReady)
+                {
+                    allReady = false;
+                }
             }
             else
             {
                 Debug.Log(player.NickName + " has not set ready state.");
+                allReady = false;
+            }
+        }
+
+        if (allReady && !allPlayersReady)
+        {
+            allPlayersReady = true;
+            PV.RPC("StartCountdown", RpcTarget.All);
+        }
+        else if (!allReady && allPlayersReady)
+        {
+            allPlayersReady = false;
+            if (countdownCoroutine != null)
+            {
+                StopCoroutine(countdownCoroutine);
+                countdownCoroutine = null;
+                PV.RPC("StopCountdown", RpcTarget.All);
             }
         }
     }
 
+    [PunRPC]
+    void StartCountdown()
+    {
+        if (countdownCoroutine == null)
+        {
+            countdownCoroutine = StartCoroutine(Countdown());
+        }
+    }
+
+    [PunRPC]
+    void StopCountdown()
+    {
+        if (countdownCoroutine != null)
+        {
+            StopCoroutine(countdownCoroutine);
+            countdownCoroutine = null;
+        }
+    }
+
+    IEnumerator Countdown()
+    {
+        int count = 5;
+        while (count > 0)
+        {
+            Debug.Log("Countdown: " + count);
+            // 여기서 UI 텍스트를 업데이트하는 코드를 추가할 수 있습니다.
+            yield return new WaitForSeconds(1);
+            count--;
+        }
+
+        if (allPlayersReady)
+        {
+            Debug.Log("All players are ready. Starting the game...");
+            // 게임을 시작하는 로직을 여기에 추가합니다.
+        }
+    }
     // 방 나갈 시
     // 본인 클라에서만 호출
     #endregion
