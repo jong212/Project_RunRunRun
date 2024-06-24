@@ -64,7 +64,7 @@ public class ShowTimeController : MonoBehaviour {
 		
 		if (GUI.Button (new Rect (Screen.width -150, Screen.height-100, 150,100), NextSceneButtonLabel))
 		{
-			Application.LoadLevel( NextSceneName );
+			//Application.LoadLevel( NextSceneName );
 		}
 
 	}

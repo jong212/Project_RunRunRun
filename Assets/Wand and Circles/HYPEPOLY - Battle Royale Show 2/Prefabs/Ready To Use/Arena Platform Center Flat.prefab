@@ -1,0 +1,2007 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &903133965677738430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903133965677738368}
+  - component: {fileID: 903133965677738369}
+  m_Layer: 0
+  m_Name: Arena Platform Center Flat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903133965677738368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133965677738430}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 903133966650023051}
+  - {fileID: 903133967546954154}
+  - {fileID: 903133967179349635}
+  - {fileID: 903133967543081932}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903133965677738369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133965677738430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535cf7513e853b646bc31563110eaa08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedType: 0
+  selectedColor: 0
+  selectedStyle: 0
+  selectedPillars: 0
+  types:
+  - {fileID: 903133965677738368}
+  partsInitialized: 1
+  headerLogo: {fileID: 0}
+  typesSelector: 0
+  isDynamicFence: 0
+  fenceLength: 10
+  fencePillarsFrequency: 2
+  fenceScaleMultiplier: 18
+  myPs: {fileID: 0}
+--- !u!1 &903133966650023048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903133966650023051}
+  m_Layer: 0
+  m_Name: Color [0]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903133966650023051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133966650023048}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4879317266921413918}
+  - {fileID: 642565379723673840}
+  - {fileID: 8744167364096673115}
+  - {fileID: 5889171157692927540}
+  - {fileID: 5558880666060177862}
+  - {fileID: 6381959408886715271}
+  m_Father: {fileID: 903133965677738368}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &903133967179349632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903133967179349635}
+  m_Layer: 0
+  m_Name: Color [2]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &903133967179349635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133967179349632}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6397176148942512021}
+  - {fileID: 5254448753244675717}
+  - {fileID: 8180365196010445466}
+  - {fileID: 3226417102082984795}
+  - {fileID: 4633869257730693961}
+  - {fileID: 1032770151831742499}
+  m_Father: {fileID: 903133965677738368}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &903133967543081933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903133967543081932}
+  m_Layer: 0
+  m_Name: Color [3]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &903133967543081932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133967543081933}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8893124657386223890}
+  - {fileID: 1589109103460256079}
+  - {fileID: 7495349002774610728}
+  - {fileID: 7786173031675645996}
+  - {fileID: 1675269397135947451}
+  - {fileID: 7235225731580391739}
+  m_Father: {fileID: 903133965677738368}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &903133967546954155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903133967546954154}
+  m_Layer: 0
+  m_Name: Color [1]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &903133967546954154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903133967546954155}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 9056146768575954804}
+  - {fileID: 5549859215242940286}
+  - {fileID: 3963170215928246764}
+  - {fileID: 2171203591491117554}
+  - {fileID: 6348944776643683542}
+  - {fileID: 4609970864707030385}
+  m_Father: {fileID: 903133965677738368}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &903133965554650035
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852403154652273769, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_17
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 95b1f5cadb9c160429b9da6eecdd80ea, type: 3}
+--- !u!4 &7235225731580391739 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7557107204435016328, guid: 95b1f5cadb9c160429b9da6eecdd80ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133965554650035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133965620881409
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 6492006444797757811, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3, type: 3}
+--- !u!4 &5889171157692927540 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6715459104555361845, guid: 2eb79f9ac0b8258468ed9fd2cd0590b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133965620881409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133965725836380
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 1212108333245533942, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 122270b70faa44847a9c1001d375cdaa, type: 3}
+--- !u!4 &7495349002774610728 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7245244765566412660, guid: 122270b70faa44847a9c1001d375cdaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133965725836380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133965980065323
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 3887122311556015626, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15debd45228e31a4b9632da75a62e74b, type: 3}
+--- !u!4 &3963170215928246764 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4289839031264178119, guid: 15debd45228e31a4b9632da75a62e74b,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133965980065323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966027034376
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125930322993169822, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8, type: 3}
+--- !u!4 &7786173031675645996 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6955414418987507492, guid: 6d1759d42fb91f94bb5b9dfb8ff477d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966027034376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966108262595
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816186914541021987, guid: eb265635d5d3a21479bf04ecefe4f266,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb265635d5d3a21479bf04ecefe4f266, type: 3}
+--- !u!4 &5549859215242940286 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4723603124764463037, guid: eb265635d5d3a21479bf04ecefe4f266,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966108262595}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966151419056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856247309369238379, guid: 18dd1c192ef7374438062cc2beba7298,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18dd1c192ef7374438062cc2beba7298, type: 3}
+--- !u!4 &6397176148942512021 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6075292533508430629, guid: 18dd1c192ef7374438062cc2beba7298,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966151419056}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966312082126
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966692131214580987, guid: 774faff96f4db80459eb98e5ca1231a3,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 774faff96f4db80459eb98e5ca1231a3, type: 3}
+--- !u!4 &4633869257730693961 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5532210378684699015, guid: 774faff96f4db80459eb98e5ca1231a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966312082126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966329268991
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932531644714993405, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2aa52572d5379b44aba49bb5fe1a2a94, type: 3}
+--- !u!4 &2171203591491117554 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1344669353609800461, guid: 2aa52572d5379b44aba49bb5fe1a2a94,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966329268991}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966365869904
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585622042252326508, guid: 91fae2e878f2e8342ad75fe790dece70,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_18
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 91fae2e878f2e8342ad75fe790dece70, type: 3}
+--- !u!4 &5558880666060177862 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4732596072799405718, guid: 91fae2e878f2e8342ad75fe790dece70,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966365869904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966434798605
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873970042641075300, guid: ab89efccb3fb3e944a80d14e017b499f,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_19
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ab89efccb3fb3e944a80d14e017b499f, type: 3}
+--- !u!4 &6381959408886715271 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6060109838309400458, guid: ab89efccb3fb3e944a80d14e017b499f,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966434798605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966497074869
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320073719693375344, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 565e45a00e37b4d48861e1f2ec476a1e, type: 3}
+--- !u!4 &4879317266921413918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5710074758694048683, guid: 565e45a00e37b4d48861e1f2ec476a1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966497074869}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966606041894
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 3826278862362769272, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5580db81365eecc4c95681ba5bb389e2, type: 3}
+--- !u!4 &6348944776643683542 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6094329259458799600, guid: 5580db81365eecc4c95681ba5bb389e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966606041894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966796599077
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 2505785601113982521, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6b1d66ae13d2924ab7f47c0d6957316, type: 3}
+--- !u!4 &8180365196010445466 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9011400777015227839, guid: f6b1d66ae13d2924ab7f47c0d6957316,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966796599077}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966891664583
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 560530857912063803, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2e01251cbe9b7084e9900f1733b07d47, type: 3}
+--- !u!4 &1675269397135947451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1997156403213775484, guid: 2e01251cbe9b7084e9900f1733b07d47,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966891664583}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966988826879
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730902359538051697, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7e7e668da7be4964ea9a8bc56f2d281a, type: 3}
+--- !u!4 &642565379723673840 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 315896563238017039, guid: 7e7e668da7be4964ea9a8bc56f2d281a,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966988826879}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966993068393
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274579553003224367, guid: 585e258706482f84c80b0f0e0975f509,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_17
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 585e258706482f84c80b0f0e0975f509, type: 3}
+--- !u!4 &3226417102082984795 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2327827522044090930, guid: 585e258706482f84c80b0f0e0975f509,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966993068393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133966997086025
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 3467329958818367315, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 328bdc5671715514dbf1455adb761636, type: 3}
+--- !u!4 &8893124657386223890 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8638513544472995419, guid: 328bdc5671715514dbf1455adb761636,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133966997086025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967036729978
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133966650023051}
+    m_Modifications:
+    - target: {fileID: 3358651499583771625, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular B_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f93db6490f8a4514e8ecbe9621df47dd, type: 3}
+--- !u!4 &8744167364096673115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8489591431057084193, guid: f93db6490f8a4514e8ecbe9621df47dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967036729978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967154554506
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 3226053344562805694, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0bc8d222a4575f4f98c7bbdd43b851e, type: 3}
+--- !u!4 &4609970864707030385 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3706879883735297019, guid: e0bc8d222a4575f4f98c7bbdd43b851e,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967154554506}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967471691242
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 174118325233871589, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_9
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e81af664a48d09a46b35610fe8078a2c, type: 3}
+--- !u!4 &1032770151831742499 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 206516277239606729, guid: e81af664a48d09a46b35610fe8078a2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967471691242}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967587709214
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967543081932}
+    m_Modifications:
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895335266273753753, guid: 54188589c03d65e42b83a91aa992a98e,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular G_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 54188589c03d65e42b83a91aa992a98e, type: 3}
+--- !u!4 &1589109103460256079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1910992722612787281, guid: 54188589c03d65e42b83a91aa992a98e,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967587709214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967605385656
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967179349635}
+    m_Modifications:
+    - target: {fileID: 4524504384166229119, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular Y_7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64a0245561a61e64fb2b9f4df9cd077f, type: 3}
+--- !u!4 &5254448753244675717 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4927816243229087549, guid: 64a0245561a61e64fb2b9f4df9cd077f,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967605385656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &903133967669540509
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 903133967546954154}
+    m_Modifications:
+    - target: {fileID: 5156214832263806664, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_Name
+      value: Arena Platform Center Modular P_8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d85ae7e749fcc2e40bf5fc7096661320, type: 3}
+--- !u!4 &9056146768575954804 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8153052510866459113, guid: d85ae7e749fcc2e40bf5fc7096661320,
+    type: 3}
+  m_PrefabInstance: {fileID: 903133967669540509}
+  m_PrefabAsset: {fileID: 0}

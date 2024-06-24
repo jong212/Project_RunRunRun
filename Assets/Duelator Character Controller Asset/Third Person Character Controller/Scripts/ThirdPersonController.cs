@@ -10,8 +10,8 @@ public class ThirdPersonController : MonoBehaviourPun
     #region Private Fields
     private CharacterController controller;
     private PhotonView PV;  // PhotonView 변수 추가
-    [SerializeField] private GameObject mainCamera;
-    [SerializeField] private GameObject freeLookCamera;
+    public GameObject lobbyObject;
+    public GameObject gameobj;
     private DemoInputControls playerInputControls;
 
     private Vector2 moveInput;
@@ -88,6 +88,11 @@ public class ThirdPersonController : MonoBehaviourPun
 
     private void Awake()
     {
+        // 로비 카메라 찾기 
+
+
+        // mainCamera = Camera.main;
+        
         controller = GetComponent<CharacterController>();
         PV = GetComponent<PhotonView>();  // PhotonView 초기화
 
@@ -96,24 +101,33 @@ public class ThirdPersonController : MonoBehaviourPun
     }
     private void Start()
     {
+        
         if (PhotonNetwork.InLobby)
         {
-            mainCamera.SetActive(true);
-            freeLookCamera.SetActive(true);
-            return;
-        }
-
-        if (!PV.IsMine)
-        {
-            // 다른 플레이어의 카메라는 비활성화
-            mainCamera.SetActive(false);
-            freeLookCamera.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            lobbyObject.SetActive(true);
+            gameobj.SetActive(false);
         }
         else
         {
-            // 자신의 카메라는 활성화
-            mainCamera.SetActive(true);
-            freeLookCamera.SetActive(true);
+            if(PV.IsMine) // 이거 카메라가 두개 다 기본 세팅이 OFF로 되어있어서 켜주긴 해야함
+            {
+                lobbyObject.SetActive(true);
+                gameobj.SetActive(false);
+            }
+
+
+            // TO DO 모두 레디하고 게임 시작 시 이걸로 해야할듯
+            /*     if (PV.IsMine)
+                 {
+                     lobbyObject.SetActive(false);
+                     GamesObject.SetActive(true);
+                 } else
+                 {
+                     lobbyObject.SetActive(false);
+                     GamesObject.SetActive(false);
+                 }*/
+
         }
     }
     private void OnEnable()
