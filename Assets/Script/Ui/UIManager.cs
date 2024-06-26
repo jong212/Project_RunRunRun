@@ -5,8 +5,9 @@ using UnityEngine;
 
 public enum UIType
 {
-    ConfirmPopup,
     MainUI,
+    ShopPopup,
+    BuyPopup,
 
 }
 
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
     }
 
     // 공용
+    // 열어주고 
     private void OpenUI(UIType uiType, GameObject uiObject)
     {
         if (_openedUIDic.Contains(uiType) == false)
@@ -39,6 +41,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // 공용
+    // 닫아주고 
     private void CloseUI(UIType uiType)
     {
         if (_openedUIDic.Contains(uiType))
@@ -48,7 +52,10 @@ public class UIManager : MonoBehaviour
             _openedUIDic.Remove(uiType);
         }
     }
+    
 
+    // 공용
+    // 생성해주고  
     private void CreateUI(UIType uiType)
     {
         if (_createdUIDic.ContainsKey(uiType) == false)
@@ -63,6 +70,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // 공용
+    // 만들어 달라 요청해주고 
     private GameObject GetCreatedUI(UIType uiType)
     {
         if (_createdUIDic.ContainsKey(uiType) == false)
@@ -78,7 +87,7 @@ public class UIManager : MonoBehaviour
         switch (uiType)
         {
     // 확장가능
-            case UIType.ConfirmPopup:
+            case UIType.ShopPopup:
                 path = "UI/LobbyShopPopupUI";
                 break;
         }
@@ -90,27 +99,25 @@ public class UIManager : MonoBehaviour
         CloseUI(uiType);
     }
 
-    // 확장가능
-    public void OpenConfirmBtn(string msg)
+    // 단독 함수 (확장 가능)
+    public void OpenShopPopupBtn()
     {
-        var gObj = GetCreatedUI(UIType.ConfirmPopup);
-
+        // 하이어라키에 존재하는지 체크
+        var gObj = GetCreatedUI(UIType.ShopPopup);
         if (gObj != null)
-        {
-            OpenUI(UIType.ConfirmPopup, gObj);
-            // _simplePopup.gameObject.SetActive(true); -> OpenUI로 역할 이전
-
-             var ConfirmButton = gObj.GetComponent<ConfirmButton>();
+        {   // 오브젝트 활성화 요청
+            OpenUI(UIType.ShopPopup, gObj);
+             var ConfirmButton = gObj.GetComponent<ShopPopupUI>();
         }
     }
 
     public void RegisterOnClickConfirmEvent(bool isRegister, Action callback)
     {
-        if (_createdUIDic.ContainsKey(UIType.ConfirmPopup))
+        if (_createdUIDic.ContainsKey(UIType.ShopPopup))
         {
-            var gObj = _createdUIDic[UIType.ConfirmPopup];
-            var confirmPopup = gObj.GetComponent<ConfirmButton>();
-            confirmPopup?.RegisterOnClickConfirmEvent(isRegister, callback);
+            var gObj = _createdUIDic[UIType.ShopPopup];
+            var ShopPopup = gObj.GetComponent<ShopPopupUI>();
+            ShopPopup?.RegisterOnClickConfirmEvent(isRegister, callback);
         }
     }
 
