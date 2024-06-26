@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 3799743124497430297}
   - component: {fileID: 6462194119169921437}
   - component: {fileID: 7556088766372402490}
+  - component: {fileID: 9165831118683648631}
   m_Layer: 5
   m_Name: Btn_Large_Green
   m_TagString: Untagged
@@ -401,6 +402,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &9165831118683648631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275989027439145947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9250cdbea4c12a44f88a2ff21c6b0e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2475420610748437879
 GameObject:
   m_ObjectHideFlags: 0

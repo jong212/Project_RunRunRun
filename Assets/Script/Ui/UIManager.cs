@@ -62,7 +62,17 @@ public class UIManager : MonoBehaviour
         {
             string path = GetUIPath(uiType);
             GameObject loadedObj = (GameObject)Resources.Load(path);
-            GameObject gObj = Instantiate(loadedObj, UIRoot.transform);
+
+            GameObject gObj = null; 
+            if (uiType == UIType.ShopPopup)
+            {
+                gObj = Instantiate(loadedObj, UIRoot.transform);
+            } else if (uiType == UIType.BuyPopup)
+            {
+                gObj = Instantiate(loadedObj, UIRoot.GetComponentInChildren<ShopPopupUI>().transform);
+            }
+
+            
             if (gObj != null)
             {
                 _createdUIDic.Add(uiType, gObj);
@@ -90,6 +100,9 @@ public class UIManager : MonoBehaviour
             case UIType.ShopPopup:
                 path = "UI/LobbyShopPopupUI";
                 break;
+            case UIType.BuyPopup:
+                path = "UI/BuyPopup";
+                break;
         }
 
         return path;
@@ -110,7 +123,18 @@ public class UIManager : MonoBehaviour
              var ConfirmButton = gObj.GetComponent<ShopPopupUI>();
         }
     }
-
+    // 단독 함수 (확장 가능)
+    public void OpenShopBuyPopupBtn()
+    {
+        // 하이어라키에 존재하는지 체크
+        var gObj = GetCreatedUI(UIType.BuyPopup);
+        if (gObj != null)
+        {   // 오브젝트 활성화 요청
+            OpenUI(UIType.BuyPopup, gObj);
+            var ConfirmButton = gObj.GetComponent<ShopPopupUI>();
+        }
+    }
+    
     public void RegisterOnClickConfirmEvent(bool isRegister, Action callback)
     {
         if (_createdUIDic.ContainsKey(UIType.ShopPopup))
