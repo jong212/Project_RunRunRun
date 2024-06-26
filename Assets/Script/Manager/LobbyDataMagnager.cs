@@ -1,3 +1,4 @@
+//¹é¾÷
 /*using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ public class LobbyDataManager : MonoBehaviour
             case "Shop":
                 ReadShopTable(tableName);
                 break;
-           
+
         }
     }
 
