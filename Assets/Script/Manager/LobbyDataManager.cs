@@ -10,7 +10,7 @@ public class LobbyDataManager : MonoBehaviour
     public Dictionary<int, Shop> LoadedCharacterList { get; private set; }
 
 
-    private readonly string _dataRootPath = "C:\\Users\\jongh\\OneDrive\\πŸ≈¡ »≠∏È\\DataParser";
+    private readonly string _dataRootPath = "C:\\Users\\jongh\\Downloads\\DataParser";
 
     private void Awake()
     {
