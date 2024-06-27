@@ -295,6 +295,11 @@ namespace tkitfacn.UI
                 Sort();
             }
         }
+        public void OnClick_CharacterPopupClose()
+        {
+            UIManager.Instance.CloseSpecificUI(UIType.CharacterPopup);
+        }
+
 #endif
     }
 
