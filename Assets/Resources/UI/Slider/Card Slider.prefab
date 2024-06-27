@@ -552,8 +552,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSlider: {fileID: 7004567959746677311}
-  speed: 2
-  clamp: 0
+  speed: 1.81
+  clamp: 1
   canvasWorldSpace: 0
 --- !u!1 &6454340547428889363
 GameObject:

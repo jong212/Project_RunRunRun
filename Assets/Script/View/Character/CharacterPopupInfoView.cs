@@ -21,18 +21,21 @@ public class CharacterPopupInfoView : MonoBehaviour
     }
     private void LoadAllCharacterData()
     {
+
         _allCharacters = LobbyDataManager.Inst.GetAllCharacterData();
         if (_allCharacters == null || _allCharacters.Count == 0)
         {
             return;
         }
+        _allCharacters.Reverse();
+
         foreach (var character in _allCharacters)
         {
             // 여기서 각 캐릭터에 대해 필요한 초기화 작업을 수행
             //Debug.Log($"Initializing character: {character.Name}");
 
             var gObj = Instantiate(Prefab_SkillSlot, Transform_SlotRoot.transform);
-            var skillSlot = gObj.GetComponent<ShopSloatView>();
+            var skillSlot = gObj.GetComponent<CharacterSloatView>();
             if (skillSlot == null)
                 continue;
 
