@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-// 캐릭터 구매하기 버튼을 누르면 캐릭터 이름 Value를 MainUI에 세팅해준다
+// A : 캐릭터 Buy 버튼 클릭 > 캐릭터 이름값을 MainUI 에 있는 변수에 세팅 
 
 
-public class BuyBtn : MonoBehaviour
+public class ShopListBuyBtn : MonoBehaviour
 {
     private Button _btn;
     [SerializeField] private Text _PriceValue;
@@ -24,6 +24,7 @@ public class BuyBtn : MonoBehaviour
         MainUI parent = GetComponentInParent<MainUI>();
         if (parent != null)
         {
+            // A
             parent.SetBuyButton(_CharacterNameValue.text);
 
 

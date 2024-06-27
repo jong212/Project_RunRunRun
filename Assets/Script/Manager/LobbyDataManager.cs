@@ -48,25 +48,27 @@ public class LobbyDataManager : MonoBehaviour
             tempCharacter.Name = data.Attribute(nameof(tempCharacter.Name)).Value;
             tempCharacter.Description = data.Attribute(nameof(tempCharacter.Description)).Value;
             tempCharacter.Price = data.Attribute(nameof(tempCharacter.Price)).Value;
-/*
-            string skillNameListStr = data.Attribute("SkillNameList").Value;
-            if (!string.IsNullOrEmpty(skillNameListStr))
-            {
-                skillNameListStr = skillNameListStr.Replace("{", string.Empty);
-                skillNameListStr = skillNameListStr.Replace("}", string.Empty);
+            //tempCharacter.PrefabName = data.Attribute(nameof(tempCharacter.PrefabName)).Value;
 
-                var skillNames = skillNameListStr.Split(',');
+            /*
+                        string skillNameListStr = data.Attribute("SkillNameList").Value;
+                        if (!string.IsNullOrEmpty(skillNameListStr))
+                        {
+                            skillNameListStr = skillNameListStr.Replace("{", string.Empty);
+                            skillNameListStr = skillNameListStr.Replace("}", string.Empty);
 
-                var list = new List<string>();
-                if (skillNames.Length > 0)
-                {
-                    foreach (var name in skillNames)
-                    {
-                        list.Add(name);
-                    }
-                }
-                tempCharacter.SkillClassNameList = list;
-            }*/
+                            var skillNames = skillNameListStr.Split(',');
+
+                            var list = new List<string>();
+                            if (skillNames.Length > 0)
+                            {
+                                foreach (var name in skillNames)
+                                {
+                                    list.Add(name);
+                                }
+                            }
+                            tempCharacter.SkillClassNameList = list;
+                        }*/
 
             LoadedCharacterList.Add(tempCharacter.DataId, tempCharacter);
         }

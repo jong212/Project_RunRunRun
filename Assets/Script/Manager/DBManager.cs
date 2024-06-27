@@ -318,9 +318,9 @@ public class DBManager : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
-    public void InsertCharacterInfo(string nickname, string characterType)
+    public void InsertCharacterInfo( string characterType)
     {
-        string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{nickname}', '{characterType}')";
+        string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{Nickname}', '{characterType}')";
         bool isSuccess = OnInsertOnUpdateRequest(query);
 
         if (isSuccess)

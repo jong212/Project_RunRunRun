@@ -9,6 +9,7 @@ public class Shop
     public string Description { get; set; }
     public string IconPath { get; set; }
     public string Price { get; set; }
+    public string PrefabName { get; set; }
 
     public List<string> SkillClassNameList { get; set; }
 }

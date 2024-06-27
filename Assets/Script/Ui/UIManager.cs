@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
         if (_createdUIDic.ContainsKey(UIType.BuyPopup))
         {
             var gObj = _createdUIDic[UIType.BuyPopup];
-            var ShopPopup = gObj.GetComponentInChildren<BuyBtnOkClick>();
+            var ShopPopup = gObj.GetComponentInChildren<ShopBuyYesBtn>();
             ShopPopup?.RegisterOnClickConfirmEvent(isRegister, callback);
         }
     }

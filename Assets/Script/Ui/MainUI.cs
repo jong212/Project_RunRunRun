@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//(이벤트 연결 순서 정리) 상점 Ui 여는 버튼 클릭(여길 타겠지) > UI 매니저에게 콜백함수 넘겨줌 > UI 매니저는 받은 콜백함수로 매니저에서 뭔가 처리를  하지는 않고 상점 UI가 하이어라키에 있는지 체크만 하고 있다면 "상점 UI 에게 콜백을 다시 넘기"면서 > 상점 UI에서는 넘겨받은 콜백함수를 += 등록만 시켜놓음 > 상점 UI 에서 특정 버튼을 누르면 += 해놓은거 인보크 할 수 있는 함수 만들고 연결만 하면 됨
 public class MainUI : MonoBehaviour
 {
-    //BuyBtn 에서 상점에서 구매 버튼 클릭했을 때 아래 넣어놓음
     public string CharacterPriceValue { get; set; }
     public string CharacterNameValue { get; set; }
     [SerializeField] private DBManager _DBManager;
@@ -15,27 +13,36 @@ public class MainUI : MonoBehaviour
         UIManager.Instance.RegisterOnClickConfirmEvent(false, OnClickConfirmPopup);
     }
 
-
+    // 상점 아이콘 클릭 시
     public void OnClick_ShopUIBtn()
     {
         UIManager.Instance.OpenShopPopupBtn();
     }
+
+    // 상점리스트의 Buy클릭 시
     public void OnClick_ShopUIBuyBtn()
     {
-        Debug.Log("test");
+        
         UIManager.Instance.OpenShopBuyPopupBtn();
-        UIManager.Instance.RegisterOnClickConfirmEvent(true, OnClickConfirmPopup);//ToDO 이건 Buy 버튼 누를 때 처리되는 콜백들로 추후 변경해야할듯
-    }
 
+        // UI 매니저에게 콜백함수 넘겨줌
+        // UIManager에서는 전달받은 콜백을 ShopBuyYesBtn로 다시 전달해서 구독함
+        UIManager.Instance.RegisterOnClickConfirmEvent(true, OnClickConfirmPopup);
+    }
+    // Invoke 이벤트 호출 될 때  (최종 BuyPopup에서 예 버튼 누를 때)
     public void OnClickConfirmPopup()
     {
-        
-        string nickname =_DBManager.Nickname;
-        _DBManager.InsertCharacterInfo(nickname, CharacterNameValue);
+        // 최종 구매하기 예 버튼을 누르면 캐릭터이름값만 DB에 전달시킴 > DB에서는 플레이어 닉네임에 해당하는 구매한 캐릭터 프리팹 이름을 insert
+
+        //string nickname =_DBManager.Nickname;
+        _DBManager.InsertCharacterInfo(CharacterNameValue);
 
     }
+
     public void SetBuyButton(string characterNameValue)
     {
-        CharacterNameValue = characterNameValue;        
+        CharacterNameValue = characterNameValue;
     }
+
+
 }
