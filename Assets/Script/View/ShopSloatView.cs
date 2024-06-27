@@ -7,6 +7,7 @@ public class ShopSloatView : MonoBehaviour
 {
     [SerializeField] Image Image_Icon;
     [SerializeField] Text Text_SkillName;
+    [SerializeField] Text Text_CharacterName;
 
     private Shop _skillClassName;
 
@@ -21,6 +22,7 @@ public class ShopSloatView : MonoBehaviour
             var path = $"Textures/ShopIcon/{_skillClassName.Name}";
             Image_Icon.sprite = Resources.Load<Sprite>(path);
             Text_SkillName.text = skillClassName.Price;
+            Text_CharacterName.text = skillClassName.Name;
         }
     }
 

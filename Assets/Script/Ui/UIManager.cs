@@ -137,10 +137,10 @@ public class UIManager : MonoBehaviour
     
     public void RegisterOnClickConfirmEvent(bool isRegister, Action callback)
     {
-        if (_createdUIDic.ContainsKey(UIType.ShopPopup))
+        if (_createdUIDic.ContainsKey(UIType.BuyPopup))
         {
-            var gObj = _createdUIDic[UIType.ShopPopup];
-            var ShopPopup = gObj.GetComponent<ShopPopupUI>();
+            var gObj = _createdUIDic[UIType.BuyPopup];
+            var ShopPopup = gObj.GetComponentInChildren<BuyBtnOkClick>();
             ShopPopup?.RegisterOnClickConfirmEvent(isRegister, callback);
         }
     }

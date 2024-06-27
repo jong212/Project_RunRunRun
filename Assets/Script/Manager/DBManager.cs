@@ -36,7 +36,11 @@ public class DBManager : MonoBehaviour
     string _uid = "root";
     string _pwd = "1q2w3e4r!";
     string _port = "3306";
-
+    string currentPrafab;
+    string nickname;
+    public string CurrentPrafab { get => currentPrafab; set => currentPrafab = value; }
+    public string Nickname { get => nickname; set => nickname = value; }
+    
     private string _getId = "SELECT * FROM u_info where Nickname =";
     public string GetIdQuery { get => _getId; }
     private bool _idchk;
@@ -180,9 +184,10 @@ public class DBManager : MonoBehaviour
         {
             Input_CheckIdPw_Error.text = "로그인 성공!";
             //여기에 네트워크 매니저 connect 함수를 호출하고 싶어
-            
-            string characterId = GetCharacterId(Input_Id.text);
-            networkManager.Connect(characterId);
+
+            CurrentPrafab = GetCharacterId(Input_Id.text);
+            Nickname = Input_Id.text;
+            networkManager.Connect(CurrentPrafab, Nickname);
 
         }
         else
@@ -219,7 +224,6 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-
             query = $"SELECT Password FROM u_info WHERE Nickname = '{Input_JoinId.text}'";
             string result = SendQuery(query, "u_info");
 
@@ -280,7 +284,18 @@ public class DBManager : MonoBehaviour
     {
         string query = $"SELECT CharacterId FROM u_info WHERE Nickname = '{playerId}'";
         string result = SendQuery(query, "u_info");
-        return result;
+
+        // Assuming the format you need to split is 'key:value', and you need the 'value' part
+        if (!string.IsNullOrEmpty(result))
+        {
+            string[] parts = result.Split(':');
+            if (parts.Length > 1)
+            {
+                return parts[1].Trim();
+            }
+        }
+
+        return string.Empty;
     }
 
     public void OnSubmit_Join_success_btn()
@@ -303,5 +318,18 @@ public class DBManager : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+    public void InsertCharacterInfo(string nickname, string characterType)
+    {
+        string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{nickname}', '{characterType}')";
+        bool isSuccess = OnInsertOnUpdateRequest(query);
 
+        if (isSuccess)
+        {
+            Debug.Log("Character info inserted successfully.");
+        }
+        else
+        {
+            Debug.LogError("Failed to insert character info.");
+        }
+    }
 }

@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class MainUI : MonoBehaviour
 {
     //BuyBtn 에서 상점에서 구매 버튼 클릭했을 때 아래 넣어놓음
-    public GameObject BuyBtn { get; set; }
-
+    public string CharacterPriceValue { get; set; }
+    public string CharacterNameValue { get; set; }
+    [SerializeField] private DBManager _DBManager;
     private void OnDisable()
     {
         UIManager.Instance.RegisterOnClickConfirmEvent(false, OnClickConfirmPopup);
@@ -28,11 +29,13 @@ public class MainUI : MonoBehaviour
 
     public void OnClickConfirmPopup()
     {
-        Debug.Log("...");
+        
+        string nickname =_DBManager.Nickname;
+        _DBManager.InsertCharacterInfo(nickname, CharacterNameValue);
+
     }
-    public void SetBuyButton(GameObject button)
+    public void SetBuyButton(string characterNameValue)
     {
-        BuyBtn = button;
-        Debug.Log(button);
+        CharacterNameValue = characterNameValue;        
     }
 }
