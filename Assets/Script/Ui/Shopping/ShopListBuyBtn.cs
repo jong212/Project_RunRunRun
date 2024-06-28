@@ -25,7 +25,7 @@ public class ShopListBuyBtn : MonoBehaviour
         {
             // A-0 : 누른 버튼의 캐릭터 이름 전달 (ex Tony)
             parent.SetBuyButton(_CharacterNameValue.text);
-
+            parent.otherScriptBtn = _btn;
             // A-2 : 누른 버튼의 캐릭터 판매가격을 MainUI에 저장
             parent.OnClick_ShopUIBuyBtn(_PriceValue.text);
         }
@@ -36,5 +36,5 @@ public class ShopListBuyBtn : MonoBehaviour
 
     }
     // Update is called once per frame
-
+ 
 }

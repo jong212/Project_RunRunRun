@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MainUI : MonoBehaviour
 {
     [SerializeField] Text currentMoney; // UI MOney
+    public Button otherScriptBtn;
     public string CharacterNameValue { get; set; }
     public int CharacterPriceValue { get; set; } // Buy 버튼 누를 때마다 여기 가격이 최신화 됨
     [SerializeField] private DBManager _DBManager;
@@ -65,6 +66,8 @@ public class MainUI : MonoBehaviour
                     _DBManager.CurrentGold = _DBManager.CurrentGold - CharacterPriceValue;// 1. 구매 했으니 보유금액 동기화(실제 MariaDb접근은 아님)
                     _DBManager.UpdatePlayerGold(_DBManager.CurrentGold);                  // 2. Maria DB Player  보유금액 Update 
                     currentMoney.text = _DBManager.CurrentGold.ToString();                // 3. UI보유금액 최신화 
+                    otherScriptBtn.interactable = false;
+                    UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
                 }
             }
             else
