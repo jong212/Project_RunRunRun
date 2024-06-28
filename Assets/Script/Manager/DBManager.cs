@@ -5,6 +5,7 @@ using System;
 using System.Data;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using System.Collections.Generic;
 
 
 public class DBManager : MonoBehaviour
@@ -76,7 +77,7 @@ public class DBManager : MonoBehaviour
             _dbConnection.Close();
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return false;
         }
@@ -182,12 +183,18 @@ public class DBManager : MonoBehaviour
 
         if (retrievedPassword == Input_Pw.text)
         {
+
             Input_CheckIdPw_Error.text = "로그인 성공!";
             //여기에 네트워크 매니저 connect 함수를 호출하고 싶어
-
-            CurrentPrafab = GetCharacterId(Input_Id.text);
             Nickname = Input_Id.text;
+            List<string> temp = GetMycharacter(Nickname);
+            foreach (string characterType in temp)
+            {
+                networkManager.OwnedCharacters.Add(characterType);
+            }
+            CurrentPrafab = GetCharacterId(Nickname);
             networkManager.Connect(CurrentPrafab, Nickname);
+
 
         }
         else
@@ -318,14 +325,33 @@ public class DBManager : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+    public List<string> GetMycharacter(string name)
+    {
+        List<string> tempCurrentCharacter = new List<string>();
+        string query = $"SELECT CharacterType FROM character_info WHERE Nickname = '{name}'";
+        DataSet dataSet = OnSelectRequest(query, "character_info");
+        if (dataSet != null && dataSet.Tables["character_info"].Rows.Count > 0)
+        {
+            foreach (DataRow row in dataSet.Tables["character_info"].Rows)
+            {
+                tempCurrentCharacter.Add(row["CharacterType"].ToString());
+            }
+
+        }
+        return tempCurrentCharacter;
+
+    }
     public void InsertCharacterInfo( string characterType)
     {
+        Debug.Log(characterType+ "?1");
+        //DB 추가
         string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{Nickname}', '{characterType}')";
         bool isSuccess = OnInsertOnUpdateRequest(query);
 
         if (isSuccess)
         {
-            Debug.Log("Character info inserted successfully.");
+            //배열 추가
+            networkManager.OwnedCharacters.Add(characterType);
         }
         else
         {

@@ -42,6 +42,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
     private string currentPrafab; // 사용자가 착용중인 캐릭터 프리팹 Name
+    public List<string> OwnedCharacters { get; set; }
+
+
     private string currentPrafab_chk; // 다른 캐릭터로 변경했는지 체크하기 위한 변수
     private string PlayerNickName; // 사용자 로그인 아이디 
     public GameObject localPlayerPrefab;
@@ -125,10 +128,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
     #region 서버연결
-    void Awake() => Screen.SetResolution(960, 540, false);
+    void Awake() {
+        Screen.SetResolution(960, 540, false);
+        OwnedCharacters = new List<string>();
+    }
+
 
     void Update()
     {
+        Debug.Log(OwnedCharacters);
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
@@ -136,7 +144,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public void Connect(string characterId, string playerNickName)
     {
-        Debug.Log("ddddd" + characterId);
         this.currentPrafab = characterId;
         this.currentPrafab_chk = characterId;
         this.PlayerNickName = playerNickName;
