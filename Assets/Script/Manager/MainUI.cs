@@ -8,7 +8,7 @@ public class MainUI : MonoBehaviour
 {
     [SerializeField] Text currentMoney; // UI MOney
     public string CharacterNameValue { get; set; }
-    public int CharacterPriceValue { get; set; }
+    public int CharacterPriceValue { get; set; } // Buy 버튼 누를 때마다 여기 가격이 최신화 됨
     [SerializeField] private DBManager _DBManager;
     private void OnDisable()
     {
@@ -21,21 +21,20 @@ public class MainUI : MonoBehaviour
         UIManager.Instance.OpenShopPopupBtn();
     }
 
-    // 열린상점에서 Buy 버튼 클릭 시
+    // A-3 : UI 매니저에게 Last 팝업 열도록 요청함과 동시에 콜백함수 UI Manager에게 전달
     public void OnClick_ShopUIBuyBtn(string price)
     {
-        //to int 로 change
         if (int.TryParse(price, out int priceValue))
         {
-            CharacterPriceValue = priceValue;
-            UIManager.Instance.OpenShopBuyPopupBtn();
+            CharacterPriceValue = priceValue; 
+            UIManager.Instance.OpenShopBuyPopupBtn(); // 요청
 
-            // UI 매니저에게 콜백함수 넘겨줌        
-            UIManager.Instance.RegisterOnClickConfirmEvent(true, OnClickConfirmPopup);
+            
+            UIManager.Instance.RegisterOnClickConfirmEvent(true, OnClickConfirmPopup); // UI 매니저에게 콜백함수 넘겨줌        
         }
 
     }
-    // 사용자가 구매하기 팝업에서 Yes를 클릭했을 때 Invoke로 실행 됨/
+    // A-6 : 사용자가 구매하기 팝업에서 Yes를 클릭했을 때 Invoke로 실행 됨/
     public void OnClickConfirmPopup()
     { 
                 
@@ -49,17 +48,23 @@ public class MainUI : MonoBehaviour
             
             if (_DBManager.CurrentGold == currentMoneyInt)
             {   
-                // 같다면 현재 보유 금액에서 구매할 캐릭의 금액을 차감시켜서 구매 가능한지 체크
-                var tempCalcValue = currentMoneyInt - CharacterPriceValue;
+                
+                var tempCalcValue = currentMoneyInt - CharacterPriceValue;// 같다면 현재 보유 금액에서 구매할 캐릭의 금액을 차감시켜서 구매 가능한지 체크
                 if (tempCalcValue < 0)
                 {
                     Debug.Log("돈이 부족함");
                 } 
                 else
-                {
-                    _DBManager.CurrentGold = _DBManager.CurrentGold - CharacterPriceValue;
-                    _DBManager.UpdatePlayerGold(_DBManager.CurrentGold);
-                    currentMoney.text = _DBManager.CurrentGold.ToString();
+                {                    
+                    /*
+                     * 보유금액 3개 최신화 함 
+                     * 1. DBManager의 CurrentGold  
+                     * 2. 실제 DB 보유금액
+                     * 3. UI 보유금액 모두 업데이트
+                     */
+                    _DBManager.CurrentGold = _DBManager.CurrentGold - CharacterPriceValue;// 1. 구매 했으니 보유금액 동기화(실제 MariaDb접근은 아님)
+                    _DBManager.UpdatePlayerGold(_DBManager.CurrentGold);                  // 2. Maria DB Player  보유금액 Update 
+                    currentMoney.text = _DBManager.CurrentGold.ToString();                // 3. UI보유금액 최신화 
                 }
             }
             else
@@ -71,7 +76,7 @@ public class MainUI : MonoBehaviour
         _DBManager.InsertCharacterInfo(CharacterNameValue);
 
     }
-    // 상점 UI 관련 : 
+    // A-1 :  Tony 와 같은 이름을 CharacterNameValue 에 저장
     public void SetBuyButton(string characterNameValue)
     {
         CharacterNameValue = characterNameValue;

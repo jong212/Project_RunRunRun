@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-// A : 캐릭터 Buy 버튼 클릭 > 캐릭터 이름값을 MainUI 에 있는 변수에 세팅 
 
 
 public class ShopListBuyBtn : MonoBehaviour
@@ -24,10 +23,10 @@ public class ShopListBuyBtn : MonoBehaviour
         MainUI parent = GetComponentInParent<MainUI>();
         if (parent != null)
         {
-            // A
+            // A-0 : 누른 버튼의 캐릭터 이름 전달 (ex Tony)
             parent.SetBuyButton(_CharacterNameValue.text);
 
-
+            // A-2 : 누른 버튼의 캐릭터 판매가격을 MainUI에 저장
             parent.OnClick_ShopUIBuyBtn(_PriceValue.text);
         }
         else

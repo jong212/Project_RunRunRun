@@ -142,10 +142,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public void Connect(string characterId, string playerNickName,int currentMoney)
     {
-        this.currentPrafab = characterId;
+        this.currentPrafab = characterId;       // 선택 되어있는 캐릭터 이름
         this.currentPrafab_chk = characterId;
-        this.PlayerNickName = playerNickName;
-        this.currentMoney = currentMoney;
+        this.PlayerNickName = playerNickName;   // ID
+        this.currentMoney = currentMoney;       // DB Select 해서 가져온 플레이어 보유금액
         _loginCamera.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
@@ -156,13 +156,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
-        if (TopRightUIGroup != null ) TopRightUIGroup.SetActive(true);
-        LobbyDataManager.Inst.ReadAllDataOnAwake();
-        LoginPanel.SetActive(false);
-        LobbyPanel.SetActive(true);
+        if (TopRightUIGroup != null ) TopRightUIGroup.SetActive(true);              // 우상단 UI 오픈
+        LobbyDataManager.Inst.ReadAllDataOnAwake();                                 // 로비 XML 파일 초기화
+        LoginPanel.SetActive(false);                                                // 로그인 패널 OFF
+        LobbyPanel.SetActive(true);                                                 // 로비 패널 ON
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "characterId", currentPrafab } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "characterId", currentPrafab } });// 현재 착용중인 캐릭터의 프리팹 이름
         CreateLocalPlayer();
         myList.Clear();
     }
@@ -172,7 +172,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (localPlayerPrefab == null || currentPrafab != currentPrafab_chk)
         {
             string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString() : "DefaultPlayerPrefab";
-            Debug.Log("test11111" + prefabName);
             localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-139, 5, 0), Quaternion.identity);
             currentPrafab_chk = currentPrafab;
         }

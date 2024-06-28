@@ -19,7 +19,8 @@ public class ShopBuyYesBtn : MonoBehaviour
         if (_onConfirmEventHandler != null)
             _onConfirmEventHandler = null;
     }
-    //A
+
+    //A-4 : Ui 매니저가 구독하라고 지시
     public void RegisterOnClickConfirmEvent(bool isRegister, Action callback)
     {
         if (isRegister)
@@ -27,7 +28,7 @@ public class ShopBuyYesBtn : MonoBehaviour
         else
             _onConfirmEventHandler -= callback;
     }
-    //B
+    //A-5 : 마지막 확인 버튼이 눌리면 이벤트 발생은 준비가 된 상태라 아래 Invoke를 실행시켜서 등록된 함수를 실행한다
     public void OnClick_Confirm()
     {
         _onConfirmEventHandler?.Invoke();

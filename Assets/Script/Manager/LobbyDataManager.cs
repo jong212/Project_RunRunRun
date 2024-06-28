@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
+// Xml 데이터 불러오기 // 런타임에 실행
 public class LobbyDataManager : MonoBehaviour
 {
     public static LobbyDataManager Inst { get; private set; }
@@ -10,7 +11,7 @@ public class LobbyDataManager : MonoBehaviour
     public Dictionary<int, Shop> LoadedCharacterList { get; private set; }
 
 
-    private readonly string _dataRootPath = "C:\\Users\\jongh\\OneDrive\\바탕 화면\\DataParser";
+    private readonly string _dataRootPath = "C:\\Users\\jongh\\Downloads\\DataParser";
 
     private void Awake()
     {
