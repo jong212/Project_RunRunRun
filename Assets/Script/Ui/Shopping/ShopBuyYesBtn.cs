@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-// A 상점 열 때 이벤트 등록
-// B 상점에서 Buy 버튼 클릭 후 Yes or No 단계에서 Yes 누를 때 OnClick_Confirm 인보크 실행
+// A 상점 열 때 이벤트를 미리 등록
+// B 최종 구매팝업에서 Yes 버튼 누를 때 인보크 실행
 public class ShopBuyYesBtn : MonoBehaviour
 {
     public Button _btn;

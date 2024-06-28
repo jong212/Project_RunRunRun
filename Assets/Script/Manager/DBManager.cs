@@ -343,7 +343,6 @@ public class DBManager : MonoBehaviour
     }
     public void InsertCharacterInfo( string characterType)
     {
-        Debug.Log(characterType+ "?1");
         //DB Ãß°¡
         string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{Nickname}', '{characterType}')";
         bool isSuccess = OnInsertOnUpdateRequest(query);

@@ -31,7 +31,7 @@ public class MainUI : MonoBehaviour
     }
     // 상점 UI 관련 : Invoke 이벤트 호출 될 때  (최종 BuyPopup에서 예 버튼 누를 때)
     public void OnClickConfirmPopup()
-    {
+    {// TO DO
         // 최종 구매하기 예 버튼을 누르면 캐릭터이름값만 DB에 전달시킴 > DB에서는 플레이어 닉네임에 해당하는 구매한 캐릭터 프리팹 이름을 insert
         _DBManager.InsertCharacterInfo(CharacterNameValue);
 

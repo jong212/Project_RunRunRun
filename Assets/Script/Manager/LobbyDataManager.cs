@@ -15,10 +15,10 @@ public class LobbyDataManager : MonoBehaviour
     private void Awake()
     {
         Inst = this;
-        ReadAllDataOnAwake();
+        //ReadAllDataOnAwake();
     }
 
-    private void ReadAllDataOnAwake()
+    public void ReadAllDataOnAwake()
     {
         ReadData(nameof(Shop)); // == ReadData("Character")
     }

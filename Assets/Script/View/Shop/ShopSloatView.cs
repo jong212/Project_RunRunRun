@@ -8,17 +8,17 @@ public class ShopSloatView : MonoBehaviour
     [SerializeField] Image Image_Icon;
     [SerializeField] Text Text_SkillName;
     [SerializeField] Text Text_CharacterName;
-
+    [SerializeField] Button hideBtn;
     private Shop _skillClassName;
 
-    public void SetUI(Shop skillClassName)
+    public void SetUI(Shop skillClassName,bool chk)
     {
         _skillClassName = skillClassName;
 
-        //var skillData = LobbyDataManager.Inst.GetCharacterData(_skillClassName);
-        //Debug.Log(skillData);
+        if (chk) hideBtn.interactable = false;
         if (_skillClassName != null)
         {
+
             var path = $"Textures/ShopIcon/{_skillClassName.Name}";
             Image_Icon.sprite = Resources.Load<Sprite>(path);
             Text_SkillName.text = skillClassName.Price;

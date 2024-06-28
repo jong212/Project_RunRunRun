@@ -141,6 +141,7 @@ MonoBehaviour:
   Image_Icon: {fileID: 3415074610798326009}
   Text_SkillName: {fileID: 2420228452076534978}
   Text_CharacterName: {fileID: 4919846200137863647}
+  hideBtn: {fileID: 4063856072623231093}
 --- !u!1 &2159578141849694631
 GameObject:
   m_ObjectHideFlags: 0

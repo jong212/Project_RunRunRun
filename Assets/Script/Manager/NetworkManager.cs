@@ -42,7 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
     private string currentPrafab; // 사용자가 착용중인 캐릭터 프리팹 Name
-    public List<string> OwnedCharacters { get; set; }
+    public List<string> OwnedCharacters { get; set; } // 구매한 프리팹들
 
 
     private string currentPrafab_chk; // 다른 캐릭터로 변경했는지 체크하기 위한 변수
@@ -136,7 +136,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        Debug.Log(OwnedCharacters);
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
@@ -157,6 +156,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+        LobbyDataManager.Inst.ReadAllDataOnAwake();
         LoginPanel.SetActive(false);
         LobbyPanel.SetActive(true);
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
