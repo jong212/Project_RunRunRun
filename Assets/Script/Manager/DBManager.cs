@@ -191,6 +191,8 @@ public class DBManager : MonoBehaviour
             Input_CheckIdPw_Error.text = "로그인 성공!";
             //여기에 네트워크 매니저 connect 함수를 호출하고 싶어
             Nickname = Input_Id.text;
+
+            //사용자가 보유한 캐릭터들 리스트에 담음
             List<string> temp = GetMycharacter(Nickname);
             foreach (string characterType in temp)
             {

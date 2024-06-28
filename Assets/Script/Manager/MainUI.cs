@@ -21,7 +21,10 @@ public class MainUI : MonoBehaviour
     {
         UIManager.Instance.OpenShopPopupBtn();
     }
-
+    private void Update()
+    {
+        Debug.Log(CharacterNameValue);
+    }
     // A-3 : UI 매니저에게 Last 팝업 열도록 요청함과 동시에 콜백함수 UI Manager에게 전달
     public void OnClick_ShopUIBuyBtn(string price)
     {
@@ -68,6 +71,10 @@ public class MainUI : MonoBehaviour
                     currentMoney.text = _DBManager.CurrentGold.ToString();                // 3. UI보유금액 최신화 
                     otherScriptBtn.interactable = false;
                     UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
+                    
+                    
+                    // 구매완료 시 실제 DB에 캐릭터이름 추가하고 후처리로 DB매니저에서 OwnedCharacters List에도 추가 되도록 
+                    _DBManager.InsertCharacterInfo(CharacterNameValue);
                 }
             }
             else
@@ -75,11 +82,11 @@ public class MainUI : MonoBehaviour
                 Debug.Log("The current money does not match the DB value.");
             }
         }
-        // 최종 구매하기 예 버튼을 누르면 캐릭터이름값만 DB에 전달시킴 > DB에서는 플레이어 닉네임에 해당하는 구매한 캐릭터 프리팹 이름을 insert
-        _DBManager.InsertCharacterInfo(CharacterNameValue);
 
+
+        
     }
-    // A-1 :  Tony 와 같은 이름을 CharacterNameValue 에 저장
+    // A-1 : 마지막으로 어떤 캐릭터를 구매하려 했는지 알기 위해 리스트에서 buy 클릭하면 해당 캐릭터 이름 예를들어 Tonnny 변수에 저장
     public void SetBuyButton(string characterNameValue)
     {
         CharacterNameValue = characterNameValue;

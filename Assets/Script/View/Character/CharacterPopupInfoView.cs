@@ -11,13 +11,34 @@ public class CharacterPopupInfoView : MonoBehaviour
     [SerializeField] GameObject Transform_SlotRoot;
     [SerializeField] GameObject Prefab_SkillSlot;
     [SerializeField] CardSlider cardSlider;
-
+    [SerializeField] NetworkManager networkManager;
 
     private List<Shop> _allCharacters;
-    public void Start()
+
+    private void Awake()
     {
-        //SetCharacterInfo();
+        var networkManagerObject = GameObject.FindWithTag("NetManager");
+        if (networkManagerObject != null)
+        {
+            networkManager = networkManagerObject.GetComponent<NetworkManager>();
+        }
+
+        if (networkManager == null)
+        {
+            Debug.LogError("NetworkManager not found in the scene.");
+            return;
+        }
+    }
+    private void OnEnable()
+    {
         LoadAllCharacterData();
+    }
+    private void OnDisable()
+    {
+        foreach (Transform child in Transform_SlotRoot.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
     private void LoadAllCharacterData()
     {
@@ -31,15 +52,22 @@ public class CharacterPopupInfoView : MonoBehaviour
 
         foreach (var character in _allCharacters)
         {
-            // 여기서 각 캐릭터에 대해 필요한 초기화 작업을 수행
-            //Debug.Log($"Initializing character: {character.Name}");
 
+            bool _isBool = false;
+            foreach (var mycrt in networkManager.OwnedCharacters)
+            {
+                if(character.Name == mycrt)
+                {
+                    _isBool = true;
+                    break;
+                }
+            }
             var gObj = Instantiate(Prefab_SkillSlot, Transform_SlotRoot.transform);
             var skillSlot = gObj.GetComponent<CharacterSloatView>();
             if (skillSlot == null)
                 continue;
 
-            skillSlot.SetUI(character);
+            skillSlot.SetUI(character,_isBool);
         }
         if (cardSlider != null)
         {
