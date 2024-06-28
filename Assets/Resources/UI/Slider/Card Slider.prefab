@@ -186,6 +186,7 @@ MonoBehaviour:
   Prefab_SkillSlot: {fileID: 4411221247338503295, guid: 7b0f2efab947cdf4a82236e219bec6f7,
     type: 3}
   cardSlider: {fileID: 7004567959746677311}
+  networkManager: {fileID: 0}
 --- !u!1 &810658057475577647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,7 +1067,9 @@ MonoBehaviour:
   onCardChange:
     m_PersistentCalls:
       m_Calls: []
-  speed: 0.1
+  lastChild: {fileID: 0}
+  targetButton: {fileID: 7865317344181427184}
+  speed: 0.69
   buttonPrevious: {fileID: 4926528298297652085}
   buttonNext: {fileID: 3935927924540325691}
   slider: {fileID: 7488905195851616503}

@@ -84,7 +84,7 @@ public class DBManager : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("currentvalue :::" + CurrentGold);
+        //Debug.Log("currentvalue :::" + CurrentGold);
     }
     private void Awake()
     {

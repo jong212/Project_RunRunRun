@@ -138,7 +138,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
-        Debug.Log(currentMoney);
+       // Debug.Log(currentMoney);
     }
     public void Connect(string characterId, string playerNickName,int currentMoney)
     {

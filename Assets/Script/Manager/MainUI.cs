@@ -23,7 +23,7 @@ public class MainUI : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(CharacterNameValue);
+        //Debug.Log(CharacterNameValue);
     }
     // A-3 : UI 매니저에게 Last 팝업 열도록 요청함과 동시에 콜백함수 UI Manager에게 전달
     public void OnClick_ShopUIBuyBtn(string price)

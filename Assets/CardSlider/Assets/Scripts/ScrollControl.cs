@@ -40,9 +40,14 @@ namespace tkitfacn.UI
             dragAction.performed -= ctx => OnDrag(ctx);
         }
 
+        public void OnCardSliderDestroyed()
+        {
+            cardSlider = null;
+        }
+
         private void OnPointerDown()
         {
-            if (InsideRect(rect))
+            if (rect != null && InsideRect(rect))
             {
                 initPos = Pointer.current.position.ReadValue();
                 isControl = true;
@@ -51,7 +56,7 @@ namespace tkitfacn.UI
 
         private void OnDrag(InputAction.CallbackContext context)
         {
-            if (!isControl) return;
+            if (!isControl || rect == null || cardSlider == null) return;
 
             Vector2 currentPos = Pointer.current.position.ReadValue();
             var delta = (currentPos - initPos) * controlSpeed * speed;
@@ -76,7 +81,7 @@ namespace tkitfacn.UI
         public bool isControl { get; set; }
         private void Update()
         {
-            if (clickAction.WasReleasedThisFrame())
+            if (clickAction.WasReleasedThisFrame() && cardSlider != null)
             {
                 if (clamp)
                     cardSlider.SetCardIndex((int)Mathf.Clamp(cardSlider.CardIndex + value, 0, cardSlider.CardLength), true);
@@ -89,6 +94,8 @@ namespace tkitfacn.UI
 
         bool InsideRect(RectTransform content)
         {
+            if (content == null) return false;
+
             if (canvasWorldSpace)
                 return content.rect.Contains(content.InverseTransformPoint(Camera.main.ScreenToWorldPoint((Vector3)Pointer.current.position.ReadValue())));
             else

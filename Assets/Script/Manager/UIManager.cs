@@ -44,13 +44,17 @@ public class UIManager : MonoBehaviour
 
     // 공용
     // 닫아주고 
-    private void CloseUI(UIType uiType)
+    public void CloseUI(UIType uiType)
     {
         if (_openedUIDic.Contains(uiType))
         {
             var uiObject = _createdUIDic[uiType];
             uiObject.SetActive(false);
             _openedUIDic.Remove(uiType);
+            if(uiType == UIType.CharacterPopup)
+            {
+                _createdUIDic.Remove(uiType);
+            }
         }
     }
     

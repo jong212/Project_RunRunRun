@@ -14,14 +14,15 @@ namespace tkitfacn.UI
         [System.Serializable]
         public class OnCardChangeEvent : UnityEngine.Events.UnityEvent<Transform> { }
         public OnCardChangeEvent onCardChange = new OnCardChangeEvent();
+        [SerializeField] Transform lastChild; // 마지막 인덱스의 오브젝트를 저장할 변수
+        [SerializeField] Button targetButton; // 변경할 버튼
 
+        private ScrollControl scrollControl; // ScrollControl에 대한 참조
 
         int length = 0;
         int indexLeft = 0;
         int indexRight = 0;
-
         int indexCard = 0;
-        
 
         private void Start()
         {
@@ -29,12 +30,30 @@ namespace tkitfacn.UI
             Sort();
             GenerateButton();
             GenerateSlider();
+            SetCardIndex(indexCard);
+
+            // ScrollControl 참조 찾기
+            scrollControl = FindObjectOfType<ScrollControl>();
+        }
+
+        private void OnDisable()
+        {
+            UIManager.Instance.CloseUI(UIType.CharacterPopup);
+            // CardSlider 오브젝트를 파괴
+            Destroy(gameObject);
+
+            // ScrollControl 참조 해제
+            if (scrollControl != null)
+            {
+                scrollControl.OnCardSliderDestroyed();
+            }
         }
 
         public int CardLength => content.childCount;
         public int CardIndex
         {
-            get => indexCard; set
+            get => indexCard;
+            set
             {
                 SetCardIndex(value);
             }
@@ -81,7 +100,7 @@ namespace tkitfacn.UI
                 {
                     for (int i = indexCard - 1; i >= value; i--)
                     {
-                        //move previous item
+                        // 이전 아이템을 이동
                         content.GetChild(content.childCount - 1).SetSiblingIndex(content.childCount - 2 - i);
                     }
                 }
@@ -89,7 +108,7 @@ namespace tkitfacn.UI
                 {
                     for (int i = indexCard; i < value; i++)
                     {
-                        //move next item
+                        // 다음 아이템을 이동
                         content.GetChild(content.childCount - 2 - i).SetSiblingIndex(content.childCount - 1);
                     }
                 }
@@ -103,6 +122,26 @@ namespace tkitfacn.UI
 
                 UpdateSlider();
                 onCardChange.Invoke(content.GetChild(content.childCount - 1));
+                lastChild = content.GetChild(content.childCount - 1);
+                Debug.Log("Last child object: " + lastChild.name);
+
+                UpdateButtonInteractable();
+            }
+        }
+
+        private void UpdateButtonInteractable()
+        {
+            if (lastChild != null)
+            {
+                CharacterSloatView myComponent = lastChild.GetComponent<CharacterSloatView>();
+                if (myComponent != null)
+                {
+                    targetButton.interactable = !myComponent._Isbool;
+                }
+                else
+                {
+                    Debug.LogWarning("CharacterSloatView가 lastChild에 없습니다.");
+                }
             }
         }
 
@@ -133,7 +172,6 @@ namespace tkitfacn.UI
             cPos = Vector3.zero;
             cScale = Vector3.one;
 
-
             for (int i = indexRight; i >= 0; i--)
             {
                 OutCardTransformParameter(Vector3.right, ref cPos, ref cScale);
@@ -144,7 +182,7 @@ namespace tkitfacn.UI
         List<ItemUI> itemUIs = new List<ItemUI>();
         bool isAnim = false;
         float timeAnim = 0;
-        
+
         public void SortAnim()
         {
             itemUIs.Clear();
@@ -179,7 +217,6 @@ namespace tkitfacn.UI
             cPos = Vector3.zero;
             cScale = Vector3.one;
 
-
             for (int i = indexRight; i >= 0; i--)
             {
                 OutCardTransformParameter(Vector3.right, ref cPos, ref cScale);
@@ -192,7 +229,8 @@ namespace tkitfacn.UI
                 });
             }
 
-            isAnim = true; timeAnim = 0;
+            isAnim = true;
+            timeAnim = 0;
         }
 
         [SerializeField] float speed = 1;
@@ -208,7 +246,7 @@ namespace tkitfacn.UI
                 timeAnim = 1;
             }
 
-            foreach(var item in itemUIs)
+            foreach (var item in itemUIs)
             {
                 item.LerpLocalPos(timeAnim);
             }
@@ -230,7 +268,7 @@ namespace tkitfacn.UI
 
         [SerializeField] Button buttonPrevious = default;
         [SerializeField] Button buttonNext = default;
-        
+
         void GenerateButton()
         {
             if (buttonNext != null)
