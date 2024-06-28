@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Collections.Generic;
 
@@ -40,6 +39,7 @@ public class DBManager : MonoBehaviour
     string currentPrafab;
     string nickname;
     public string CurrentPrafab { get => currentPrafab; set => currentPrafab = value; }
+    public int CurrentGold { get; set; }
     public string Nickname { get => nickname; set => nickname = value; }
     
     private string _getId = "SELECT * FROM u_info where Nickname =";
@@ -81,6 +81,10 @@ public class DBManager : MonoBehaviour
         {
             return false;
         }
+    }
+    private void Update()
+    {
+        Debug.Log("currentvalue :::" + CurrentGold);
     }
     private void Awake()
     {
@@ -193,7 +197,8 @@ public class DBManager : MonoBehaviour
                 networkManager.OwnedCharacters.Add(characterType);
             }
             CurrentPrafab = GetCharacterId(Nickname);
-            networkManager.Connect(CurrentPrafab, Nickname);
+            CurrentGold = GetPlayerGold(Nickname);
+            networkManager.Connect(CurrentPrafab, Nickname, CurrentGold);
 
 
         }
@@ -286,24 +291,6 @@ public class DBManager : MonoBehaviour
         }
     }
 
-    // 플레이어 캐릭터 아이디 가져오기
-    public string GetCharacterId(string playerId)
-    {
-        string query = $"SELECT CharacterId FROM u_info WHERE Nickname = '{playerId}'";
-        string result = SendQuery(query, "u_info");
-
-        // Assuming the format you need to split is 'key:value', and you need the 'value' part
-        if (!string.IsNullOrEmpty(result))
-        {
-            string[] parts = result.Split(':');
-            if (parts.Length > 1)
-            {
-                return parts[1].Trim();
-            }
-        }
-
-        return string.Empty;
-    }
 
     public void OnSubmit_Join_success_btn()
     {
@@ -341,6 +328,46 @@ public class DBManager : MonoBehaviour
         return tempCurrentCharacter;
 
     }
+    // 플레이어 캐릭터 아이디 가져오기
+    public string GetCharacterId(string playerId)
+    {
+        string query = $"SELECT CharacterId FROM u_info WHERE Nickname = '{playerId}'";
+        string result = SendQuery(query, "u_info");
+
+        // Assuming the format you need to split is 'key:value', and you need the 'value' part
+        if (!string.IsNullOrEmpty(result))
+        {
+            string[] parts = result.Split(':');
+            if (parts.Length > 1)
+            {
+                return parts[1].Trim();
+            }
+        }
+
+        return string.Empty;
+    }
+    // 플레이어 골드 가져오기
+
+    public int GetPlayerGold(string nickname)
+    {
+        string query = $"SELECT Money FROM u_info WHERE Nickname = '{nickname}'";
+        DataSet dataSet = OnSelectRequest(query, "u_info");
+
+        if (dataSet != null && dataSet.Tables["u_info"].Rows.Count > 0)
+        {
+            // Get the first row
+            DataRow row = dataSet.Tables["u_info"].Rows[0];
+
+            // Retrieve the "Money" column value
+            int money = Convert.ToInt32(row["Money"]);
+
+            return money;
+        }
+
+        // Return 0 if no data was found
+        return 0;
+    }
+
     public void InsertCharacterInfo( string characterType)
     {
         //DB 추가
@@ -355,6 +382,17 @@ public class DBManager : MonoBehaviour
         else
         {
             Debug.LogError("Failed to insert character info.");
+        }
+    }
+    public void UpdatePlayerGold( int newGoldAmount)
+    {
+        string query = $"UPDATE u_info SET Money = {newGoldAmount} WHERE Nickname = '{Nickname}'";
+
+        using (MySqlCommand sqlCommand = new MySqlCommand(query, _dbConnection))
+        {
+            _dbConnection.Open();
+            sqlCommand.ExecuteNonQuery();
+            _dbConnection.Close();
         }
     }
 }

@@ -41,15 +41,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
-    private string currentPrafab; // 사용자가 착용중인 캐릭터 프리팹 Name
-    public List<string> OwnedCharacters { get; set; } // 구매한 프리팹들
-
-
-    private string currentPrafab_chk; // 다른 캐릭터로 변경했는지 체크하기 위한 변수
-    private string PlayerNickName; // 사용자 로그인 아이디 
+    private string currentPrafab;                       // 사용자가 착용중인 캐릭터 프리팹 Name
+    public List<string> OwnedCharacters { get; set; }   // 구매한 프리팹들
+    public int currentMoney { get; set; }               // 돈
+    private string currentPrafab_chk;                   // 다른 캐릭터로 변경했는지 체크하기 위한 변수
+    private string PlayerNickName;                      // 사용자 로그인 아이디 
     public GameObject localPlayerPrefab;
     public GameObject _loginCamera;
-
+    [SerializeField] GameObject TopRightUIGroup;
 
 
     private Dictionary<int, bool> playerReadyState = new Dictionary<int, bool>(); // 플레이어 ID와 준비 상태를 저장하는 딕셔너리
@@ -139,13 +138,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
-            
+        Debug.Log(currentMoney);
     }
-    public void Connect(string characterId, string playerNickName)
+    public void Connect(string characterId, string playerNickName,int currentMoney)
     {
         this.currentPrafab = characterId;
         this.currentPrafab_chk = characterId;
         this.PlayerNickName = playerNickName;
+        this.currentMoney = currentMoney;
         _loginCamera.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
@@ -156,6 +156,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+        if (TopRightUIGroup != null ) TopRightUIGroup.SetActive(true);
         LobbyDataManager.Inst.ReadAllDataOnAwake();
         LoginPanel.SetActive(false);
         LobbyPanel.SetActive(true);

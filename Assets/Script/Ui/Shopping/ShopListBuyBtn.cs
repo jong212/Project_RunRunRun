@@ -28,7 +28,7 @@ public class ShopListBuyBtn : MonoBehaviour
             parent.SetBuyButton(_CharacterNameValue.text);
 
 
-            parent.OnClick_ShopUIBuyBtn();
+            parent.OnClick_ShopUIBuyBtn(_PriceValue.text);
         }
         else
         {

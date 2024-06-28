@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 쇼핑 Ui 열릴 때 Container의 요 스크립트가 실행됨
 public class CharacterInfoView : MonoBehaviour
 {
     [SerializeField] Text Text_Name;
@@ -12,7 +13,7 @@ public class CharacterInfoView : MonoBehaviour
     public NetworkManager networkManager;
 
     private List<Shop> _allCharacters;
-    public void Start()
+    public void Awake()
     {
         var networkManagerObject = GameObject.FindWithTag("NetManager");
         if (networkManagerObject != null)
@@ -25,7 +26,11 @@ public class CharacterInfoView : MonoBehaviour
             Debug.LogError("NetworkManager not found in the scene.");
             return;
         }
+    }
+    private void Start()
+    {
         LoadAllCharacterData();
+
     }
     private void OnEnable()
     {
