@@ -29,7 +29,7 @@ public class CharacterInfoView : MonoBehaviour
     }
     private void Start()
     {
-        LoadAllCharacterData();
+       // LoadAllCharacterData();
 
     }
     private void OnEnable()

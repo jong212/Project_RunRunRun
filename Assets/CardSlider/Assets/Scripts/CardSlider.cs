@@ -48,7 +48,10 @@ namespace tkitfacn.UI
                 scrollControl.OnCardSliderDestroyed();
             }
         }
-
+        public void getCharacter()
+        {
+            lastChild.gameObject.GetComponent<CharacterSloatView>().CharacterCHange();
+        }
         public int CardLength => content.childCount;
         public int CardIndex
         {

@@ -7,6 +7,7 @@ TagManager:
   - ChatWindow
   - Lobby
   - NetManager
+  - DB
   layers:
   - Default
   - TransparentFX

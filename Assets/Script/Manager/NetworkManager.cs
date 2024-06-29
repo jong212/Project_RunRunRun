@@ -44,7 +44,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private string currentPrafab;                       // 사용자가 착용중인 캐릭터 프리팹 Name
     public List<string> OwnedCharacters { get; set; }   // 구매한 프리팹들
     public int currentMoney { get; set; }               // 돈
-    private string currentPrafab_chk;                   // 다른 캐릭터로 변경했는지 체크하기 위한 변수
+    //private string currentPrafab_chk;                   // 다른 캐릭터로 변경했는지 체크하기 위한 변수
     private string PlayerNickName;                      // 사용자 로그인 아이디 
     public GameObject localPlayerPrefab;
     public GameObject _loginCamera;
@@ -59,7 +59,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     //기능 추가 
-
+    //UpdatePlayerCharacterId
     // A 버튼을 클릭하면
     void OnReadyButtonClicked()
     {
@@ -143,7 +143,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Connect(string characterId, string playerNickName,int currentMoney)
     {
         this.currentPrafab = characterId;       // 선택 되어있는 캐릭터 이름
-        this.currentPrafab_chk = characterId;
+        //this.currentPrafab_chk = characterId;
         this.PlayerNickName = playerNickName;   // ID
         this.currentMoney = currentMoney;       // DB Select 해서 가져온 플레이어 보유금액
         _loginCamera.SetActive(false);
@@ -166,14 +166,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CreateLocalPlayer();
         myList.Clear();
     }
+    public void ChangeChar(string changedName)
+    {
+        currentPrafab = changedName;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "characterId", currentPrafab } });// 현재 착용중인 캐릭터의 프리팹 이름
+        Destroy(localPlayerPrefab);
+        localPlayerPrefab = null; // Set to null explicitly
 
+        CreateLocalPlayer();
+    }
     void CreateLocalPlayer()
     {
-        if (localPlayerPrefab == null || currentPrafab != currentPrafab_chk)
+        /*if (localPlayerPrefab == null || currentPrafab != currentPrafab_chk)*/
+        if (localPlayerPrefab == null)
         {
             string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString() : "DefaultPlayerPrefab";
             localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-139, 5, 0), Quaternion.identity);
-            currentPrafab_chk = currentPrafab;
+            //currentPrafab_chk = currentPrafab;
         }
     }
     public void Disconnect() => PhotonNetwork.Disconnect();
@@ -211,7 +220,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
         Vector3 spawnPosition = new Vector3(0, 2, 0);  
-        PhotonNetwork.Instantiate("Player", spawnPosition, Quaternion.identity);
+        PhotonNetwork.Instantiate(currentPrafab, spawnPosition, Quaternion.identity);
 
         UpdatePlayerReadyStates(); 
     }

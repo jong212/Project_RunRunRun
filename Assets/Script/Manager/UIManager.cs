@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
         if (gObj != null)
         {
             OpenUI(UIType.CharacterPopup, gObj);
-            var ConfirmButton = gObj.GetComponent<ShopPopupUI>();
+            /*var ConfirmButton = gObj.GetComponent<ShopPopupUI>();*/
         }
     }
     #endregion

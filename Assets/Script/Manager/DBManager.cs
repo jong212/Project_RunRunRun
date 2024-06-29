@@ -287,6 +287,7 @@ public class DBManager : MonoBehaviour
         else
         {
             string query = $"INSERT INTO u_info (Nickname, Password) VALUES ('{Input_JoinId.text}', '{Input_JoinPw.text}')";
+            InsertCharacterInfo("Player");
             bool isSuccess = OnInsertOnUpdateRequest(query);
 
             Btn_confirm.SetActive(!Btn_confirm.activeSelf);
@@ -365,7 +366,6 @@ public class DBManager : MonoBehaviour
 
             return money;
         }
-
         // Return 0 if no data was found
         return 0;
     }
@@ -396,5 +396,21 @@ public class DBManager : MonoBehaviour
             sqlCommand.ExecuteNonQuery();
             _dbConnection.Close();
         }
+    }
+    public void UpdatePlayerCharacterId(string nameed)
+    {
+        string escapedName = MySqlHelper.EscapeString(nameed);
+
+        string query = $"UPDATE u_info SET Characterid = '{escapedName}' WHERE Nickname = '{Nickname}'";
+
+        using (MySqlCommand sqlCommand = new MySqlCommand(query, _dbConnection))
+        {
+            _dbConnection.Open();
+            sqlCommand.ExecuteNonQuery();
+            _dbConnection.Close();
+        }
+        CurrentPrafab = nameed;
+        networkManager.ChangeChar(nameed);
+        Debug.Log(query);
     }
 }
