@@ -48,7 +48,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private string PlayerNickName;                      // 사용자 로그인 아이디 
     public GameObject localPlayerPrefab;
     public GameObject _loginCamera;
-    [SerializeField] GameObject TopRightUIGroup;
 
 
     private Dictionary<int, bool> playerReadyState = new Dictionary<int, bool>(); // 플레이어 ID와 준비 상태를 저장하는 딕셔너리
@@ -124,7 +123,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         MyListRenewal();
     }
     #endregion
-
+    #region UI
+    // #2 오브젝트 비활성화면 활성화 시키고 활성화면 비활성화 시키는 코드인데 분석좀 해봐야함
+    public void LobbyUIOnOff()
+    {
+        LobbyPanel.SetActive(!LobbyPanel.activeSelf);
+    }
+    #endregion
 
     #region 서버연결
     void Awake() {
@@ -157,10 +162,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         UIManager.Instance.LobbyUIControll("on");
-        if (TopRightUIGroup != null ) TopRightUIGroup.SetActive(true);              // 우상단 UI 오픈
         LobbyDataManager.Inst.ReadAllDataOnAwake();                                 // 로비 XML 파일 초기화
         LoginPanel.SetActive(false);                                                // 로그인 패널 OFF
-        LobbyPanel.SetActive(true);                                                 // 로비 패널 ON
+        //LobbyPanel.SetActive(true);                                                 // 로비 패널 ON
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "characterId", currentPrafab } });// 현재 착용중인 캐릭터의 프리팹 이름
@@ -219,6 +223,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         LobbyPanel.SetActive(false);
+        UIManager.Instance.LobbyUIControll("off");
         RoomPanel.SetActive(true);
 
         RoomRenewal();
@@ -342,10 +347,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     #endregion
     public override void OnLeftRoom()
     {
-        
+        //UIManager.Instance.LobbyUIControll("off");
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         RoomPanel.SetActive(false);
-        LobbyPanel.SetActive(true);
+        //LobbyPanel.SetActive(true);
         // Set the local player's isReady state to false when they leave the room
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
     }
