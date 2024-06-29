@@ -139,7 +139,7 @@ namespace tkitfacn.UI
                 CharacterSloatView myComponent = lastChild.GetComponent<CharacterSloatView>();
                 if (myComponent != null)
                 {
-                    targetButton.interactable = !myComponent._Isbool;
+                    targetButton.interactable = myComponent._Isbool;
                 }
                 else
                 {
