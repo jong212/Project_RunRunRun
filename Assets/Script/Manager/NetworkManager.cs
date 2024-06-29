@@ -156,6 +156,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+        UIManager.Instance.LobbyUIControll("on");
         if (TopRightUIGroup != null ) TopRightUIGroup.SetActive(true);              // 우상단 UI 오픈
         LobbyDataManager.Inst.ReadAllDataOnAwake();                                 // 로비 XML 파일 초기화
         LoginPanel.SetActive(false);                                                // 로그인 패널 OFF
@@ -166,6 +167,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CreateLocalPlayer();
         myList.Clear();
     }
+     
     public void ChangeChar(string changedName)
     {
         currentPrafab = changedName;
@@ -197,6 +199,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LobbyPanel.SetActive(false);
         _loginCamera.SetActive(true);
         RoomPanel.SetActive(false);
+        UIManager.Instance.LobbyUIControll("off");
+
+
     }
     #endregion
 

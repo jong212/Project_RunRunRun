@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject ShopParentsObj;
     [SerializeField] Transform CharacterParentsObj;
-
+    [SerializeField] GameObject BottomUIGroup;
+    [SerializeField] GameObject TopUIGroup;
 
     public static UIManager Instance { get; set; }
 
@@ -174,5 +175,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
+    public void LobbyUIControll (string onoff)
+    {
+        if(onoff == "on")
+        {
+            BottomUIGroup.SetActive(true);
+            TopUIGroup.SetActive(true);
+        } else
+        {
+            BottomUIGroup.SetActive(false);
+            TopUIGroup.SetActive(false);
+        }
+        
+    }
 }

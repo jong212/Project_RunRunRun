@@ -287,8 +287,10 @@ public class DBManager : MonoBehaviour
         else
         {
             string query = $"INSERT INTO u_info (Nickname, Password) VALUES ('{Input_JoinId.text}', '{Input_JoinPw.text}')";
-            InsertCharacterInfo("Player");
+            nickname = Input_JoinId.text;
             bool isSuccess = OnInsertOnUpdateRequest(query);
+            InsertCharacterInfo("Player");
+
 
             Btn_confirm.SetActive(!Btn_confirm.activeSelf);
         }
