@@ -187,8 +187,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (localPlayerPrefab == null)
         {
             string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString() : "DefaultPlayerPrefab";
-            localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-139, 5, 0), Quaternion.identity);
-            //currentPrafab_chk = currentPrafab;
+            localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-154, 12.49f, -49.54883f), Quaternion.Euler(0,25.525f,0));
+            InitializeCamera();
+
+        }
+    }
+    void InitializeCamera()
+    {
+        // 프리룩 카메라를 찾습니다 (경로를 정확히 명시)
+        Transform freeLookCameraTransform = localPlayerPrefab.transform.Find("LobbyCamera/FreeLook Camera"); // 정확한 경로로 수정
+
+        if (freeLookCameraTransform != null)
+        {
+            GameObject freeLookCamera = freeLookCameraTransform.gameObject;
+            freeLookCamera.SetActive(true);
+
+            // 카메라를 캐릭터의 자식으로 설정하여 캐릭터를 따라가게 합니다.
+            freeLookCamera.transform.SetParent(localPlayerPrefab.transform);
+
+            // 카메라의 위치와 회전을 초기화합니다.
+            freeLookCamera.transform.localPosition = new Vector3(0, 2, -3); // 캐릭터의 뒤쪽 약간 위쪽에 위치하도록 설정 (필요에 따라 조정)
+            freeLookCamera.transform.localRotation = Quaternion.Euler(10, 0, 0); // 약간 아래쪽을 바라보도록 설정 (필요에 따라 조정)
+        }
+        else
+        {
+            Debug.LogWarning("FreeLookCamera not found! Please check the path.");
         }
     }
     public void Disconnect() => PhotonNetwork.Disconnect();

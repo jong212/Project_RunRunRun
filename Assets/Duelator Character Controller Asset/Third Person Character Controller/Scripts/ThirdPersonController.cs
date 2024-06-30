@@ -35,7 +35,7 @@ public class ThirdPersonController : MonoBehaviourPun
     #region Public Fields
     [Header("Move Amount (Do Not Edit)")]
     public float moveAmount;
-    
+
     [Header("Player State Booleans (Do Not Edit)")]
     public bool isGrounded;
 
@@ -53,38 +53,42 @@ public class ThirdPersonController : MonoBehaviourPun
 
     #region Serialized Fields
     [Header("Move Speeds")]
-    [SerializeField] 
+    [SerializeField]
     private float moveSpeed;
 
-    [SerializeField] 
+    [SerializeField]
     private float walkSpeed;
 
-    [SerializeField] 
+    [SerializeField]
     private float sprintSpeed;
 
-    [SerializeField] 
+    [SerializeField]
     private float crouchSpeed;
 
     [Header("Jump & Gravity Variables")]
-    [SerializeField] 
+    [SerializeField]
     private float gravity = -9.81f;
 
-    [SerializeField] 
+    [SerializeField]
     private float jumpHeight = 4f;
 
-    [SerializeField] 
+    [SerializeField]
     private LayerMask groundMask;
 
     [Header("Other")]
-    [SerializeField] 
+    [SerializeField]
     private Transform PlayerCamera;
 
-    [SerializeField] 
+    [SerializeField]
     private Transform characterBase;
 
 
-    [SerializeField] 
+    [SerializeField]
     private Animator characterAnimator;
+
+    private const int MaxJumpCount = 2;
+    [SerializeField]
+    private int currentJump = 0;
     #endregion
 
     private void Awake()
@@ -93,7 +97,7 @@ public class ThirdPersonController : MonoBehaviourPun
 
 
         // mainCamera = Camera.main;
-        
+
         controller = GetComponent<CharacterController>();
         PV = GetComponent<PhotonView>();  // PhotonView 초기화
 
@@ -102,21 +106,22 @@ public class ThirdPersonController : MonoBehaviourPun
     }
     private void Start()
     {
-        
+
         if (PhotonNetwork.InLobby)
         {
             Cursor.lockState = CursorLockMode.None;
             lobbyObject.SetActive(true);
             gameobj.SetActive(false);
-           
+
         }
         else
         {
-            if(PV.IsMine) // 이거 카메라가 두개 다 기본 세팅이 OFF로 되어있어서 켜주긴 해야함
+            if (PV.IsMine) // 이거 카메라가 두개 다 기본 세팅이 OFF로 되어있어서 켜주긴 해야함
             {
                 lobbyObject.SetActive(true);
                 gameobj.SetActive(false);
-            } else
+            }
+            else
             {
                 if (!PV.IsMine)
                 {
@@ -146,7 +151,7 @@ public class ThirdPersonController : MonoBehaviourPun
             playerInputControls = new DemoInputControls();
 
             playerInputControls.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-            playerInputControls.Player.Movement.canceled += ctx => moveInput = ctx.ReadValue<Vector2>(); //to not store input when we let go of the WASD / joystick
+            playerInputControls.Player.Movement.canceled += ctx => moveInput = Vector2.zero; //to not store input when we let go of the WASD / joystick
 
             playerInputControls.Player.Jump.performed += ctx => jumpInput = true;
 
@@ -174,32 +179,26 @@ public class ThirdPersonController : MonoBehaviourPun
     }
     private void SimpleMovement()
     {
-        //Assign Input Values
         float horizontalInput = moveInput.x;
         float verticalInput = moveInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
 
-        //Get Move Direction
         Vector3 direction = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
-        if (direction.magnitude >= 0.1) //if there is any input to move
+        if (direction.magnitude >= 0.1f)
         {
-            //Get Rotation Angle
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + PlayerCamera.eulerAngles.y; //to get the angle where our player should be looking at while moving. Atan 2 gives the angle bet. current rotation and the the angle we want, from direction.x to direction.z
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + PlayerCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
-
-            moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward; //this is to actually move in the direction where the player rotates, not just face that way
+            moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             moveDirection.Normalize();
-            
-            //Handle Sprinting
+
             if (sprintInput && moveAmount > 0.5f && isGrounded && !isCrouching)
             {
                 moveDirection *= sprintSpeed;
                 isSprinting = true;
             }
-            //Handle Crouching
             else if (isCrouching)
             {
                 if (moveAmount > 0.2f)
@@ -216,60 +215,70 @@ public class ThirdPersonController : MonoBehaviourPun
                 }
                 isSprinting = false;
             }
-            //Handle Regular Movement
             else
             {
                 isSprinting = false;
-                //Normal Movement
                 if (moveAmount >= 0.5f)
                 {
                     moveDirection *= moveSpeed;
                 }
-                //Walking
                 else
                 {
                     moveDirection *= walkSpeed;
                     moveAmount = .4f;
                 }
             }
-            
-            //Move the player
-            controller.Move(moveDirection * Time.deltaTime);
-
         }
         else
         {
-            //Toggle is sprinting when we stop pressing any key / afk
+            moveDirection = Vector3.zero;
             isSprinting = false;
         }
+
+        controller.Move(moveDirection * Time.deltaTime);
     }
+
     private void JumpingAndGravity()
     {
-        //Check if the player is on ground / in air
+        // Check if the player is on ground / in air
         isGrounded = Physics.CheckSphere(characterBase.position, 0.5f, groundMask);
 
-        //Reset velocity.y in order to prevent the velocity from building up even when we are on ground, to prevent increasing gravity
+        // Reset velocity.y in order to prevent the velocity from building up even when we are on ground, to prevent increasing gravity
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            currentJump = 0;  // Reset the jump counter when the player is grounded
+            characterAnimator.SetInteger("JumpCount", currentJump); // Reset JumpCount in animator
+            //characterAnimator.SetBool("Jumping", false);
         }
-        
-        //Apply Gravity to velocity.y
+
+        // Apply Gravity to velocity.y
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime); //Apply gravity to player
+        controller.Move((moveDirection + new Vector3(0, velocity.y, 0)) * Time.deltaTime); // 수평 이동과 수직 속도를 동시에 적용
 
-        //Handle Jumping
+        // Handle Jumping
         if (jumpInput && !isCrouching)
         {
-            jumpInput = false;
-            if (isGrounded)
+            if (isGrounded || currentJump < MaxJumpCount)
             {
+                currentJump++;
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                characterAnimator.SetInteger("JumpCount", currentJump); // Set JumpCount in animator
                 characterAnimator.SetBool("Jumping", true);
-                characterAnimator.CrossFade("Jumping", 0.2f);
-            }   
+                if (currentJump == 1)
+                {
+                    characterAnimator.CrossFade("Jumping", 0.2f);
+                }
+                else if (currentJump == 2)
+                {
+                    characterAnimator.SetBool("DoubleJumping", true);
+                    characterAnimator.CrossFade("DoubleJumping", 1.2f);
+                }
+            }
+            jumpInput = false; // Immediately reset jump input after processing
         }
+
     }
     private void AnimationHandler()
     {
@@ -336,7 +345,7 @@ public class ThirdPersonController : MonoBehaviourPun
         if (!isCrouching)
         {
             controller.height = 1.8f;
-            controller.center = new Vector3(0, -0.13f, 0);    
+            controller.center = new Vector3(0, -0.13f, 0);
         }
     }
 }
