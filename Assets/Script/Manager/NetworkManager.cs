@@ -27,6 +27,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Button[] CellBtn;
     public Button PreviousBtn;
     public Button NextBtn;
+    public GameObject LobbyWaitObjec1; // 대기방1 오브젝트
+    public GameObject LobbyWaitObjec2; // 대기방2 오브젝트
+    public GameObject GameWaitObjec1;  // 게임방1 오브젝트 
 
     [Header("RoomPanel")]
     public GameObject RoomPanel;
@@ -161,6 +164,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+        LobbyWaitObjec1.SetActive(true);
+        LobbyWaitObjec2.SetActive(true);
+        GameWaitObjec1.SetActive(false);
         UIManager.Instance.LobbyUIControll("on");
         LobbyDataManager.Inst.ReadAllDataOnAwake();                                 // 로비 XML 파일 초기화
         LoginPanel.SetActive(false);                                                // 로그인 패널 OFF
@@ -188,6 +194,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString() : "DefaultPlayerPrefab";
             localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-154, 12.49f, -49.54883f), Quaternion.Euler(0,25.525f,0));
+
             InitializeCamera();
 
         }
@@ -244,6 +251,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedRoom()
     {
+        LobbyWaitObjec1.SetActive(false);
+        LobbyWaitObjec2.SetActive(false);
+        GameWaitObjec1.SetActive(true);
+
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         LobbyPanel.SetActive(false);
         UIManager.Instance.LobbyUIControll("off");
@@ -252,7 +263,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
-        Vector3 spawnPosition = new Vector3(0, 2, 0);  
+        Vector3 spawnPosition = new Vector3(-157, 46, -55);
+
         PhotonNetwork.Instantiate(currentPrafab, spawnPosition, Quaternion.identity);
 
         UpdatePlayerReadyStates(); 
