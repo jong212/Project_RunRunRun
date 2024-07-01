@@ -15,6 +15,9 @@ public class ThirdPersonController : MonoBehaviourPun
     public GameObject freeLook;
     private DemoInputControls playerInputControls;
     public float pushForce = 30.0f; // 충돌 시 가할 힘의 크기
+    [SerializeField] float crt_CenterY = 0.02f;
+    [SerializeField] float crt_Height = 1.22f;
+
 
     private Vector2 moveInput;
 
@@ -369,8 +372,8 @@ public class ThirdPersonController : MonoBehaviourPun
         }
         if (!isCrouching)
         {
-            controller.height = 1.8f;
-            controller.center = new Vector3(0, -0.13f, 0);
+            controller.height = crt_Height;
+            controller.center = new Vector3(0, crt_CenterY, 0);
         }
     }
 }
