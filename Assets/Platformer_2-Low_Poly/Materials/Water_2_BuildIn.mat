@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_2_BuildIn
   m_Shader: {fileID: 4800000, guid: a06f2f72196f4d842b12a88d1bb38e41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHABLEND_ON
@@ -19,6 +21,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -43,7 +46,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _Blend1: 0
     - _Blend2: 0
-    - _Depth: 5
+    - _Depth: 4.14
     - _DepthMultiply: 2
     - _DisplacementAmount: 0
     - _DistortionStr: 0.24
@@ -63,7 +66,7 @@ Material:
     - _Layer2Tiling: 0.15
     - _Layer3Speed: 0.2
     - _Layer3Tiling: 0.2
-    - _Metallic: 0
+    - _Metallic: 0.502
     - _PatternInvertBW: 0
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -76,7 +79,7 @@ Material:
     - _ShoreWaveSpeed: -1.8
     - _ShoreWaveWidth: 0.05
     - _ShoreWidth: 1
-    - _Smoothness: 0.712
+    - _Smoothness: 0.082
     - _SpecularHighlights: 1
     - _TessEdgeLength: 16
     - _TessMaxDisp: 25
