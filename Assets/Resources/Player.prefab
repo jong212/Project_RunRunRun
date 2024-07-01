@@ -1113,7 +1113,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.66581655, z: 0, w: 0.7461155}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 967255625044718068}
@@ -1170,9 +1170,9 @@ MonoBehaviour:
   isCrouching: 0
   holdToCrouch: 0
   pressToCrouch: 1
-  moveSpeed: 5.87
+  moveSpeed: 4.5
   walkSpeed: 2
-  sprintSpeed: 7.33
+  sprintSpeed: 6.19
   crouchSpeed: 2.5
   gravity: -36.4
   jumpHeight: 3.15
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
+  m_SynchronizeScale: 0
 --- !u!95 &5366736049677377364
 Animator:
   serializedVersion: 5
@@ -1273,8 +1273,11 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: isCrouching
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: JumpCount
+  - Type: 9
+    SynchronizeType: 1
+    Name: DoubleJumping
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

@@ -272,7 +272,7 @@ public class ThirdPersonController : MonoBehaviourPun
                 }
                 else if (currentJump == 2)
                 {
-                    characterAnimator.SetBool("DoubleJumping", true);
+                    characterAnimator.SetTrigger("DoubleJumping");
                     characterAnimator.CrossFade("DoubleJumping", 1.2f);
                 }
             }
