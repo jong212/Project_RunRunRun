@@ -1096,6 +1096,7 @@ GameObject:
   - component: {fileID: -1173323351259369925}
   - component: {fileID: 5366736049677377364}
   - component: {fileID: -4383488745656566551}
+  - component: {fileID: -5638067066199548806}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1163,6 +1164,7 @@ MonoBehaviour:
   lobbyObject: {fileID: 3045827980254299372}
   gameobj: {fileID: 75636671579140954}
   freeLook: {fileID: 3980679652621627142}
+  pushForce: 5
   moveAmount: 0
   isGrounded: 0
   isSprinting: 0
@@ -1285,6 +1287,33 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 1
     LayerIndex: 2
+--- !u!54 &-5638067066199548806
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743749225463225618}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
 --- !u!1 &2812285996798906135
 GameObject:
   m_ObjectHideFlags: 0

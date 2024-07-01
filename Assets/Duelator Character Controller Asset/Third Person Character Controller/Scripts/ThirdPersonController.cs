@@ -14,6 +14,7 @@ public class ThirdPersonController : MonoBehaviourPun
     public GameObject gameobj;
     public GameObject freeLook;
     private DemoInputControls playerInputControls;
+    public float pushForce = 30.0f; // 충돌 시 가할 힘의 크기
 
     private Vector2 moveInput;
 
@@ -28,7 +29,7 @@ public class ThirdPersonController : MonoBehaviourPun
     private bool jumpInput;
 
     private float turnSmoothTime = 0.1f;
-
+    private Rigidbody rb;
     private float turnSmoothVelocity; //this is just to hold the turning velocity when the player turns to face where its moving
     #endregion
 
@@ -93,16 +94,14 @@ public class ThirdPersonController : MonoBehaviourPun
 
     private void Awake()
     {
-        // 로비 카메라 찾기 
-
-
-        // mainCamera = Camera.main;
-
         controller = GetComponent<CharacterController>();
         PV = GetComponent<PhotonView>();  // PhotonView 초기화
+        rb = GetComponent<Rigidbody>(); // Rigidbody 초기화
 
-        // 카메라 설정
-
+        if (rb != null)
+        {
+            rb.isKinematic = true; // Rigidbody를 캐릭터 컨트롤러와 함께 사용하기 위해 isKinematic 설정
+        }
     }
     private void Start()
     {
@@ -143,6 +142,32 @@ public class ThirdPersonController : MonoBehaviourPun
 
         }
     }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.CompareTag("Obstacle"))
+        {
+            Vector3 pushDirection = transform.position - hit.transform.position;
+            pushDirection.y = 0; // 수평 방향으로만 힘을 가함
+            pushDirection.Normalize();
+
+            rb.isKinematic = false; // 충돌 시 isKinematic 해제
+            rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+
+            controller.enabled = false; // CharacterController 비활성화
+
+            // 일정 시간 후에 다시 kinematic으로 설정하고 CharacterController 활성화
+            StartCoroutine(ResetController());
+        }
+    }
+
+    private IEnumerator ResetController()
+    {
+        yield return new WaitForSeconds(0.5f); // 0.5초 후에 다시 kinematic으로 설정
+        rb.isKinematic = true;
+        controller.enabled = true; // CharacterController 활성화
+    }
+
+   
     private void OnEnable()
     {
         //Take Input

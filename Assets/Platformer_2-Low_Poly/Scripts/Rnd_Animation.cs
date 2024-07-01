@@ -25,6 +25,16 @@ namespace ithappy
             anim.enabled = false;
 
         }
+        private void OnEnable()
+        {
+            if (PV == null) PV = GetComponent<PhotonView>();
+            if (anim == null) anim = GetComponent<Animator>();
+
+            if (PV != null && PV.IsMine && titleAnim == "Swing_X")
+            {
+                EnableAnimatorAndPlay();
+            }
+        }
         void Start()
         {
             if (PV == null) {

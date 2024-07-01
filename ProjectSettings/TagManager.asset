@@ -8,6 +8,7 @@ TagManager:
   - Lobby
   - NetManager
   - DB
+  - Obstacle
   layers:
   - Default
   - TransparentFX
