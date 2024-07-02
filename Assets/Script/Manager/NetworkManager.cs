@@ -13,7 +13,6 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 
-
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [Header("DisconnectPanel")]
@@ -58,39 +57,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Button ReadyButton; // 준비 버튼 추가
 
     [Header("GameMap")]
-    public List<Transform> checkpoints = new List<Transform>();                          // B 체크포인트 리스트
-    private List<Player> players = new List<Player>();                                   // B 현재 방의 플레이어 리스트
-    private Dictionary<string, int> playerCheckpoints = new Dictionary<string, int>()  ; // B 각 플레이어의 체크포인트 상태
-    private Dictionary<string, float> playerDistances = new Dictionary<string, float>(); // B 각 플레이어의 다음 체크포인트까지의 거리
+    public List<Transform> MapPointsList = new List<Transform>();                          // B 체크포인트 리스트
+    private List<Player> RoomPlayerList = new List<Player>();                                   // B 현재 방의 플레이어 리스트
+    private Dictionary<string, int> PlayerLastChkPoint = new Dictionary<string, int>(); // B 각 플레이어의 체크포인트 상태
+    private Dictionary<string, float> NextPointDistance = new Dictionary<string, float>(); // B 각 플레이어의 다음 체크포인트까지의 거리
 
-    private Dictionary<Player, Transform> playerTransforms = new Dictionary<Player, Transform>(); // B 각 플레이어의 Transform
+    private Dictionary<string, Transform> currentPlayerTransformDic = new Dictionary<string, Transform>(); // 키 닉네임으로 사용
     private bool IsGamestartCheck { get; set; }
-
 
     // B 1
     void InitGameStartPlayers()
     {
+        RoomPlayerList = PhotonNetwork.PlayerList.ToList();
+        PlayerLastChkPoint.Clear();
+        NextPointDistance.Clear();
+        currentPlayerTransformDic.Clear();
 
-        players = PhotonNetwork.PlayerList.ToList();
-        playerCheckpoints.Clear();
-        playerDistances.Clear();
-        playerTransforms.Clear();
-
-        foreach (Player player in players)
+        foreach (Player player in RoomPlayerList)
         {
-            playerCheckpoints[player.NickName] = 0;
-            playerDistances[player.NickName] = float.MaxValue;
+            PlayerLastChkPoint[player.NickName] = 0;
+            NextPointDistance[player.NickName] = float.MaxValue;
 
-            // 각 플레이어의 Transform을 찾아서 매핑
-            GameObject playerObject = GameObject.Find(player.NickName); // 닉네임으로 플레이어 오브젝트 찾기
-            if (playerObject != null)
+            if (player.CustomProperties.ContainsKey("objectViewID"))
             {
-                playerTransforms[player] = playerObject.transform;
+                int viewID = (int)player.CustomProperties["objectViewID"];
+                PhotonView view = PhotonView.Find(viewID);
+                if (view != null)
+                {
+                    currentPlayerTransformDic[player.NickName] = view.transform;
+                }
             }
         }
         IsGamestartCheck = true;
     }
-
 
     void Start()
     {
@@ -108,20 +107,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CustomProperties에 "isReady" 키가 있고 그 값이 true라면, isReady는 true가 됩니다.
         CustomProperties에 "isReady" 키가 없거나, 그 값이 false라면, isReady는 false가 됩니다.*/
         bool isReady = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
-        
+
         // A-2 버튼 클릭했으니 가져온 값 반대로 세팅
         // 세팅할때 Setcustomproperties 함수에 세팅 하는 이유가 해당 함수를 통해 Customproperties 값이 바뀌면 > OnPlayerPropertiesUpdate 콜핵함수를 호출시키고 모든 클라에게 공유되기 때문 (서버 전용 전역변수 느낌,그렇다고 서버 변수는 아님)
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", !isReady } });
     }
 
-        // A-3 A-2 과정이 끝나면 자동으로 콜백 함수가 불러짐 
+    // A-3 A-2 과정이 끝나면 자동으로 콜백 함수가 불러짐 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
         {
             UpdatePlayerReadyStates();
         }
+        if (changedProps.ContainsKey("objectViewID"))
+        {
+            int viewID = (int)changedProps["objectViewID"];
+            PhotonView view = PhotonView.Find(viewID);
+            if (view != null)
+            {
+                currentPlayerTransformDic[targetPlayer.NickName] = view.transform;
+            }
+            else
+            {
+                currentPlayerTransformDic.Remove(targetPlayer.NickName);
+            }
+        }
     }
+
     #region 방리스트 갱신
     // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
     public void MyListClick(int num)
@@ -166,6 +179,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         MyListRenewal();
     }
     #endregion
+
     #region UI
     // #2 오브젝트 비활성화면 활성화 시키고 활성화면 비활성화 시키는 코드인데 분석좀 해봐야함
     public void LobbyUIOnOff()
@@ -175,52 +189,100 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region 서버연결
-    void Awake() {
+    void Awake()
+    {
         Screen.SetResolution(960, 540, false);
         OwnedCharacters = new List<string>();
     }
-
 
     void Update()
     {
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
-
-        if(IsGamestartCheck  && PhotonNetwork.IsMasterClient)
+        //B2 게임 시작 후 IsGamestartCheck 의 불 값이 변경되면서 아래 함수는 실행된다 
+        if (IsGamestartCheck && PhotonNetwork.IsMasterClient)
         {
-            foreach (Player player in players)
+            foreach (Player player in RoomPlayerList)
             {
-                //B2 게임 시작 되면 bool 값 바뀌면서 바깥 if문이 동작함 아래 함수에서는 
                 UpdatePlayerDistance(player);
             }
 
-            //CalculateRankings();
+            CalculateRankings();
             //DisplayRankings();
         }
     }
+
+    void CalculateRankings()
+    {
+        var activePlayers = PhotonNetwork.PlayerList.ToList();
+
+        var rankings = activePlayers
+            .OrderByDescending(player => {
+                int checkpoints = 0;
+                if (PlayerLastChkPoint.TryGetValue(player.NickName, out checkpoints))
+                {
+                    return checkpoints;
+                }
+                return 0;
+            })
+            .ThenBy(player => {
+                float distance = float.MaxValue;
+                if (NextPointDistance.TryGetValue(player.NickName, out distance))
+                {
+                    return distance;
+                }
+                return float.MaxValue;
+            })
+            .ToList();
+
+        for (int i = 0; i < rankings.Count; i++)
+        {
+            Debug.Log($"{i + 1}위: {rankings[i].NickName}");
+        }
+    }
+
     void UpdatePlayerDistance(Player player)
     {
         string playerName = player.NickName;
-        if (playerCheckpoints.ContainsKey(playerName))
+        int checkpointIndex = 0;
+
+        if (PlayerLastChkPoint.TryGetValue(playerName, out checkpointIndex) && currentPlayerTransformDic.ContainsKey(playerName))
         {
-            int checkpointIndex = playerCheckpoints[playerName];
-            if (checkpointIndex < checkpoints.Count)
+            if (checkpointIndex < MapPointsList.Count)
             {
-                //playerDistances[playerName] = Vector3.Distance(player.transform.position, checkpoints[checkpointIndex].position);
+                Transform playerTransform = currentPlayerTransformDic[playerName];
+                Transform checkpointTransform = MapPointsList[checkpointIndex];
+
+                if (playerTransform != null && checkpointTransform != null)
+                {
+                    float distance = Vector3.Distance(playerTransform.position, checkpointTransform.position);
+                    NextPointDistance[playerName] = distance;
+                    if (distance < 5.0f) // 예: 5 유닛 이내로 접근하면 체크포인트 도달로 간주
+                    {
+                        PlayerLastChkPoint[playerName] = checkpointIndex + 1;
+                        Debug.Log($"Player {playerName} +1 되어 {checkpointIndex}에서 {PlayerLastChkPoint[playerName]} 가 되었음");
+                    }
+                    //Debug.Log($"Player: {playerName}, Transform: {playerTransform.name}, Distance: {distance}");
+                }
+                else
+                {
+                    Debug.LogWarning($"Player {playerName}'s transform or checkpoint transform is null.");
+                }
             }
         }
     }
-    public void Connect(string characterId, string playerNickName,int currentMoney)
+
+    public void Connect(string characterId, string playerNickName, int currentMoney)
     {
         this.currentPrafab = characterId;       // 선택 되어있는 캐릭터 이름
-        //this.currentPrafab_chk = characterId;
         this.PlayerNickName = playerNickName;   // ID
         this.currentMoney = currentMoney;       // DB Select 해서 가져온 플레이어 보유금액
         _loginCamera.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
     }
+
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
     // 로비 입장 시 
@@ -240,7 +302,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CreateLocalPlayer();
         myList.Clear();
     }
-     
+
     public void ChangeChar(string changedName)
     {
         currentPrafab = changedName;
@@ -250,18 +312,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         CreateLocalPlayer();
     }
+
     void CreateLocalPlayer()
     {
         /*if (localPlayerPrefab == null || currentPrafab != currentPrafab_chk)*/
         if (localPlayerPrefab == null)
         {
             string prefabName = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("characterId") ? PhotonNetwork.LocalPlayer.CustomProperties["characterId"].ToString() : "DefaultPlayerPrefab";
-            localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-154, 12.49f, -49.54883f), Quaternion.Euler(0,25.525f,0));
+            localPlayerPrefab = Instantiate(Resources.Load<GameObject>(prefabName), new Vector3(-154, 12.49f, -49.54883f), Quaternion.Euler(0, 25.525f, 0));
 
             InitializeCamera();
-
         }
     }
+
     void InitializeCamera()
     {
         // 프리룩 카메라를 찾습니다 (경로를 정확히 명시)
@@ -284,24 +347,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Debug.LogWarning("FreeLookCamera not found! Please check the path.");
         }
     }
+
     public void Disconnect() => PhotonNetwork.Disconnect();
-     
+
     // 로비에서 X 버튼 누를 때 콜백 되는 함수 
     public override void OnDisconnected(DisconnectCause cause)
     {
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
-        
+
         LoginPanel.SetActive(true);
 
         LobbyPanel.SetActive(false);
         _loginCamera.SetActive(true);
         RoomPanel.SetActive(false);
         UIManager.Instance.LobbyUIControll("off");
-
-
     }
     #endregion
-
 
     #region 방
     public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + UnityEngine.Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 4 });
@@ -327,41 +388,41 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
         Vector3 spawnPosition = new Vector3(-157, 46, -55);
+        GameObject playerObject = PhotonNetwork.Instantiate(currentPrafab, spawnPosition, Quaternion.identity);
+        int viewID = playerObject.GetComponent<PhotonView>().ViewID;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "objectViewID", viewID } });
 
-        PhotonNetwork.Instantiate(currentPrafab, spawnPosition, Quaternion.identity);
-
-        UpdatePlayerReadyStates(); 
+        UpdatePlayerReadyStates();
     }
-  
-    public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); } 
 
-    public override void OnJoinRandomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); }
+    public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); }
+
+    public override void OnJoinRandomFailed(short returnCode, String message) { RoomInput.text = ""; CreateRoom(); }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("test");
         RoomRenewal();
         ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
 
-        UpdatePlayerReadyStates();  
+        UpdatePlayerReadyStates();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-
         RoomRenewal();
         ChatRPC("<color=yellow>" + otherPlayer.NickName + "님이 퇴장하셨습니다</color>");
-     
 
-        UpdatePlayerReadyStates();  
+        currentPlayerTransformDic.Remove(otherPlayer.NickName);
+        NextPointDistance.Remove(otherPlayer.NickName);
+        PlayerLastChkPoint.Remove(otherPlayer.NickName);
+        RoomPlayerList.Remove(otherPlayer); // RoomPlayerList에서 플레이어를 제거합니다.
+
+        UpdatePlayerReadyStates();
     }
 
     void RoomRenewal()
     {
-        //ListText.text = "";
-        //for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        //ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
-        RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers +")";
+        RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers + ")";
     }
 
     private bool allPlayersReady = false;
@@ -370,7 +431,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void UpdatePlayerReadyStates() // 방에 들어오거나 레디를 했거나 방을 떠났거나
     {
         bool allReady = true;
-      
 
         // Assuming you have a list or array of the existing player divs
         GameObject[] playerDivs = RoomListParentsPopup.GetComponentsInChildren<Transform>(true)
@@ -457,12 +517,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Debug.Log("All players are ready. Starting the game...");
 
             // 게임을 시작하는 로직을 여기에 추가합니다.
-            InitGameStartPlayers();// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
+            InitGameStartPlayers(); // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
         }
     }
+
     // 방 나갈 시
     // 본인 클라에서만 호출
-    #endregion
     public override void OnLeftRoom()
     {
         //UIManager.Instance.LobbyUIControll("off");
@@ -472,7 +532,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // Set the local player's isReady state to false when they leave the room
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
     }
-  
+
     #region 채팅
     public void Send()
     {
@@ -497,6 +557,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             ChatText[ChatText.Length - 1].text = msg;
         }
     }
-   
     #endregion
 }
+#endregion
