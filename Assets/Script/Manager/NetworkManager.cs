@@ -10,6 +10,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using System.Linq;
+using System;
 
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -30,10 +32,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject LobbyWaitObjec1; // 대기방1 오브젝트
     public GameObject LobbyWaitObjec2; // 대기방2 오브젝트
     public GameObject GameWaitObjec1;  // 게임방1 오브젝트 
-
+    public GameObject RoomListParentsPopup;
     [Header("RoomPanel")]
     public GameObject RoomPanel;
-    public Text ListText;
+    //public Text ListText;
     public Text RoomInfoText;
     public Text[] ChatText;
     public InputField ChatInput;
@@ -65,10 +67,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // A 버튼을 클릭하면
     void OnReadyButtonClicked()
     {
-        // A-1 값 있음 True 로 가져오고 아님 False
-        // 로컬플레이어에 해당하는 isready "키" 가 "CustomProperties"사전에 있는지 체크하고 있으면 그게 참인지 거짓 값인지를 가져와서 isready에 넣는다
+        // A-1 
+        /*값 있음 True 로 가져오고 아님 False 
+        결과적으로, isReady 변수는 로컬 플레이어가 "준비됨" 상태인지(isReady 키가 존재하고 그 값이 true인지)를 나타냅니다.
+        CustomProperties에 "isReady" 키가 있고 그 값이 true라면, isReady는 true가 됩니다.
+        CustomProperties에 "isReady" 키가 없거나, 그 값이 false라면, isReady는 false가 됩니다.*/
         bool isReady = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
-
+        
         // A-2 버튼 클릭했으니 가져온 값 반대로 세팅
         // 세팅할때 Setcustomproperties 함수에 세팅 하는 이유가 해당 함수를 통해 Customproperties 값이 바뀌면 > OnPlayerPropertiesUpdate 콜핵함수를 호출시키고 모든 클라에게 공유되기 때문 (서버 전용 전역변수 느낌,그렇다고 서버 변수는 아님)
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", !isReady } });
@@ -241,7 +246,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
     #region 방
-    public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 4 });
+    public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + UnityEngine.Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 4 });
 
     public void JoinRandomRoom() => PhotonNetwork.JoinRandomRoom();
 
@@ -276,6 +281,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log("test");
         RoomRenewal();
         ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
 
@@ -294,34 +300,51 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void RoomRenewal()
     {
-        ListText.text = "";
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
-        RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " / " + PhotonNetwork.CurrentRoom.PlayerCount + "명 / " + PhotonNetwork.CurrentRoom.MaxPlayers + "최대";
+        //ListText.text = "";
+        //for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        //ListText.text += PhotonNetwork.PlayerList[i].NickName + ((i + 1 == PhotonNetwork.PlayerList.Length) ? "" : ", ");
+        RoomInfoText.text = PhotonNetwork.CurrentRoom.Name + " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers +")";
     }
 
     private bool allPlayersReady = false;
     private Coroutine countdownCoroutine;
 
-    void UpdatePlayerReadyStates()
+    void UpdatePlayerReadyStates() // 방에 들어오거나 레디를 했거나 방을 떠났거나
     {
         bool allReady = true;
+      
+
+        // Assuming you have a list or array of the existing player divs
+        GameObject[] playerDivs = RoomListParentsPopup.GetComponentsInChildren<Transform>(true)
+                                                    .Where(t => t.name.Contains("Graphics")).Select(t => t.gameObject).ToArray();
+        foreach (GameObject listItem in playerDivs)
+        {
+            listItem.transform.Find("NickName").GetComponent<Text>().text = "";
+            listItem.transform.Find("Ready").gameObject.SetActive(false);
+        }
+        int index = 0;
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (player.CustomProperties.ContainsKey("isReady"))
+            bool isReady = player.CustomProperties.ContainsKey("isReady") && (bool)player.CustomProperties["isReady"];
+
+            // Debug output
+            Debug.Log(player.NickName + " is " + (isReady ? "ready" : "not ready"));
+
+            if (index < playerDivs.Length)
             {
-                bool isReady = (bool)player.CustomProperties["isReady"];
-                Debug.Log(player.NickName + " is " + (isReady ? "ready" : "not ready"));
-                if (!isReady)
-                {
-                    allReady = false;
-                }
+                GameObject listItem = playerDivs[index];
+                listItem.transform.Find("NickName").GetComponent<Text>().text = player.NickName;
+                listItem.transform.Find("Ready").gameObject.SetActive(isReady);
             }
-            else
+
+            // Check if all players are ready
+            if (!isReady)
             {
-                Debug.Log(player.NickName + " has not set ready state.");
                 allReady = false;
             }
+
+            index++;
         }
 
         if (allReady && !allPlayersReady)
