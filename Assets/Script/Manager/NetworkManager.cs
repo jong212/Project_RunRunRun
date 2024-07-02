@@ -46,17 +46,52 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
-    private string currentPrafab;                       // 사용자가 착용중인 캐릭터 프리팹 Name
-    public List<string> OwnedCharacters { get; set; }   // 구매한 프리팹들
-    public int currentMoney { get; set; }               // 돈
-    //private string currentPrafab_chk;                   // 다른 캐릭터로 변경했는지 체크하기 위한 변수
-    private string PlayerNickName;                      // 사용자 로그인 아이디 
+    private string currentPrafab;                               // 사용자가 착용중인 캐릭터 프리팹 Name
+    public List<string> OwnedCharacters { get; set; }           // 구매한 프리팹들
+    public int currentMoney { get; set; }                       // 돈
+    //private string currentPrafab_chk;                         // 다른 캐릭터로 변경했는지 체크하기 위한 변수
+    private string PlayerNickName;                              // 사용자 로그인 아이디 
     public GameObject localPlayerPrefab;
     public GameObject _loginCamera;
 
-
     private Dictionary<int, bool> playerReadyState = new Dictionary<int, bool>(); // 플레이어 ID와 준비 상태를 저장하는 딕셔너리
     public Button ReadyButton; // 준비 버튼 추가
+
+    [Header("GameMap")]
+    public List<Transform> checkpoints = new List<Transform>();                          // B 체크포인트 리스트
+    private List<Player> players = new List<Player>();                                   // B 현재 방의 플레이어 리스트
+    private Dictionary<string, int> playerCheckpoints = new Dictionary<string, int>()  ; // B 각 플레이어의 체크포인트 상태
+    private Dictionary<string, float> playerDistances = new Dictionary<string, float>(); // B 각 플레이어의 다음 체크포인트까지의 거리
+
+    private Dictionary<Player, Transform> playerTransforms = new Dictionary<Player, Transform>(); // B 각 플레이어의 Transform
+    private bool IsGamestartCheck { get; set; }
+
+
+    // B 1
+    void InitGameStartPlayers()
+    {
+
+        players = PhotonNetwork.PlayerList.ToList();
+        playerCheckpoints.Clear();
+        playerDistances.Clear();
+        playerTransforms.Clear();
+
+        foreach (Player player in players)
+        {
+            playerCheckpoints[player.NickName] = 0;
+            playerDistances[player.NickName] = float.MaxValue;
+
+            // 각 플레이어의 Transform을 찾아서 매핑
+            GameObject playerObject = GameObject.Find(player.NickName); // 닉네임으로 플레이어 오브젝트 찾기
+            if (playerObject != null)
+            {
+                playerTransforms[player] = playerObject.transform;
+            }
+        }
+        IsGamestartCheck = true;
+    }
+
+
     void Start()
     {
         ReadyButton.onClick.AddListener(OnReadyButtonClicked);
@@ -151,7 +186,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
-       // Debug.Log(currentMoney);
+
+        if(IsGamestartCheck  && PhotonNetwork.IsMasterClient)
+        {
+            foreach (Player player in players)
+            {
+                //B2 게임 시작 되면 bool 값 바뀌면서 바깥 if문이 동작함 아래 함수에서는 
+                UpdatePlayerDistance(player);
+            }
+
+            //CalculateRankings();
+            //DisplayRankings();
+        }
+    }
+    void UpdatePlayerDistance(Player player)
+    {
+        string playerName = player.NickName;
+        if (playerCheckpoints.ContainsKey(playerName))
+        {
+            int checkpointIndex = playerCheckpoints[playerName];
+            if (checkpointIndex < checkpoints.Count)
+            {
+                //playerDistances[playerName] = Vector3.Distance(player.transform.position, checkpoints[checkpointIndex].position);
+            }
+        }
     }
     public void Connect(string characterId, string playerNickName,int currentMoney)
     {
@@ -397,7 +455,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (allPlayersReady)
         {
             Debug.Log("All players are ready. Starting the game...");
+
             // 게임을 시작하는 로직을 여기에 추가합니다.
+            InitGameStartPlayers();// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
         }
     }
     // 방 나갈 시
