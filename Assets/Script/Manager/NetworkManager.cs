@@ -210,6 +210,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Screen.SetResolution(960, 540, false);
         OwnedCharacters = new List<string>();
     }
+    private List<Player> arrivalOrder = new List<Player>();
 
     void Update()
     {
@@ -229,11 +230,81 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void UpdatePlayerDistance(Player player)
+    {
+        string playerName = player.NickName;
+        int checkpointIndex = 0;
+
+        // 도착한 플레이어는 거리 계산에서 제외
+        if (arrivalOrder.Contains(player))
+        {
+            return;
+        }
+
+        if (PlayerLastChkPoint.TryGetValue(playerName, out checkpointIndex) && currentPlayerTransformDic.ContainsKey(playerName))
+        {
+            // 플레이어의 체크포인트 인덱스가 맵의 체크포인트 리스트 범위 내에 있는지 확인합니다.
+            if (checkpointIndex < MapPointsList.Count)
+            {
+                Transform playerTransform = currentPlayerTransformDic[playerName];
+                Transform checkpointTransform = MapPointsList[checkpointIndex];
+
+                if (playerTransform != null && checkpointTransform != null)
+                {
+                    float distance = Vector3.Distance(playerTransform.position, checkpointTransform.position);
+                    NextPointDistance[playerName] = distance;
+                    if (distance < 5.0f) // 예: 5 유닛 이내로 접근하면 체크포인트 도달로 간주
+                    {
+                        PlayerLastChkPoint[playerName] = checkpointIndex + 1;
+                        Debug.Log($"Player {playerName} +1 되어 {checkpointIndex}에서 {PlayerLastChkPoint[playerName]} 가 되었음");
+
+                        // 도착지점에 도달했는지 확인
+                        if (PlayerLastChkPoint[playerName] >= MapPointsList.Count)
+                        {
+                            Debug.Log($"Player {playerName} has reached the final destination.");
+                            HandlePlayerArrival(player);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Player {playerName}'s transform or checkpoint transform is null.");
+                }
+            }
+            else
+            {
+                // 플레이어가 모든 체크포인트를 통과하여 도착지점에 도달했음을 의미
+                Debug.Log($"Player {playerName} has reached the final destination.");
+                HandlePlayerArrival(player);
+            }
+        }
+    }
+
+    void HandlePlayerArrival(Player player)
+    {
+        string playerName = player.NickName;
+
+        // 도착한 플레이어를 리스트에 추가
+        if (!arrivalOrder.Contains(player))
+        {
+            arrivalOrder.Add(player);
+            Debug.Log($"Player {playerName} has been added to the arrival order.");
+        }
+
+        // 게임 종료 조건 확인 (예: 모든 플레이어가 도착했는지)
+        if (arrivalOrder.Count == RoomPlayerList.Count)
+        {
+            Debug.Log("All players have arrived. Calculating final rankings.");
+        }
+    }
+
     void CalculateRankings()
     {
-        var activePlayers = PhotonNetwork.PlayerList.ToList();
+        var activePlayers = RoomPlayerList;
 
-        var rankings = activePlayers
+        // 도착하지 않은 플레이어들의 순위 계산
+        var nonArrivedRankings = activePlayers
+            .Where(player => !arrivalOrder.Contains(player))
             .OrderByDescending(player => {
                 int checkpoints = 0;
                 if (PlayerLastChkPoint.TryGetValue(player.NickName, out checkpoints))
@@ -252,46 +323,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             })
             .ToList();
 
-        for (int i = 0; i < rankings.Count; i++)
+        // 최종 랭킹 계산 (도착한 플레이어 + 도착하지 않은 플레이어)
+        var finalRankings = arrivalOrder.Concat(nonArrivedRankings).ToList();
+
+        for (int i = 0; i < finalRankings.Count; i++)
         {
-            Debug.Log($"{i + 1}위: {rankings[i].NickName}");
-        }
-    }
-
-    void UpdatePlayerDistance(Player player)
-    {
-        string playerName = player.NickName;
-        
-        //초기화: checkpointIndex 변수를 0으로 초기화합니다. 이는 필수는 아니지만 가독성을 높이고 명확하게 하기 위해 수행됩니다.
-        int checkpointIndex = 0;
-
-        //playerName 키가 딕셔너리에 존재하는지 확인하고, 존재하면 checkpointIndex에 해당 값(마지막 밟은 체크포인트 값)을 할당합니다.
-        // 그리고 currentPlayerTransformDic 딕셔너리에 해당 플레이어의 트랜스폼이 존재하는지 확인합니다.
-
-        if (PlayerLastChkPoint.TryGetValue(playerName, out checkpointIndex) && currentPlayerTransformDic.ContainsKey(playerName))
-        {
-            // 플레이어의 체크포인트 인덱스가 맵의 체크포인트 리스트 범위 내에 있는지 확인합니다.
-            if (checkpointIndex < MapPointsList.Count)
-            {
-                Transform playerTransform = currentPlayerTransformDic[playerName];
-                Transform checkpointTransform = MapPointsList[checkpointIndex];
-
-                if (playerTransform != null && checkpointTransform != null)
-                {
-                    float distance = Vector3.Distance(playerTransform.position, checkpointTransform.position);
-                    NextPointDistance[playerName] = distance;
-                    if (distance < 5.0f) // 예: 5 유닛 이내로 접근하면 체크포인트 도달로 간주
-                    {
-                        PlayerLastChkPoint[playerName] = checkpointIndex + 1;
-                        Debug.Log($"Player {playerName} +1 되어 {checkpointIndex}에서 {PlayerLastChkPoint[playerName]} 가 되었음");
-                    }
-                    //Debug.Log($"Player: {playerName}, Transform: {playerTransform.name}, Distance: {distance}");
-                }
-                else
-                {
-                    Debug.LogWarning($"Player {playerName}'s transform or checkpoint transform is null.");
-                }
-            }
+            Debug.Log($"{i + 1}위: {finalRankings[i].NickName}");
         }
     }
 
