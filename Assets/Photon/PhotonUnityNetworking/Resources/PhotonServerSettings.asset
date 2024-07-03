@@ -40,5 +40,6 @@ MonoBehaviour:
   - SyncAnimation
   - StartCountDownCo
   - ShowStartText
+  - InitGameStartPlayers
   DisableAutoOpenWizard: 1
   ShowSettings: 1

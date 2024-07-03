@@ -71,6 +71,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public CanvasGroup countPanel_CanvasGroup;
 
     // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화
+    [PunRPC]
     void InitGameStartPlayers() // 이 함수 초기화 단게에서 마스터클라이언트를 안 걸어야 방장이 중간에 나가도 마스터클라 양도받은 컴에서 Update 이어서 칠 수 있음.
     {
       
@@ -570,17 +571,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         int count = 5;
         countPanel.SetActive(true);
         while (count > 0)
-        {                       
+        {
             countDownText.text = count.ToString();
-            countPanel_CanvasGroup.DOFade(1f, 0.3f).SetUpdate(true).OnComplete(()=>
-            {
-                countPanel_CanvasGroup.DOFade(0f, .3f).SetUpdate(true).SetDelay(.3f);
-            });
-            countDownText.rectTransform.DOScale(Vector3.one, .3f).SetUpdate(true).OnComplete(() =>
-            {
-                countDownText.rectTransform.DOScale(Vector3.zero, .3f).SetUpdate(true).SetDelay(.3f);
-            });
-            // 여기서 UI 텍스트를 업데이트하는 코드를 추가할 수 있습니다.
+            AnimateCountPanel();
             yield return new WaitForSeconds(1);
             count--;
         }
@@ -588,15 +581,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (allPlayersReady)
         {
             PV.RPC("ShowStartText", RpcTarget.All);
-            InitGameStartPlayers(); // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
+            PV.RPC("InitGameStartPlayers", RpcTarget.All);// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
             yield return new WaitForSeconds(1);
         }
         countPanel.SetActive(false);
     }
+
     [PunRPC]
     void ShowStartText()
     {
         countDownText.text = "Start !";
+        AnimateCountPanel();
+        Debug.Log("All players are ready. Starting the game...");
+    }
+
+    void AnimateCountPanel()
+    {
         countPanel_CanvasGroup.DOFade(1f, 0.3f).SetUpdate(true).OnComplete(() =>
         {
             countPanel_CanvasGroup.DOFade(0f, .3f).SetUpdate(true).SetDelay(.3f);
@@ -605,7 +605,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             countDownText.rectTransform.DOScale(Vector3.zero, .3f).SetUpdate(true).SetDelay(.3f);
         });
-        Debug.Log("All players are ready. Starting the game...");
     }
     // 방 나갈 시
     // 본인 클라에서만 호출
