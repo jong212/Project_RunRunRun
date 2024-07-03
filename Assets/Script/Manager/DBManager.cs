@@ -202,7 +202,8 @@ public class DBManager : MonoBehaviour
             CurrentGold = GetPlayerGold(Nickname);
             networkManager.Connect(CurrentPrafab, Nickname, CurrentGold);
 
-
+            Input_Id.text = "";
+            Input_Pw.text = "";
         }
         else
         {
