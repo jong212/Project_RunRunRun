@@ -69,6 +69,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // B 1
     void InitGameStartPlayers()
     {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+        }
+
         RoomPlayerList = PhotonNetwork.PlayerList.ToList();
         PlayerLastChkPoint.Clear();
         NextPointDistance.Clear();
@@ -89,6 +94,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+
         IsGamestartCheck = true;
     }
 
