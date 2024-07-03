@@ -31,6 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject LobbyWaitObjec1; // 대기방1 오브젝트
     public GameObject LobbyWaitObjec2; // 대기방2 오브젝트
     public GameObject GameWaitObjec1;  // 게임방1 오브젝트 
+    public GameObject lbDissconnectBtn;// 로비 닫기 버튼
     public GameObject RoomListParentsPopup;
     [Header("RoomPanel")]
     public GameObject RoomPanel;
@@ -289,6 +290,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedLobby()
     {
+        lbDissconnectBtn.SetActive(true);
         LobbyWaitObjec1.SetActive(true);
         LobbyWaitObjec2.SetActive(true);
         GameWaitObjec1.SetActive(false);
@@ -360,6 +362,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LobbyPanel.SetActive(false);
         _loginCamera.SetActive(true);
         RoomPanel.SetActive(false);
+        lbDissconnectBtn.SetActive(false);
         UIManager.Instance.LobbyUIControll("off");
     }
     #endregion
@@ -378,7 +381,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LobbyWaitObjec1.SetActive(false);
         LobbyWaitObjec2.SetActive(false);
         GameWaitObjec1.SetActive(true);
-
+        lbDissconnectBtn.SetActive(false);
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         LobbyPanel.SetActive(false);
         UIManager.Instance.LobbyUIControll("off");
