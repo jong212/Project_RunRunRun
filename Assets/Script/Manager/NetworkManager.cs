@@ -100,10 +100,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 }
             }
         }
-
+        GameStartInit();
         IsGamestartCheck = true;
     }
-
+    void GameStartInit()
+    {
+        RoomPanel.SetActive(false);
+    }
     void Start()
     {
         ReadyButton.onClick.AddListener(OnReadyButtonClicked);
@@ -124,6 +127,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     // A-3 SetCustomProperties 값 수정 시 모든 클라에서 OnPlayerPropertiesUpdate 함수 콜백으로 호출됨 예를들어 A클라에서 SetcustomProperties 값변경하면 A 포함해서 다른 모든 클라에서 아래 함수 호출 됨 
+    // 특정 키로 호출한 것만 아래에서 containskey로 검사해서 해당 로직만 실행되는듯 위에선 isready를 키로 보내서 아래에선 isready에 대한 구문만 실행 된다고 함 좋은듯?
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
@@ -212,8 +216,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
-        //B2 게임 시작 후 IsGamestartCheck 의 불 값이 변경되면서 아래 함수는 실행된다 
-        Debug.Log(IsGamestartCheck + "startCheck");
+        //B2 게임 시작 후 IsGamestartCheck 의 불 값이 변경되면서 아래 함수는 실행된다         
         if (IsGamestartCheck && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Test1 : [마스터 클라이언트 양도 테스트]"); // 게임진행 중 방장 나가면 그 방에있는 아무나한테 마스터클라이언트 권한이 양도 되는지 테스트 해봤는데 양도 잘 됨
