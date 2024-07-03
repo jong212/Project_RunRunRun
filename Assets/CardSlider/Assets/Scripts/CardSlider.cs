@@ -336,12 +336,11 @@ namespace tkitfacn.UI
                 Sort();
             }
         }
+#endif
         public void OnClick_CharacterPopupClose()
         {
             UIManager.Instance.CloseSpecificUI(UIType.CharacterPopup);
         }
-
-#endif
     }
 
     public class ItemUI
