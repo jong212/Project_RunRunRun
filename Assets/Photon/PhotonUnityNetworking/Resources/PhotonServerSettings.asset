@@ -41,5 +41,6 @@ MonoBehaviour:
   - StartCountDownCo
   - ShowStartText
   - InitGameStartPlayers
+  - UpdateRankings
   DisableAutoOpenWizard: 1
   ShowSettings: 1

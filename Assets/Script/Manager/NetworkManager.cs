@@ -65,6 +65,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private Dictionary<string, Transform> currentPlayerTransformDic = new Dictionary<string, Transform>(); // 키 닉네임으로 사용
     private bool IsGamestartCheck { get; set; }
+    public  GameObject RankUIParents;
 
     [Header("CountDown")]
     public GameObject countPanel;
@@ -351,6 +352,47 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < finalRankings.Count; i++)
         {
             Debug.Log($"{i + 1}위: {finalRankings[i].NickName}");
+        }
+        // 순위를 RPC로 전송
+        List<string> rankingNames = finalRankings.Select(p => p.NickName).ToList();
+
+        if (PV != null)
+        {
+            PV.RPC("UpdateRankings", RpcTarget.All, new object[] { rankingNames.ToArray() });
+        }
+        else
+        {
+            Debug.LogError("PhotonView is not initialized.");
+        }
+    }
+    [PunRPC]
+    void UpdateRankings(string[] rankingNames)
+    {
+        int tempNum = 0;
+        foreach (Transform child in RankUIParents.transform)
+        {
+            GameObject childGameObject = child.gameObject;
+
+            if (tempNum < rankingNames.Length)
+            {
+                if (childGameObject != null)
+                {
+                    Text rankName = childGameObject.GetComponentInChildren<Text>();
+                    if (rankName != null)
+                    {
+                        rankName.text = $"{tempNum + 1}위: {rankingNames[tempNum]}";
+                    }
+                    childGameObject.SetActive(true);
+                }
+                tempNum++;
+            }
+            else
+            {
+                if (childGameObject != null)
+                {
+                    childGameObject.SetActive(false);
+                }
+            }
         }
     }
 
