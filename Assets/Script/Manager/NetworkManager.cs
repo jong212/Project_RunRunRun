@@ -380,7 +380,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     Text rankName = childGameObject.GetComponentInChildren<Text>();
                     if (rankName != null)
                     {
-                        rankName.text = $"{tempNum + 1}위: {rankingNames[tempNum]}";
+                        rankName.text = $"{rankingNames[tempNum]}";
+                    }
+
+                    // 두 번째 자식의 자식 텍스트 컴포넌트 접근
+                    if (child.childCount > 1)
+                    {
+                        Transform secondChild = child.GetChild(1);
+                        if (secondChild.childCount > 0)
+                        {
+                            Text secondRankName = secondChild.GetComponentInChildren<Text>();
+                            if (secondRankName != null)
+                            {
+                                secondRankName.text = $"{tempNum +1}";
+                            }
+                        }
                     }
                     childGameObject.SetActive(true);
                 }
