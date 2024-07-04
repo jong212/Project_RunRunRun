@@ -77,6 +77,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void InitGameStartPlayers() // 이 함수 초기화 단게에서 마스터클라이언트를 안 걸어야 방장이 중간에 나가도 마스터클라 양도받은 컴에서 Update 이어서 칠 수 있음.
     {
+        RankUIParents.SetActive(true);
         GameStart = true;
         Debug.Log("[TEST2 : 모든 클라에서 호출되는지 테스트]"); // 모든 클라에서 호출 됨 cowntdown 코루틴 자체가 Rpc로 호출을 시켜버림
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -694,6 +695,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 본인 클라에서만 호출
     public override void OnLeftRoom()
     {
+        RankUIParents.SetActive(false);
         //UIManager.Instance.LobbyUIControll("off");
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
         RoomPanel.SetActive(false);
