@@ -20,12 +20,11 @@ namespace ithappy
             anim = GetComponent<Animator>();
         }
 
-        private void OnDisable()
+        public override void OnDisable() // override 키워드 추가
         {
             anim.enabled = false;
-
         }
-        private void OnEnable()
+        public override void OnEnable()
         {
             if (PV == null) PV = GetComponent<PhotonView>();
             if (anim == null) anim = GetComponent<Animator>();
