@@ -14,6 +14,7 @@ using System.Linq;
 using System;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.Analytics;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -70,11 +71,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public TMP_Text countDownText;
     public CanvasGroup countPanel_CanvasGroup;
 
+    public bool GameStart = false;
     // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화
     [PunRPC]
     void InitGameStartPlayers() // 이 함수 초기화 단게에서 마스터클라이언트를 안 걸어야 방장이 중간에 나가도 마스터클라 양도받은 컴에서 Update 이어서 칠 수 있음.
     {
-      
+        GameStart = true;
         Debug.Log("[TEST2 : 모든 클라에서 호출되는지 테스트]"); // 모든 클라에서 호출 됨 cowntdown 코루틴 자체가 Rpc로 호출을 시켜버림
         foreach (Player player in PhotonNetwork.PlayerList)
         {
@@ -107,13 +109,40 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void GameStartInit()
     {
         RoomPanel.SetActive(false);
+        Invoke("HideCountPanel", 1f); // 1초 뒤에 HideCountPanel 메서드 호출
+
+    }
+    void HideCountPanel()
+    {
+        countPanel.SetActive(false);
     }
     void Start()
     {
         ReadyButton.onClick.AddListener(OnReadyButtonClicked);
 
-    }
+        StartCoroutine(RankCheck());
 
+    }
+    IEnumerator RankCheck()
+    {
+
+        while (true)
+        {
+
+            yield return new WaitForSeconds(1);
+            if (IsGamestartCheck && PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("Test1 : [마스터 클라이언트 양도 테스트]"); // 게임진행 중 방장 나가면 그 방에있는 아무나한테 마스터클라이언트 권한이 양도 되는지 테스트 해봤는데 양도 잘 됨
+                foreach (Player player in RoomPlayerList)
+                {
+                    UpdatePlayerDistance(player);
+                }
+                CalculateRankings();
+            }
+
+        }
+    }
+    
     // A 게임방에서 레디 버튼 클릭할 때 아래 함수 호출
     void OnReadyButtonClicked()
     {
@@ -219,16 +248,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "로비 / " + PhotonNetwork.CountOfPlayers + "접속";
 
         //B2 게임 시작 후 IsGamestartCheck 의 불 값이 변경되면서 아래 함수는 실행된다         
-        if (IsGamestartCheck && PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("Test1 : [마스터 클라이언트 양도 테스트]"); // 게임진행 중 방장 나가면 그 방에있는 아무나한테 마스터클라이언트 권한이 양도 되는지 테스트 해봤는데 양도 잘 됨
-            foreach (Player player in RoomPlayerList)
-            {
-                UpdatePlayerDistance(player);
-            }
-            CalculateRankings();
-            //DisplayRankings();
-        }
+
     }
 
     void UpdatePlayerDistance(Player player)
@@ -239,6 +259,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 도착한 플레이어는 거리 계산에서 제외
         if (arrivalOrder.Contains(player))
         {
+            Debug.Log("return");
             return;
         }
 
@@ -494,6 +515,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void UpdatePlayerReadyStates() // 방에 들어오거나 레디를 했거나 방을 떠났거나
     {
+        if (GameStart) return;
+
         Debug.Log("Updating player ready states...");
         bool allReady = true;
 
@@ -529,10 +552,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
             index++;
         }
+        
 
         if (allReady && !allPlayersReady)
         {
             allPlayersReady = true;
+            if (!PhotonNetwork.IsMasterClient) return;
             PV.RPC("StartCountdown", RpcTarget.All);
         }
         else if (!allReady && allPlayersReady)
@@ -550,6 +575,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void StartCountdown()
     {
+        Debug.Log("testddd");
         if (countdownCoroutine == null)
         {
             countdownCoroutine = StartCoroutine(Countdown());
@@ -580,14 +606,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("booltest" + allPlayersReady);
         if (allPlayersReady)
         {
-            PV.RPC("ShowStartText", RpcTarget.All);
-            PV.RPC("InitGameStartPlayers", RpcTarget.All);// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
+            ShowStartText();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("InitGameStartPlayers", RpcTarget.All);// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
             yield return new WaitForSeconds(1);
+            }
+
         }
-        countPanel.SetActive(false);
     }
 
-    [PunRPC]
     void ShowStartText()
     {
         countDownText.text = "Start !";
