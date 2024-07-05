@@ -14,7 +14,6 @@ using System.Linq;
 using System;
 using TMPro;
 using DG.Tweening;
-using UnityEngine.Analytics;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -65,8 +64,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private Dictionary<string, Transform> currentPlayerTransformDic = new Dictionary<string, Transform>(); // 키 닉네임으로 사용
     private bool IsGamestartCheck { get; set; }
-    public  GameObject RankUIParents;
-
+    public GameObject RankUIParents;
+    public GameObject DoorObj;
     [Header("CountDown")]
     public GameObject countPanel;
     public TMP_Text countDownText;
@@ -108,6 +107,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
         }
         GameStartInit();
+        Door door = DoorObj.GetComponent<Door>();
+        if(door != null)
+        {
+             Vector3 doorPosition = door.transform.position;
+             doorPosition.y = 6.249999f;
+             door.transform.localPosition = doorPosition;  // 이 부분이 누락됨            
+            door.MoveDoorUp();
+        }
+        /*Door doorUp = DoorObj.GetComponent<Door>();
+        if (doorUp != null)
+        {
+            if (doorUp != null)
+            {
+                doorUp.MoveDoorUp();
+            }
+
+        }*/
+
+
         IsGamestartCheck = true;
     }
     void GameStartInit()
@@ -551,7 +569,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomRenewal();
         ChatInput.text = "";
         for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
-        Vector3 spawnPosition = new Vector3(-157, 46, -55);
+        Vector3 spawnPosition = new Vector3(-157, 26, -62);
         GameObject playerObject = PhotonNetwork.Instantiate(currentPrafab, spawnPosition, Quaternion.identity);
         int viewID = playerObject.GetComponent<PhotonView>().ViewID;
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "objectViewID", viewID } });
@@ -689,7 +707,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (allPlayersReady && temptime == 5)
         {
             ShowStartText();
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient) // 모든 RPC 타다가 마스터클라이언트 에서만 또 다시 아래 RPC를 호출함
             {
                 PV.RPC("InitGameStartPlayers", RpcTarget.All);// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
             yield return new WaitForSeconds(1);
@@ -745,7 +763,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         // 플레이어 준비 상태 초기화
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
-        
+
+        // 입구 초기화
+        Door door = DoorObj.GetComponent<Door>();
+        if (door != null)
+        {
+            Vector3 doorPosition = door.transform.position;
+            doorPosition.y = 6.249999f;
+            door.transform.localPosition = doorPosition;  // 이 부분이 누락됨            
+        }
         UpdatePlayerReadyStates();
 
     }
