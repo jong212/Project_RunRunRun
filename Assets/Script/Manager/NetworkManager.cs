@@ -78,6 +78,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void InitGameStartPlayers() // 이 함수 초기화 단게에서 마스터클라이언트를 안 걸어야 방장이 중간에 나가도 마스터클라 양도받은 컴에서 Update 이어서 칠 수 있음.
     {
         RankUIParents.SetActive(true);
+        StopCountdown();
+
         GameStart = true;
         Debug.Log("[TEST2 : 모든 클라에서 호출되는지 테스트]"); // 모든 클라에서 호출 됨 cowntdown 코루틴 자체가 Rpc로 호출을 시켜버림
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -311,6 +313,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 도착한 플레이어를 리스트에 추가
         if (!arrivalOrder.Contains(player))
         {
+            if(arrivalOrder.Count == 0)
+            {
+                PV.RPC("StartCountdown", RpcTarget.All,10);
+            }
             arrivalOrder.Add(player);
             Debug.Log($"Player {playerName} has been added to the arrival order.");
         }
@@ -381,6 +387,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     Text rankName = childGameObject.GetComponentInChildren<Text>();
                     if (rankName != null)
                     {
+                        if (PhotonNetwork.NickName == rankingNames[tempNum])
+                        {
+                            Image img = child.GetComponent<Image>();
+                            if (img != null)
+                            {
+                                img.color = new Color(165f / 255f, 255f / 255f, 169f / 255f, 1f); // RGB(165, 255, 169), Alpha(1)
+                            }
+
+                        }
+                        else
+                        {
+                            Image img = child.GetComponent<Image>();
+                            if (img != null)
+                            {
+                                img.color = new Color(0f / 255f, 0f / 255f, 0f / 255f, 47f / 255f); // RGB(0, 0, 0), Alpha(47/255)
+                            }
+                        }
                         rankName.text = $"{rankingNames[tempNum]}";
                     }
 
@@ -573,7 +596,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void UpdatePlayerReadyStates() // 방에 들어오거나 레디를 했거나 방을 떠났거나
     {
         if (GameStart) return;
-
+        Debug.Log("?????");
         Debug.Log("Updating player ready states...");
         bool allReady = true;
 
@@ -615,7 +638,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             allPlayersReady = true;
             if (!PhotonNetwork.IsMasterClient) return;
-            PV.RPC("StartCountdown", RpcTarget.All);
+            PV.RPC("StartCountdown", RpcTarget.All,5);
         }
         else if (!allReady && allPlayersReady)
         {
@@ -630,12 +653,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void StartCountdown()
+    void StartCountdown(int t)
     {
-        Debug.Log("testddd");
         if (countdownCoroutine == null)
         {
-            countdownCoroutine = StartCoroutine(Countdown());
+            countdownCoroutine = StartCoroutine(Countdown(t));
         }
     }
 
@@ -649,19 +671,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator Countdown()
+    IEnumerator Countdown(int time)
     {
-        int count = 5;
+
+        int temptime = time;
         countPanel.SetActive(true);
-        while (count > 0)
+        while (time > 0)
         {
-            countDownText.text = count.ToString();
+            countDownText.text = time.ToString();
             AnimateCountPanel();
             yield return new WaitForSeconds(1);
-            count--;
+            time--;
         }
-        Debug.Log("booltest" + allPlayersReady);
-        if (allPlayersReady)
+
+
+
+        if (allPlayersReady && temptime == 5)
         {
             ShowStartText();
             if (PhotonNetwork.IsMasterClient)
@@ -669,7 +694,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 PV.RPC("InitGameStartPlayers", RpcTarget.All);// B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화 
             yield return new WaitForSeconds(1);
             }
-
+        } else if (temptime == 10)
+        {
+            GameShowEndText();
         }
     }
 
@@ -691,6 +718,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             countDownText.rectTransform.DOScale(Vector3.zero, .3f).SetUpdate(true).SetDelay(.3f);
         });
     }
+
+
+    void GameShowEndText()
+    {
+        countDownText.text = "E N D !";
+        AnimateCountPanel();
+        StopCountdown();
+
+        // 게임 관련 변수 초기화
+        IsGamestartCheck = false;
+        GameStart = false;
+
+        // 플레이어 도착 관련 배열 초기화
+        arrivalOrder.Clear();
+
+        // 순위 UI 비활성화
+        RankUIParents.SetActive(false);
+
+
+        // 카운트다운 텍스트 초기화
+        countDownText.text = "";
+
+        // 게임 방 패널 활성화
+        RoomPanel.SetActive(true);
+
+        // 플레이어 준비 상태 초기화
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+        
+        UpdatePlayerReadyStates();
+
+    }
+
+
     // 방 나갈 시
     // 본인 클라에서만 호출
     public override void OnLeftRoom()
