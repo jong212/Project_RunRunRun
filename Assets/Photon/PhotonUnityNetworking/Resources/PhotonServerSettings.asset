@@ -42,5 +42,6 @@ MonoBehaviour:
   - ShowStartText
   - InitGameStartPlayers
   - UpdateRankings
+  - ReceiveMasterClientCommand
   DisableAutoOpenWizard: 1
   ShowSettings: 1

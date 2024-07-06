@@ -127,6 +127,7 @@ public class ThirdPersonController : MonoBehaviourPun
             {
                 if (!PV.IsMine)
                 {
+                    lobbyObject.SetActive(false);
                     freeLook.SetActive(false);
                 }
             }
