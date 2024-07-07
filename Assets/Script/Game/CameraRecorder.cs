@@ -18,9 +18,13 @@ public class CameraRecorder : MonoBehaviour
     private string capturedFramesRootFolder;
     private string currentSessionFolder;
     private string inputFileList;
-
+    public GoogleDriveUploader GoogleDrive;
     private Texture2D reusableTexture;
 
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         projectRoot = Application.dataPath.Replace("/Assets", "");
@@ -85,8 +89,6 @@ public class CameraRecorder : MonoBehaviour
             {
                 File.Delete(file);
             }
-
-            Debug.Log($"Cleared folder: {folderPath}");  // Add debug log for folder clearing
         }
     }
 
@@ -148,7 +150,7 @@ public class CameraRecorder : MonoBehaviour
             File.WriteAllBytes(filename, bytes);
             frameCount++;
 
-            Debug.Log($"Captured frame: {filename}");  // Add debug log for each frame
+           //[TEST : 이미지 캡쳐 프레임 단위로 잘 되고 있는지 체크 ]Debug.Log($"Captured frame: {filename}");  // Add debug log for each frame
         }
     }
 
@@ -194,8 +196,20 @@ public class CameraRecorder : MonoBehaviour
             ffmpegProcess.BeginErrorReadLine();
             ffmpegProcess.WaitForExit();
         });
+        if (ffmpegProcess.ExitCode != 0)
+        {
+            Debug.LogError("FFmpeg process failed with code: " + ffmpegProcess.ExitCode);
+        }
+        else
+        {
+            Debug.Log("Highlight video created at: " + outputFilePath);
+
+            // Upload the video after creation
+            GoogleDriveUploader.Instance.UploadGo(); // Call the upload function
+        }
 
         UnityEngine.Debug.Log("FFmpeg process exited with code: " + ffmpegProcess.ExitCode);
         UnityEngine.Debug.Log("Highlight video created at: " + outputFilePath);
     }
+
 }

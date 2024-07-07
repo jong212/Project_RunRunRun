@@ -15,6 +15,7 @@ using System;
 using TMPro;
 using DG.Tweening;
 using System.IO;
+using ithappy;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
@@ -72,6 +73,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public TMP_Text countDownText;
     public CanvasGroup countPanel_CanvasGroup;
     public bool GameStart = false;
+    public GameObject ObstracleParentPink; // Reference to the parent GameObject containing obstacles
+
+
     // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화
     [PunRPC]
     void InitGameStartPlayers() // 이 함수 초기화 단게에서 마스터클라이언트를 안 걸어야 방장이 중간에 나가도 마스터클라 양도받은 컴에서 Update 이어서 칠 수 있음.
@@ -182,7 +186,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(.1f);
             if (IsGamestartCheck && PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("Test1 : [마스터 클라이언트 양도 테스트]"); // 게임진행 중 방장 나가면 그 방에있는 아무나한테 마스터클라이언트 권한이 양도 되는지 테스트 해봤는데 양도 잘 됨
+               //[TEST : 양도 테스트] Debug.Log("Test1 : [마스터 클라이언트 양도 테스트]"); // 게임진행 중 방장 나가면 그 방에있는 아무나한테 마스터클라이언트 권한이 양도 되는지 테스트 해봤는데 양도 잘 됨
                 foreach (Player player in RoomPlayerList)
                 {
                     UpdatePlayerDistance(player);
@@ -405,7 +409,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < finalRankings.Count; i++)
         {
-            Debug.Log($"{i + 1}위: {finalRankings[i].NickName}");
+            //[TEST : 등수] Debug.Log($"{i + 1}위: {finalRankings[i].NickName}");
         }
         // 순위를 RPC로 전송
         List<string> rankingNames = finalRankings.Select(p => p.NickName).ToList();
@@ -585,7 +589,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedRoom()
     {
-
+        InitializeObstacles(); // Call to initialize obstacles when a room is joine
         LobbyWaitObjec1.SetActive(false);
         LobbyWaitObjec2.SetActive(false);
         GameWaitObjec1.SetActive(true);
@@ -606,7 +610,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerReadyStates();
     }
-
+    private void InitializeObstacles()
+    {
+        if (ObstracleParentPink != null)
+        {
+            // Use GetComponentsInChildren to get all Rnd_Animation components in the entire hierarchy under ObstracleParent
+            var obstacles = ObstracleParentPink.GetComponentsInChildren<Rnd_Animation>(true);
+            foreach (var obstacle in obstacles)
+            {
+                obstacle.InitializeObstacle(); // Initialize each obstacle
+            }
+        }
+        else
+        {
+            Debug.LogError("ObstracleParent is not assigned!");
+        }
+    }
     public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); }
 
     public override void OnJoinRandomFailed(short returnCode, String message) { RoomInput.text = ""; CreateRoom(); }

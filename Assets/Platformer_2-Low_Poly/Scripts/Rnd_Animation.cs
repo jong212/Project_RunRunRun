@@ -4,44 +4,51 @@ using UnityEngine;
 
 namespace ithappy
 {
-    public class Rnd_Animation : MonoBehaviourPunCallbacks
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
+    public class Rnd_Animation : MonoBehaviourPunCallbacks, IPunObservable
     {
-        Animator anim;
-        float offsetAnim;
-        Quaternion syncedRotation;
-        private PhotonView PV;  // PhotonView 변수 추가
-        [SerializeField] string titleAnim;
+        private Animator anim;
+        private PhotonView PV;
+        private float offsetAnim;
+        [SerializeField] private string titleAnim;
 
         void Awake()
         {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 30;
             PV = GetComponent<PhotonView>();
             anim = GetComponent<Animator>();
+
+            Debug.Log("Awake called");
         }
 
-        public override void OnDisable() // override 키워드 추가
+        void Start()
         {
-            anim.enabled = false;
-        }
-        public override void OnEnable()
-        {
+            Debug.Log("Start called");
+
             if (PV == null) PV = GetComponent<PhotonView>();
             if (anim == null) anim = GetComponent<Animator>();
 
-            if (PV != null && PV.IsMine && titleAnim == "Swing_X")
-            {
-                EnableAnimatorAndPlay();
-            }
+            // Initial state, disable animator if not master client
+            anim.enabled = PhotonNetwork.IsMasterClient;
         }
-        void Start()
-        {
-            if (PV == null) {
-                this.enabled = false;
-            }
-            /*if (titleAnim != "Swing_X") return;*/
 
-            if (PV != null && PV.IsMine)
+        // Function to be called to initialize the obstacle
+        public void InitializeObstacle()
+        {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
+
+            Debug.Log("Initializing Obstacle");
+
+            if (PhotonNetwork.IsMasterClient)
             {
                 EnableAnimatorAndPlay();
             }
@@ -49,56 +56,88 @@ namespace ithappy
             {
                 if (anim != null)
                 {
-                    anim.enabled = false; // 애니메이터 비활성화
+                    anim.enabled = false;
                 }
             }
         }
 
-        void EnableAnimatorAndPlay()
+        private void EnableAnimatorAndPlay()
         {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
             if (anim != null)
             {
-                anim.enabled = true; // 애니메이터 활성화
-                // 마스터 클라이언트에서 랜덤 오프셋 생성
+                anim.enabled = true;
                 offsetAnim = Random.Range(0f, 1f);
                 Debug.Log($"MasterClient: Playing animation {titleAnim} with offset {offsetAnim}");
-                anim.Play(titleAnim, 0, offsetAnim);  // 마스터 클라이언트에서 애니메이션 실행
+                anim.Play(titleAnim, 0, offsetAnim);
             }
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
-            if (PV == null) PV = GetComponent<PhotonView>();
-            if (anim == null) anim = GetComponent<Animator>();
-
-            if (PV != null && PV.IsMine && titleAnim == "Swing_X")
+            if (titleAnim != "Swing_X")
             {
+                return;
+            }
+            Debug.Log("OnMasterClientSwitched called");
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                EnableAnimatorAndPlay();
+            }
+            else
+            {
+                if (anim != null)
+                {
+                    anim.enabled = false;
+                }
+            }
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
+            Debug.Log("OnPlayerLeftRoom called");
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("A player left the room. New Master Client is handling animation.");
                 EnableAnimatorAndPlay();
             }
         }
 
-        /*void Update()
+        // Synchronize animator state
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (titleAnim != "Swing_X") return;
-            if (!photonView.IsMine)
+            if (titleAnim != "Swing_X")
             {
-                // 로컬 회전 보간
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, syncedRotation, Time.deltaTime * 100);
+                return;
             }
-        }*/
-
-        /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
             if (stream.IsWriting)
             {
-                // 마스터 클라이언트가 현재 회전 값을 전송
-                stream.SendNext(transform.rotation);
+                stream.SendNext(anim.enabled);
+                stream.SendNext(anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
             }
             else
             {
-                // 클라이언트가 회전 값을 수신
-                syncedRotation = (Quaternion)stream.ReceiveNext();
+                bool isAnimatorEnabled = (bool)stream.ReceiveNext();
+                float normalizedTime = (float)stream.ReceiveNext();
+
+                if (anim != null)
+                {
+                    anim.enabled = isAnimatorEnabled;
+                    if (isAnimatorEnabled)
+                    {
+                        anim.Play(titleAnim, 0, normalizedTime);
+                    }
+                }
             }
-        }*/
+        }
     }
 }
