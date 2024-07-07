@@ -9,14 +9,16 @@ public class LobbyDataManager : MonoBehaviour
     public static LobbyDataManager Inst { get; private set; }
 
     public Dictionary<int, Shop> LoadedCharacterList { get; private set; }
+    private string _dataRootPath;
 
 
-    private readonly string _dataRootPath = "C:\\Users\\jongh\\OneDrive\\πŸ≈¡ »≠∏È\\DataParser";
 
     private void Awake()
     {
         Inst = this;
         //ReadAllDataOnAwake();
+        _dataRootPath = System.IO.Path.Combine(Application.streamingAssetsPath, "DataParser");
+
     }
 
     public void ReadAllDataOnAwake()

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Shop>
+  <dataCategory>
+    <data DataId="1" Name="Player" Description="기본 캐릭터" Price="0" />
+    <data DataId="2" Name="Tonny" Description="느린 러너" Price="100" />
+    <data DataId="3" Name="Brown" Description="보통 러너" Price="200" />
+    <data DataId="4" Name="James" Description="빠른 러너" Price="300" />
+    <data DataId="5" Name="David" Description="매우 빠른 러너" Price="400" />
+  </dataCategory>
+</Shop>
