@@ -6,9 +6,10 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Upload;
+using Photon.Pun;
 using UnityEngine;
 
-public class GoogleDriveUploader : MonoBehaviour
+public class GoogleDriveUploader : MonoBehaviourPunCallbacks
 {
     private string projectRoot;
     private string videoOutputFolder;
@@ -152,8 +153,12 @@ public class GoogleDriveUploader : MonoBehaviour
 
     private void HandleFileUrl(string fileUrl)
     {
-        // Here you can handle the file URL, for example, store it, return it, or use it for streaming
-        Debug.Log("Streaming URL: " + fileUrl);
-        // Additional logic to handle the file URL
+        photonView.RPC("BroadcastFileUrl", RpcTarget.All, fileUrl);
+    }
+
+    [PunRPC]
+    private void BroadcastFileUrl(string fileUrl)
+    {
+        Debug.Log("Broadcasting URL: " + fileUrl);
     }
 }

@@ -1084,6 +1084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   captureCamera: {fileID: 1835196100161697901}
   renderTexture: {fileID: 8400000, guid: 030605242ee71d64889edc68f7673662, type: 2}
+  GoogleDrive: {fileID: 0}
 --- !u!20 &1835196100161697901
 Camera:
   m_ObjectHideFlags: 0

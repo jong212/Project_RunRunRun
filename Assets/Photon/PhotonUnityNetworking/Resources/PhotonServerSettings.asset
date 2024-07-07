@@ -43,5 +43,6 @@ MonoBehaviour:
   - InitGameStartPlayers
   - UpdateRankings
   - ReceiveMasterClientCommand
+  - BroadcastFileUrl
   DisableAutoOpenWizard: 1
   ShowSettings: 1
