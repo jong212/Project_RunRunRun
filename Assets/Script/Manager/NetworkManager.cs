@@ -497,7 +497,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         this.currentPrafab = characterId;       // 선택 되어있는 캐릭터 이름
         this.PlayerNickName = playerNickName;   // ID
         this.currentMoney = currentMoney;       // DB Select 해서 가져온 플레이어 보유금액
-        _loginCamera.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -508,6 +507,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     public override void OnJoinedLobby()
     {
+        _loginCamera.SetActive(false);
+
         ObstracleParent.SetActive(false);
         lbDissconnectBtn.SetActive(true);                                           // 로비 닫기 버튼 On
         LobbyWaitObjec1.SetActive(true);                        

@@ -67,9 +67,8 @@ public class VideoStreamer : MonoBehaviour
     private IEnumerator CheckPlayerAndSetUrl()
     {
         // 이거랑 구글쪽리로스낭미 리턴 주석
-        //yield return new WaitForSeconds(3);
-
-        yield return new WaitUntil(() => GoogleDriveUploader.Instance.Url != null);
+        yield return new WaitForSeconds(3);
+        //yield return new WaitUntil(() => GoogleDriveUploader.Instance.Url != null);
         
         foreach (var player in players)
         {
