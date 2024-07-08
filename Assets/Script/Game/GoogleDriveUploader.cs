@@ -48,6 +48,7 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
             DontDestroyOnLoad(gameObject); // 씬 전환 시에도 인스턴스가 파괴되지 않도록 합니다.
         }
     }
+
     void Start()
     {
         // 서비스 계정 키 파일 경로
@@ -86,6 +87,8 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
 
     private async void UploadFileAsync(DriveService service, string filePath, string folderId)
     {
+        string sampleVideoUrl = "http://techslides.com/demos/sample-videos/small.mp4";
+
         try
         {
             var fileMetadata = new Google.Apis.Drive.v3.Data.File()
@@ -110,6 +113,7 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
                 if (progress.Status == UploadStatus.Failed)
                 {
                     Debug.LogError($"Upload Failed. Error: {progress.Exception.Message}");
+                    HandleFileUrl(sampleVideoUrl); // 에러가 발생하면 샘플 비디오 URL 반환
                     return;
                 }
             }
@@ -143,11 +147,13 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
             else
             {
                 Debug.LogError("File upload response is null.");
+                HandleFileUrl(sampleVideoUrl); // 파일 업로드 응답이 null인 경우 샘플 비디오 URL 반환
             }
         }
         catch (Exception ex)
         {
             Debug.LogError($"Exception during upload: {ex.Message}");
+            HandleFileUrl(sampleVideoUrl); // 에러가 발생하면 샘플 비디오 URL 반환
         }
     }
 
