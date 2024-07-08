@@ -44,5 +44,6 @@ MonoBehaviour:
   - UpdateRankings
   - ReceiveMasterClientCommand
   - BroadcastFileUrl
+  - FirstArrive
   DisableAutoOpenWizard: 1
   ShowSettings: 1
