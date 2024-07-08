@@ -40,7 +40,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text RoomInfoText;
     public Text[] ChatText;
     public InputField ChatInput;
-    public string _firstObjectName { get; set; }  
+
     [Header("ETC")]
     public Text StatusText;
     public PhotonView PV;
@@ -61,7 +61,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     [Header("GameMap")]
     public List<Transform> MapPointsList = new List<Transform>();                          // B 체크포인트 리스트
-    public List<Player> RoomPlayerList = new List<Player>();                              // B 현재 방의 플레이어 리스트
+    private List<Player> RoomPlayerList = new List<Player>();                              // B 현재 방의 플레이어 리스트
     private Dictionary<string, int> PlayerLastChkPoint = new Dictionary<string, int>();    // B 각 플레이어의 체크포인트 상태
     private Dictionary<string, float> NextPointDistance = new Dictionary<string, float>(); // B 각 플레이어의 다음 체크포인트까지의 거리
 
@@ -366,13 +366,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             if(arrivalOrder.Count == 0)
             {
-                Player targetPlayer = PhotonNetwork.CurrentRoom.GetPlayer(player.ActorNumber);
-                GameObject playerObject = GetPlayerObject(targetPlayer);
-
                 CallFunctionOnSpecificClient(player);
                 PV.RPC("StartCountdown", RpcTarget.All,10);
-                int viewID = playerObject.GetComponent<PhotonView>().ViewID;
-                PV.RPC("FirstArrive", RpcTarget.All, viewID);
             }
             arrivalOrder.Add(player);
             Debug.Log($"Player {playerName} has been added to the arrival order.");
@@ -740,15 +735,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             countdownCoroutine = StartCoroutine(Countdown(t));
         }
     }
-    [PunRPC]
-    void FirstArrive(int viewID)
-    {
-        PhotonView firstView = PhotonView.Find( viewID);
-        if (firstView != null)
-        {
-            _firstObjectName = firstView.gameObject.name;
-        }
-    }
+
     [PunRPC]
     void StopCountdown()
     {
@@ -824,23 +811,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 플레이어 도착 관련 배열 초기화
         arrivalOrder.Clear();
         int localPlayerViewID = (int)PhotonNetwork.LocalPlayer.CustomProperties["objectViewID"];
-
-
-        foreach (Player player in RoomPlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("objectViewID"))
-            {
-                int viewID = (int)player.CustomProperties["objectViewID"];
-                PhotonView view = PhotonView.Find(viewID);
-                if (view != null)
-                {
-                    view.gameObject.SetActive(false); // Corrected this line
-                }
-            }
-        }
-
-
-
         _playerView = PhotonView.Find(localPlayerViewID);
         _playerView.gameObject.SetActive(false);        
         _gameEndObject.SetActive(true);

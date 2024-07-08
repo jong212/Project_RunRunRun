@@ -1,6 +1,3 @@
-using Cinemachine;
-using Photon.Pun;
-using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,7 +8,6 @@ public class VideoStreamer : MonoBehaviour
     public VideoPlayer videoPlayer;
     public NetworkManager networkManager;
     public GameObject[] players;
-    public CinemachineVirtualCamera virtualCamera;
     private string videoUrl;
 
     private void Awake()
@@ -44,18 +40,6 @@ public class VideoStreamer : MonoBehaviour
         networkManager.RoomPanel.SetActive(true);
         networkManager._playerView.gameObject.SetActive(true);
         transform.gameObject.SetActive(false);
-        foreach (Player player in networkManager.RoomPlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("objectViewID"))
-            {
-                int viewID = (int)player.CustomProperties["objectViewID"];
-                PhotonView view = PhotonView.Find(viewID);
-                if (view != null)
-                {
-                    view.gameObject.SetActive(true); // Corrected this line
-                }
-            }
-        }
     }
 
     private void OnVideoPrepared(VideoPlayer source)
@@ -71,10 +55,8 @@ public class VideoStreamer : MonoBehaviour
         foreach (var player in players)
         {
             player.SetActive(false);
-            if (networkManager._firstObjectName == player.name + "(Clone)")
+            if (networkManager._playerView.name == player.name + "(Clone)")
             {
-                virtualCamera.Follow = player.transform;
-                virtualCamera.LookAt = player.transform;
                 player.SetActive(true);
                 videoUrl = GoogleDriveUploader.Instance.Url;
                 videoPlayer.url = videoUrl;
