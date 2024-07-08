@@ -44,8 +44,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("ETC")]
     public Text StatusText;
     public PhotonView PV;
+    public PhotonView _playerView;
     public GameObject ObstracleParent;
-
+    public GameObject _gameEndObject;
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
     private string currentPrafab;                                                          // 사용자가 착용중인 캐릭터 프리팹 Name
@@ -630,6 +631,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, String message) { RoomInput.text = ""; CreateRoom(); }
 
+    //딴 클라가 방 들어오면 Local플레이어 콜백함수로 호출 됨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         RoomRenewal();
@@ -637,7 +639,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         UpdatePlayerReadyStates();
     }
-
+    //딴 클라가 방 나가면 Local플레이어 콜백함수로 호출 됨
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         RoomRenewal();
@@ -649,6 +651,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomPlayerList.Remove(otherPlayer); // RoomPlayerList에서 플레이어를 제거합니다.
 
         UpdatePlayerReadyStates();
+        Debug.Log("chk");
         PV.RPC("StopCountdown", RpcTarget.All);
     }
 
@@ -660,7 +663,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private bool allPlayersReady = false;
     private Coroutine countdownCoroutine;
 
-    void UpdatePlayerReadyStates() // 방에 들어오거나 레디를 했거나 방을 떠났거나
+    // 1. 레디 했거나
+    // 2. 방 참가 했거나
+    // 3. 다른 클라가 방을 나가거나
+    // 4. 들어오거나
+    // 5. 게임 END
+    void UpdatePlayerReadyStates() 
     {
         if (GameStart) return;
         Debug.Log("?????");
@@ -796,23 +804,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         // 게임 관련 변수 초기화
         IsGamestartCheck = false;
+        // 플레이어 준비 상태 초기화
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
         GameStart = false;
 
         // 플레이어 도착 관련 배열 초기화
         arrivalOrder.Clear();
+        int localPlayerViewID = (int)PhotonNetwork.LocalPlayer.CustomProperties["objectViewID"];
+        _playerView = PhotonView.Find(localPlayerViewID);
+        _playerView.gameObject.SetActive(false);        
+        _gameEndObject.SetActive(true);
 
         // 순위 UI 비활성화
         RankUIParents.SetActive(false);
-
-
         // 카운트다운 텍스트 초기화
-        countDownText.text = "";
+        /*countDownText.text = "";*/
 
         // 게임 방 패널 활성화
-        RoomPanel.SetActive(true);
+        //RoomPanel.SetActive(true);
 
-        // 플레이어 준비 상태 초기화
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "isReady", false } });
+
 
         // 입구 초기화
         Door door = DoorObj.GetComponent<Door>();
@@ -847,7 +858,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ChatInput.text = "";
     }
 
-    [PunRPC] // 이거 Send로 호출되는거면 채팅 쓸 때 다른 클라한테 동기화 되는거고 방 떠날때는 이거 적용 안 됨 바로 ChatRPC일반함수를 호출하며 방에 남은 클라에서만 방 나갔다는 로그 뜸
+    [PunRPC] // Send() 함수로 이거 호출한거면 PV.RPC로 호출한거라 모든 클라 실행이지만 ChatRPC() 함수 직접실행은 모든클라 실행이 아님 그냥 다른 사람이 방 나가면 방에 남아있는 모든 클라가 각자의 클라에서 콜백함수로 함수를 실행시키고 이 일반함수를 그냥 본인 PC에 호출하는 거임
     void ChatRPC(string msg)
     {
         bool isInput = false;

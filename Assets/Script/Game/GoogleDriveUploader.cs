@@ -16,7 +16,7 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
     private static string[] Scopes = { DriveService.Scope.DriveFile };
     private static string ApplicationName = "Your Unity App";
     private DriveService service;
-
+    public string Url { get; set; }
     private static GoogleDriveUploader _instance;
     public static GoogleDriveUploader Instance
     {
@@ -159,6 +159,7 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
     [PunRPC]
     private void BroadcastFileUrl(string fileUrl)
     {
+        Url = fileUrl;
         Debug.Log("Broadcasting URL: " + fileUrl);
     }
 }

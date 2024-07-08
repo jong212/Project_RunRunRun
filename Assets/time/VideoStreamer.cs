@@ -6,17 +6,15 @@ using UnityEngine.Video;
 public class VideoStreamer : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    [SerializeField] private string videoId = "1xeN832aL55qqRyxnFu4UdkZTFcDDKiU_";
+    public NetworkManager networkManager;
+    public GameObject[] players;
     private string videoUrl;
 
     private void Awake()
     {
-        videoUrl = $"https://drive.google.com/uc?export=download&id={videoId}";
-
         videoPlayer = gameObject.GetComponent<VideoPlayer>();
         if (videoPlayer)
         {
-            videoPlayer.url = videoUrl;
             videoPlayer.playOnAwake = false;
             videoPlayer.Prepare();
 
@@ -24,8 +22,46 @@ public class VideoStreamer : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(CheckPlayerAndSetUrl());
+    }
+
+    private void OnDisable()
+    {
+        foreach (var player in players)
+        {
+            player.SetActive(false);
+        }
+    }
+
+    public void OnClickRoomUIOn()
+    {
+        networkManager.RoomPanel.SetActive(true);
+        networkManager._playerView.gameObject.SetActive(true);
+        transform.gameObject.SetActive(false);
+    }
+
     private void OnVideoPrepared(VideoPlayer source)
     {
         videoPlayer.Play();
+    }
+
+    private IEnumerator CheckPlayerAndSetUrl()
+    {
+        // Wait until the URL is set in the GoogleDriveUploader
+        yield return new WaitUntil(() => GoogleDriveUploader.Instance.Url != null);
+
+        foreach (var player in players)
+        {
+            player.SetActive(false);
+            if (networkManager._playerView.name == player.name + "(Clone)")
+            {
+                player.SetActive(true);
+                videoUrl = GoogleDriveUploader.Instance.Url;
+                videoPlayer.url = videoUrl;
+                videoPlayer.Prepare();
+            }
+        }
     }
 }
