@@ -9,6 +9,7 @@ TagManager:
   - NetManager
   - DB
   - Obstacle
+  - Ground1
   layers:
   - Default
   - TransparentFX
