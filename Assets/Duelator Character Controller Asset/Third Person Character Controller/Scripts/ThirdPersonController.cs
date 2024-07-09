@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using Photon.Realtime;
+using Cinemachine;
 
 public class ThirdPersonController : MonoBehaviourPun
 {
@@ -17,7 +18,10 @@ public class ThirdPersonController : MonoBehaviourPun
     public float pushForce = 30.0f; // 충돌 시 가할 힘의 크기
     [SerializeField] float crt_CenterY = 0.02f;
     [SerializeField] float crt_Height = 1.22f;
-
+    public CinemachineFreeLook virtualCamera;
+    public float normalFOV = 60f;
+    public float runningFOV = 80f;
+    public float transitionSpeed = 10f;
     private Vector2 moveInput;
 
     private Vector3 velocity; //for gravity and jump
@@ -29,6 +33,7 @@ public class ThirdPersonController : MonoBehaviourPun
     private bool crouchInput;
 
     private bool jumpInput;
+    public ParticleSystem runningParticles;
 
     private float turnSmoothTime = 0.1f;
     private Rigidbody rb;
@@ -232,9 +237,18 @@ public class ThirdPersonController : MonoBehaviourPun
             moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             moveDirection.Normalize();
 
-            if (sprintInput && moveAmount > 0.5f && isGrounded && !isCrouching)
+            if (sprintInput && moveAmount > 0.5f )
             {
+                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, runningFOV, Time.deltaTime * transitionSpeed);
+                if (!runningParticles.isPlaying && !PhotonNetwork.InLobby)
+                {
+                    photonView.RPC("PlayParticles", RpcTarget.All);
+                } else
+                {
+                    PlayParticles();
+                }
                 moveDirection *= sprintSpeed;
+
                 isSprinting = true;
             }
             else if (isCrouching)
@@ -255,6 +269,14 @@ public class ThirdPersonController : MonoBehaviourPun
             }
             else
             {
+                virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, normalFOV, Time.deltaTime * transitionSpeed);
+                if (runningParticles.isPlaying && !PhotonNetwork.InLobby)
+                {
+                    photonView.RPC("StopParticles", RpcTarget.All);
+                } else
+                {
+                    StopParticles();
+                }
                 isSprinting = false;
                 if (moveAmount >= 0.5f)
                 {
@@ -271,11 +293,28 @@ public class ThirdPersonController : MonoBehaviourPun
         {
             moveDirection = Vector3.zero;
             isSprinting = false;
+            if (runningParticles.isPlaying && !PhotonNetwork.InLobby)
+            {
+                photonView.RPC("StopParticles", RpcTarget.All);
+            } else
+            {
+                StopParticles();
+            }
         }
 
         controller.Move(moveDirection * Time.deltaTime);
     }
+    [PunRPC]
+    void PlayParticles()
+    {
+        runningParticles.Play();
+    }
 
+    [PunRPC]
+    void StopParticles()
+    {
+        runningParticles.Stop();
+    }
     private void JumpingAndGravity()
     {
         // Check if the player is on ground / in air
