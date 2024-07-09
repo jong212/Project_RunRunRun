@@ -157,6 +157,10 @@ public class ThirdPersonController : MonoBehaviourPun
 
             StartCoroutine(PushBack(pushDirection));
         }
+        if (hit.collider.CompareTag("Ground1"))
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
     }
 
     private IEnumerator PushBack(Vector3 direction)
