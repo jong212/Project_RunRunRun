@@ -328,13 +328,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
                 if (playerTransform != null && checkpointTransform != null)
                 {
-                    float distance = Vector3.Distance(playerTransform.position, checkpointTransform.position);
+                    // XZ 평면에서의 거리 계산
+                    Vector3 playerPositionXZ = new Vector3(playerTransform.position.x, 0, playerTransform.position.z);
+                    Vector3 checkpointPositionXZ = new Vector3(checkpointTransform.position.x, 0, checkpointTransform.position.z);
+
+                    float distance = Vector3.Distance(playerPositionXZ, checkpointPositionXZ);
                     NextPointDistance[playerName] = distance;
-                    if (distance < 5.0f) // 예: 5 유닛 이내로 접근하면 체크포인트 도달로 간주
+                    Debug.Log(distance);
+                    if (distance < 10f) // 예: 5 유닛 이내로 접근하면 체크포인트 도달로 간주
                     {
                         PlayerLastChkPoint[playerName] = checkpointIndex + 1;
                         Debug.Log($"Player {playerName} +1 되어 {checkpointIndex}에서 {PlayerLastChkPoint[playerName]} 가 되었음");
-                       // cm.OnRecordButtonClicked();
+
                         // 도착지점에 도달했는지 확인
                         if (PlayerLastChkPoint[playerName] >= MapPointsList.Count)
                         {

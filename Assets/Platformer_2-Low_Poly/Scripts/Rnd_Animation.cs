@@ -29,6 +29,10 @@ namespace ithappy
 
         void Start()
         {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
             Debug.Log("Start called");
 
             if (PV == null) PV = GetComponent<PhotonView>();
