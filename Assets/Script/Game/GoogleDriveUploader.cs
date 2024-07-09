@@ -71,7 +71,7 @@ public class GoogleDriveUploader : MonoBehaviourPunCallbacks
 
     public void UploadGo()
     {
-        return;//TEST 진행 시 주석하고 ㄱ
+        //return;//TEST 진행 시 주석하고 ㄱ
         projectRoot = Application.dataPath.Replace("/Assets", "");
         videoOutputFolder = Path.Combine(projectRoot, "Videos");
         string videoFilePath = Path.Combine(videoOutputFolder, "highlight.mp4");
