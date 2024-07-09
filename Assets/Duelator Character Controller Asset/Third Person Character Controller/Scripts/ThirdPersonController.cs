@@ -18,7 +18,6 @@ public class ThirdPersonController : MonoBehaviourPun
     [SerializeField] float crt_CenterY = 0.02f;
     [SerializeField] float crt_Height = 1.22f;
 
-
     private Vector2 moveInput;
 
     private Vector3 velocity; //for gravity and jump
@@ -106,15 +105,14 @@ public class ThirdPersonController : MonoBehaviourPun
             rb.isKinematic = true; // Rigidbody를 캐릭터 컨트롤러와 함께 사용하기 위해 isKinematic 설정
         }
     }
+
     private void Start()
     {
-
         if (PhotonNetwork.InLobby)
         {
             Cursor.lockState = CursorLockMode.None;
             lobbyObject.SetActive(true);
             gameobj.SetActive(false);
-
         }
         else
         {
@@ -132,7 +130,6 @@ public class ThirdPersonController : MonoBehaviourPun
                 }
             }
 
-
             // TO DO 모두 레디하고 게임 시작 시 이걸로 해야할듯
             /*     if (PV.IsMine)
                  {
@@ -143,35 +140,44 @@ public class ThirdPersonController : MonoBehaviourPun
                      lobbyObject.SetActive(false);
                      GamesObject.SetActive(false);
                  }*/
-
         }
     }
-    void OnControllerColliderHit(ControllerColliderHit hit)
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("Obstacle"))
         {
-            Vector3 pushDirection = transform.position - hit.transform.position;
+            Vector3 pushDirection = (transform.position - hit.transform.position).normalized;
             pushDirection.y = 0; // 수평 방향으로만 힘을 가함
-            pushDirection.Normalize();
 
-            rb.isKinematic = false; // 충돌 시 isKinematic 해제
-            rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
-
-            controller.enabled = false; // CharacterController 비활성화
-
-            // 일정 시간 후에 다시 kinematic으로 설정하고 CharacterController 활성화
-            StartCoroutine(ResetController());
+            StartCoroutine(PushBack(pushDirection));
         }
     }
 
-    private IEnumerator ResetController()
+    private IEnumerator PushBack(Vector3 direction)
     {
-        yield return new WaitForSeconds(0.5f); // 0.5초 후에 다시 kinematic으로 설정
-        rb.isKinematic = true;
+        controller.enabled = false; // CharacterController 비활성화
+        rb.isKinematic = false; // Rigidbody의 isKinematic 해제
+
+        // Rigidbody constraints 해제
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        float pushDuration = 2f; // 밀려나는 시간
+        float pushTime = 0f;
+        while (pushTime < pushDuration)
+        {
+            rb.MovePosition(transform.position + direction * pushForce * Time.deltaTime);
+            pushTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Rigidbody constraints 재설정
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+
+        rb.isKinematic = true; // Rigidbody의 isKinematic 설정
         controller.enabled = true; // CharacterController 활성화
     }
 
-   
     private void OnEnable()
     {
         //Take Input
@@ -192,10 +198,12 @@ public class ThirdPersonController : MonoBehaviourPun
         }
         playerInputControls.Enable();
     }
+
     private void OnDisable()
     {
         playerInputControls.Disable();
     }
+
     void Update()
     {
         if (PV.IsMine || PhotonNetwork.InLobby)  // 자신이 소유한 객체일 때만 업데이트
@@ -206,6 +214,7 @@ public class ThirdPersonController : MonoBehaviourPun
             CrouchHandler();
         }
     }
+
     private void SimpleMovement()
     {
         float horizontalInput = moveInput.x;
@@ -307,8 +316,8 @@ public class ThirdPersonController : MonoBehaviourPun
             }
             jumpInput = false; // Immediately reset jump input after processing
         }
-
     }
+
     private void AnimationHandler()
     {
         //Set the animator.isGrounded bool
@@ -338,6 +347,7 @@ public class ThirdPersonController : MonoBehaviourPun
         //Set the animator.isCrouching bool
         characterAnimator.SetBool("isCrouching", isCrouching);
     }
+
     void CrouchHandler()
     {
         //if we are continuously pressing the crouch key
