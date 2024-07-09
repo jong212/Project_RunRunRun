@@ -602,7 +602,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 로컬 클라 에서만 호출 도는 메서드
     public override void OnJoinedRoom()
     {
-        InitializeObstacles(); // Call to initialize obstacles when a room is joine
+        if (PhotonNetwork.IsMasterClient) { InitializeObstacles(); }
         LobbyWaitObjec1.SetActive(false);
         LobbyWaitObjec2.SetActive(false);
         GameWaitObjec1.SetActive(true);

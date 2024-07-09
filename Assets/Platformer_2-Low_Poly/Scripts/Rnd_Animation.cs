@@ -41,7 +41,14 @@ namespace ithappy
             // Initial state, disable animator if not master client
             anim.enabled = PhotonNetwork.IsMasterClient;
         }
-
+        private void OnDisable()
+        {
+            if (titleAnim != "Swing_X")
+            {
+                return;
+            }
+            anim.enabled = false;
+        }
         // Function to be called to initialize the obstacle
         public void InitializeObstacle()
         {

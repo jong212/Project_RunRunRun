@@ -17,12 +17,12 @@ using UnityEngine;
 
         void Update()
         {
-            // 소유자일 때만 플랫폼을 이동시킴
-            if (photonView.IsMine)
+        // 소유자일 때만 플랫폼을 이동시킴
+            if (PhotonNetwork.IsMasterClient)
             {
                 MovePlatform();
             }
-        }
+    }
 
         void MovePlatform()
         {
