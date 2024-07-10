@@ -14,7 +14,7 @@ public enum UIType
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameObject ShopParentsObj;
+    [SerializeField] GameObject LobbyUIContainer;
     [SerializeField] Transform CharacterParentsObj;
     [SerializeField] GameObject BottomUIGroup;
     [SerializeField] GameObject TopUIGroup;
@@ -72,10 +72,10 @@ public class UIManager : MonoBehaviour
             GameObject gObj = null; 
             if (uiType == UIType.ShopPopup)
             {
-                gObj = Instantiate(loadedObj, ShopParentsObj.transform);
+                gObj = Instantiate(loadedObj, LobbyUIContainer.transform);
             } else if (uiType == UIType.BuyPopup)
             {
-                gObj = Instantiate(loadedObj, ShopParentsObj.GetComponentInChildren<ShopPopupUI>().transform);
+                gObj = Instantiate(loadedObj, LobbyUIContainer.GetComponentInChildren<ShopPopupUI>().transform);
             } else if (uiType == UIType.CharacterPopup)
             {
                 gObj = Instantiate(loadedObj, CharacterParentsObj.transform);
@@ -108,7 +108,7 @@ public class UIManager : MonoBehaviour
         switch (uiType)
         {
             case UIType.ShopPopup:
-                path = "UI/LobbyShopPopupUI";
+                path = "UI/Lobby/ShopPopup";
                 break;
             case UIType.BuyPopup:
                 path = "UI/BuyPopup";

@@ -6,10 +6,8 @@ using UnityEngine.UI;
 // 쇼핑 Ui 열릴 때 Container의 요 스크립트가 실행됨
 public class CharacterInfoView : MonoBehaviour
 {
-    [SerializeField] Text Text_Name;
-    [SerializeField] Text Text_Description;
-    [SerializeField] GameObject Transform_SlotRoot;
-    [SerializeField] GameObject Prefab_SkillSlot;
+    [SerializeField] Text CharacterNameText;
+    [SerializeField] GameObject ItemListWrap;
     public NetworkManager networkManager;
 
     private List<Shop> _allCharacters;
@@ -35,7 +33,7 @@ public class CharacterInfoView : MonoBehaviour
     private void OnEnable()
     {
         // Remove all child objects from Transform_SlotRoot
-        foreach (Transform child in Transform_SlotRoot.transform)
+        foreach (Transform child in gameObject.transform)
         {
             Destroy(child.gameObject);
         }
@@ -58,8 +56,10 @@ public class CharacterInfoView : MonoBehaviour
 
             // 각 캐릭터의 스킬 UI를 설정
             bool temp_chk = false;
-            var gObj = Instantiate(Prefab_SkillSlot, Transform_SlotRoot.transform);
+            var gObj = Instantiate(ItemListWrap, gameObject.transform);
+            gObj.gameObject.SetActive(true);
             var skillSlot = gObj.GetComponent<ShopSloatView>();
+
             if (skillSlot == null)
                 continue;
             if (networkManager != null)
