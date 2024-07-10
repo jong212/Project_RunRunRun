@@ -159,7 +159,23 @@ public class ThirdPersonController : MonoBehaviourPun
         }
         if (hit.collider.CompareTag("Ground1"))
         {
-            transform.position = new Vector3(0, 0, 0);
+            transform.position = new Vector3(-157.96f, 17.11f, -64.27f);
+        }
+        if (hit.collider.CompareTag("Ground2"))
+        {
+            transform.position = new Vector3(-157.08f, 25f,20.48f);
+        }
+        if (hit.collider.CompareTag("Ground3"))
+        {
+            transform.position = new Vector3(-199f, 21.45f, 20.48f);
+        }
+        if (hit.collider.CompareTag("Ground4"))
+        {
+            transform.position = new Vector3(-208.66f, 18.99f, -126.83f);
+        }
+        if (hit.collider.CompareTag("Ground5"))
+        {
+            transform.position = new Vector3(-284.66f, 22.22f, -119.793f);
         }
     }
 

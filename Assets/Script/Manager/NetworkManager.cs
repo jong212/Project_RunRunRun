@@ -375,10 +375,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 GameObject playerObject = GetPlayerObject(targetPlayer);
 
                 CallFunctionOnSpecificClient(player);
-                PV.RPC("StartCountdown", RpcTarget.All,10);
-
                 int viewID = playerObject.GetComponent<PhotonView>().ViewID;
                 PV.RPC("FirstArrive", RpcTarget.All, viewID);
+
+                PV.RPC("StartCountdown", RpcTarget.All,10);
+
+
             }
             arrivalOrder.Add(player);
             Debug.Log($"Player {playerName} has been added to the arrival order.");
@@ -845,6 +847,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
         _playerView = PhotonView.Find(localPlayerViewID);
+        _playerView.gameObject.transform.position = new Vector3(-157.96f, 17.11f, -64.27f);
         _playerView.gameObject.SetActive(false);        
         _gameEndObject.SetActive(true);
 
