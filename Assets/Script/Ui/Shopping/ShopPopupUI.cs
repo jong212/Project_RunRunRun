@@ -8,12 +8,12 @@ public class ShopPopupUI : MonoBehaviour
     public void onClick_Close()
     {
         UIManager.Instance.CloseSpecificUI(UIType.ShopPopup);
-        UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
+        UIManager.Instance.CloseSpecificUI(UIType.ShopBuyPopup);
     }
 
     public void onClick_BuyBtnClose()
     {
-        UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
+        UIManager.Instance.CloseSpecificUI(UIType.ShopBuyPopup);
     }
 
 }

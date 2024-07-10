@@ -7,6 +7,6 @@ public class ShopBuyCheckPopupClose : MonoBehaviour
 {
     public void OnClick_BuyCheckPopupClock()
     {
-        UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
+        UIManager.Instance.CloseSpecificUI(UIType.ShopBuyPopup);
     }
 }

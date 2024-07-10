@@ -7,7 +7,7 @@ public enum UIType
 {
     MainUI,
     ShopPopup,
-    BuyPopup,
+    ShopBuyPopup,
     CharacterPopup,
 }
 
@@ -73,9 +73,9 @@ public class UIManager : MonoBehaviour
             if (uiType == UIType.ShopPopup)
             {
                 gObj = Instantiate(loadedObj, LobbyUIContainer.transform);
-            } else if (uiType == UIType.BuyPopup)
+            } else if (uiType == UIType.ShopBuyPopup)
             {
-                gObj = Instantiate(loadedObj, LobbyUIContainer.GetComponentInChildren<ShopPopupUI>().transform);
+                gObj = Instantiate(loadedObj, LobbyUIContainer.transform);
             } else if (uiType == UIType.CharacterPopup)
             {
                 gObj = Instantiate(loadedObj, CharacterParentsObj.transform);
@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
             case UIType.ShopPopup:
                 path = "UI/Lobby/ShopPopup";
                 break;
-            case UIType.BuyPopup:
+            case UIType.ShopBuyPopup:
                 path = "UI/BuyPopup";
                 break;
             case UIType.CharacterPopup:
@@ -141,10 +141,10 @@ public class UIManager : MonoBehaviour
     public void OpenShopBuyPopupBtn()
     {
         // 하이어라키에 존재하는지 체크
-        var gObj = GetCreatedUI(UIType.BuyPopup);
+        var gObj = GetCreatedUI(UIType.ShopBuyPopup);
         if (gObj != null)
         { 
-            OpenUI(UIType.BuyPopup, gObj);
+            OpenUI(UIType.ShopBuyPopup, gObj);
             var ConfirmButton = gObj.GetComponent<ShopPopupUI>();
         }
     }
@@ -167,9 +167,9 @@ public class UIManager : MonoBehaviour
 
     public void RegisterOnClickConfirmEvent(bool isRegister, Action callback)
     {
-        if (_createdUIDic.ContainsKey(UIType.BuyPopup))
+        if (_createdUIDic.ContainsKey(UIType.ShopBuyPopup))
         {
-            var gObj = _createdUIDic[UIType.BuyPopup];
+            var gObj = _createdUIDic[UIType.ShopBuyPopup];
             var ShopPopup = gObj.GetComponentInChildren<ShopBuyYesBtn>();
             ShopPopup?.RegisterOnClickConfirmEvent(isRegister, callback);
         }

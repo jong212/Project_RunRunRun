@@ -70,7 +70,7 @@ public class MainUI : MonoBehaviour
                     _DBManager.UpdatePlayerGold(_DBManager.CurrentGold);                  // 2. Maria DB Player  보유금액 Update 
                     currentMoney.text = _DBManager.CurrentGold.ToString();                // 3. UI보유금액 최신화 
                     otherScriptBtn.interactable = false;
-                    UIManager.Instance.CloseSpecificUI(UIType.BuyPopup);
+                    UIManager.Instance.CloseSpecificUI(UIType.ShopBuyPopup);
                     
                     
                     // 구매완료 시 실제 DB에 캐릭터이름 추가하고 후처리로 DB매니저에서 OwnedCharacters List에도 추가 되도록 
