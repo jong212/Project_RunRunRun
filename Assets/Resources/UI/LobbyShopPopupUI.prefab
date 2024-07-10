@@ -837,7 +837,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SKILLS
+  m_Text: SHOP
 --- !u!114 &6085748619637970170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,6 +1288,7 @@ MonoBehaviour:
   Transform_SlotRoot: {fileID: 5165113227643730310}
   Prefab_SkillSlot: {fileID: 1418582599765410219, guid: 8fd508f1252161a49831ee47f4c8f175,
     type: 3}
+  networkManager: {fileID: 0}
 --- !u!1 &5717483467231456156
 GameObject:
   m_ObjectHideFlags: 0

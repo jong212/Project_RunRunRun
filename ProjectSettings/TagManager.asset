@@ -10,6 +10,10 @@ TagManager:
   - DB
   - Obstacle
   - Ground1
+  - Ground2
+  - Ground3
+  - Ground4
+  - Ground5
   layers:
   - Default
   - TransparentFX

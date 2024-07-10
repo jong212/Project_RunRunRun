@@ -40,7 +40,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text RoomInfoText;
     public Text[] ChatText;
     public InputField ChatInput;
-
+    public GameObject obj;
     [Header("ETC")]
     public Text StatusText;
     public PhotonView PV;
@@ -515,7 +515,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         _loginCamera.SetActive(false);
-
+        obj.gameObject.SetActive(false);
         ObstracleParent.SetActive(false);
         lbDissconnectBtn.SetActive(true);                                           // 로비 닫기 버튼 On
         LobbyWaitObjec1.SetActive(true);                        
@@ -605,6 +605,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         if (PhotonNetwork.IsMasterClient) { InitializeObstacles(); }
+        obj.SetActive(true);
         LobbyWaitObjec1.SetActive(false);
         LobbyWaitObjec2.SetActive(false);
         GameWaitObjec1.SetActive(true);
