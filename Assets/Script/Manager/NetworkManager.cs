@@ -30,7 +30,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Button PreviousBtn;
     public Button NextBtn;
     public GameObject LobbyWaitObjec1;                          // 로비 지형지물 A
-    public GameObject LobbyWaitObjec2;                          // 로비 지형지물 B
     public GameObject GameWaitObjec1;                           // 게임룸 지형지물 A
     public GameObject lbDissconnectBtn;                         // 로비 닫기 버튼
     public GameObject RoomListParentsPopup;
@@ -519,7 +518,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ObstracleParent.SetActive(false);
         lbDissconnectBtn.SetActive(true);                                           // 로비 닫기 버튼 On
         LobbyWaitObjec1.SetActive(true);                        
-        LobbyWaitObjec2.SetActive(true);
         GameWaitObjec1.SetActive(false);
         UIManager.Instance.LobbyUIControll("on");
         LobbyDataManager.Inst.ReadAllDataOnAwake();                                 // 로비 XML 파일 초기화
@@ -607,7 +605,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) { InitializeObstacles(); }
         obj.SetActive(true);
         LobbyWaitObjec1.SetActive(false);
-        LobbyWaitObjec2.SetActive(false);
         GameWaitObjec1.SetActive(true);
         lbDissconnectBtn.SetActive(false);
         if (localPlayerPrefab != null) { Destroy(localPlayerPrefab); }
