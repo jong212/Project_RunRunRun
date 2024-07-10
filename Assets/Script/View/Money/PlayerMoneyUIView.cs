@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerMoneyUIView : MonoBehaviour
 {
     public NetworkManager networkManager;
+    public DBManager dbManager;
     [SerializeField] Text _currentGoldText;
     // Start is called before the first frame update
     private void OnEnable()
@@ -14,7 +15,8 @@ public class PlayerMoneyUIView : MonoBehaviour
         {
             if(_currentGoldText != null)
             {
-                _currentGoldText.text = networkManager.currentMoney.ToString();
+
+                _currentGoldText.text = dbManager.CurrentGold.ToString();
             } 
             
         }
