@@ -13,14 +13,11 @@ public class DBManager : MonoBehaviour
     public NetworkManager networkManager;
     [Header("UI")]
 
-    // ·Î±×ÀÎ Ui
-    [SerializeField] InputField Input_Id;
-    [SerializeField] InputField Input_Pw;
     [SerializeField] Text Input_CheckIdPw_Error;
     [SerializeField] Text Text_DBResult;
     [SerializeField] Text Text_Log;
 
-    // È¸¿ø°¡ÀÔ Ui
+    // íšŒì›ê°€ì… Ui
     [SerializeField] GameObject JoinUi;
     [SerializeField] InputField Input_JoinId;
 
@@ -47,11 +44,11 @@ public class DBManager : MonoBehaviour
     private bool _idchk;
     public bool _IdChk { get => _idchk; set => _idchk = value; }
 
-    private bool _isConnectTestComplete; //Áß¿äÇÏÁø ¾ÊÀ½
+    private bool _isConnectTestComplete; //ì¤‘ìš”í•˜ì§„ ì•ŠìŒ
     private static MySqlConnection _dbConnection;
     private string SendQuery(string queryStr, string tableName)
     {
-        //¿©±â·Î µé¾î¿Â Äõ¸®¹®¿¡ SELECT°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¸é if Å½
+        //ì—¬ê¸°ë¡œ ë“¤ì–´ì˜¨ ì¿¼ë¦¬ë¬¸ì— SELECTê°€ í¬í•¨ë˜ì–´ ìˆìœ¼ë©´ if íƒ
         if (queryStr.Contains("SELECT"))
         {
             DataSet dataSet = OnSelectRequest(queryStr, tableName);
@@ -139,14 +136,14 @@ public class DBManager : MonoBehaviour
                 _dbConnection = conn;
                 conn.Open();
             }
-            Text_Log.text = "¼º°ø";
+            Text_Log.text = "ì„±ê³µ";
             return true;
         }
         catch (Exception e)
         {
             Debug.LogWarning($"e: {e.ToString()}");
-            //Text_Log.text = "DB¿¬°á ½ÇÆĞ";
-            Debug.LogWarning("[1.µğºñ ¿¬°á ½ÇÆĞ]");
+            //Text_Log.text = "DBì—°ê²° ì‹¤íŒ¨";
+            Debug.LogWarning("[1.ë””ë¹„ ì—°ê²° ì‹¤íŒ¨]");
             return false;
         }
     }
@@ -154,20 +151,20 @@ public class DBManager : MonoBehaviour
 
 
 
-    // ·Î±×ÀÎ ¹öÆ°  
+    // ë¡œê·¸ì¸ ë²„íŠ¼  
     public void OnSubmit_Login()
     {
         string query = string.Empty;
         if (_isConnectTestComplete == false)
         {
-            Text_Log.text = "DB ¿¬°áÀ» ¸ÕÀú ½ÃµµÇØÁÖ¼¼¿ä";
+            Text_Log.text = "DB ì—°ê²°ì„ ë¨¼ì € ì‹œë„í•´ì£¼ì„¸ìš”";
             return;
         }
 
         Text_Log.text = string.Empty;
         if (string.IsNullOrWhiteSpace(Input_Id.text) || string.IsNullOrWhiteSpace(Input_Pw.text))
         {
-            Input_CheckIdPw_Error.text = "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä.";
+            Input_CheckIdPw_Error.text = "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”.";
             return;
         }
         else
@@ -179,7 +176,7 @@ public class DBManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(result))
         {
-            Input_CheckIdPw_Error.text = "ID°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.";
+            Input_CheckIdPw_Error.text = "IDê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
             return;
         }
 
@@ -188,11 +185,10 @@ public class DBManager : MonoBehaviour
         if (retrievedPassword == Input_Pw.text)
         {
 
-            Input_CheckIdPw_Error.text = "·Î±×ÀÎ ¼º°ø!";
-            //¿©±â¿¡ ³×Æ®¿öÅ© ¸Å´ÏÀú connect ÇÔ¼ö¸¦ È£ÃâÇÏ°í ½Í¾î
-            Nickname = Input_Id.text;
+            Input_CheckIdPw_Error.text = "ë¡œê·¸ì¸ ì„±ê³µ!";
+            //ì—¬ê¸°ì— ë„¤íŠ¸ì›Œí¬ ë§¤ë‹ˆì € connect í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³  ì‹¶ì–´
 
-            //»ç¿ëÀÚ°¡ º¸À¯ÇÑ Ä³¸¯ÅÍµé ¸®½ºÆ®¿¡ ´ãÀ½
+            //ì‚¬ìš©ìê°€ ë³´ìœ í•œ ìºë¦­í„°ë“¤ ë¦¬ìŠ¤íŠ¸ì— ë‹´ìŒ
             List<string> temp = GetMycharacter(Nickname);
             foreach (string characterType in temp)
             {
@@ -202,16 +198,15 @@ public class DBManager : MonoBehaviour
             CurrentGold = GetPlayerGold(Nickname);
             networkManager.Connect(CurrentPrafab, Nickname, CurrentGold);
 
-            Input_Id.text = "";
-            Input_Pw.text = "";
+            LoginView.ResetInputField();
         }
         else
         {
-            Input_CheckIdPw_Error.text = "ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.";
+            Input_CheckIdPw_Error.text = "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
         }
     }
 
-    // ·Î±×ÀÎ ¹öÆ° - ºñ¹Ğ¹øÈ£ °ª ¸¸ °¡Á®¿À±â
+    // ë¡œê·¸ì¸ ë²„íŠ¼ - ë¹„ë°€ë²ˆí˜¸ ê°’ ë§Œ ê°€ì ¸ì˜¤ê¸°
     private string ExtractPassword(string result)
     {
         string[] lines = result.Split('\n');
@@ -230,12 +225,12 @@ public class DBManager : MonoBehaviour
         string query = string.Empty;
         if (_isConnectTestComplete == false)
         {
-            Text_Log.text = "DB ¿¬°áÀ» ¸ÕÀú ½ÃµµÇØÁÖ¼¼¿ä";
+            Text_Log.text = "DB ì—°ê²°ì„ ë¨¼ì € ì‹œë„í•´ì£¼ì„¸ìš”";
             return;
         }
         if (string.IsNullOrWhiteSpace(Input_JoinId.text))
         {
-            Input_JoinIdMessage.text = "¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä";
+            Input_JoinIdMessage.text = "ì•„ì´ë””ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”";
         }
         else
         {
@@ -244,13 +239,13 @@ public class DBManager : MonoBehaviour
 
             if (string.IsNullOrEmpty(result))
             {
-                Input_JoinIdMessage.text = "»ç¿ë °¡´É";
+                Input_JoinIdMessage.text = "ì‚¬ìš© ê°€ëŠ¥";
                 _IdChk = true;
                 return;
             }
             else
             {
-                Input_JoinIdMessage.text = "»ç¿ëÁßÀÎ ¾ÆÀÌµğ";
+                Input_JoinIdMessage.text = "ì‚¬ìš©ì¤‘ì¸ ì•„ì´ë””";
                 _IdChk = false;
             }
         }
@@ -266,24 +261,24 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î ¾ÆÀÌµğ ¾øÀ½");
+            Debug.Log("í”Œë ˆì´ì–´ ì•„ì´ë”” ì—†ìŒ");
         }
         return result;
     }
-    //È¸¿ø°¡ÀÔ ¿Ï·á ÆË¾÷
+    //íšŒì›ê°€ì… ì™„ë£Œ íŒì—…
     public void OnSubmit_Join_success()
     {
         if (!_IdChk)
         {
-            Input_JoinIdMessage2.text = "¾ÆÀÌµğ Áßº¹Ã¼Å© ÇÊ¼ö";
+            Input_JoinIdMessage2.text = "ì•„ì´ë”” ì¤‘ë³µì²´í¬ í•„ìˆ˜";
         }
         else if (string.IsNullOrEmpty(Input_JoinPw.text))
         {
-            Input_JoinIdMessage2.text = "ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä";
+            Input_JoinIdMessage2.text = "ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”";
         }
         else if (Input_JoinPw.text != Input_JoinPwChk.text)
         {
-            Input_JoinIdMessage2.text = "ºñ¹Ğ¹øÈ£¸¦ ¼­·Î ´Ù¸£°Ô ÀÔ·ÂÇÔ";
+            Input_JoinIdMessage2.text = "ë¹„ë°€ë²ˆí˜¸ë¥¼ ì„œë¡œ ë‹¤ë¥´ê²Œ ì…ë ¥í•¨";
         }
         else
         {
@@ -334,7 +329,7 @@ public class DBManager : MonoBehaviour
         return tempCurrentCharacter;
 
     }
-    // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ¾ÆÀÌµğ °¡Á®¿À±â
+    // í”Œë ˆì´ì–´ ìºë¦­í„° ì•„ì´ë”” ê°€ì ¸ì˜¤ê¸°
     public string GetCharacterId(string playerId)
     {
         string query = $"SELECT CharacterId FROM u_info WHERE Nickname = '{playerId}'";
@@ -352,7 +347,7 @@ public class DBManager : MonoBehaviour
 
         return string.Empty;
     }
-    // ÇÃ·¹ÀÌ¾î °ñµå °¡Á®¿À±â
+    // í”Œë ˆì´ì–´ ê³¨ë“œ ê°€ì ¸ì˜¤ê¸°
 
     public int GetPlayerGold(string nickname)
     {
@@ -375,13 +370,13 @@ public class DBManager : MonoBehaviour
 
     public void InsertCharacterInfo( string characterType)
     {
-        //DB Ãß°¡
+        //DB ì¶”ê°€
         string query = $"INSERT INTO character_info (Nickname, CharacterType) VALUES ('{Nickname}', '{characterType}')";
         bool isSuccess = OnInsertOnUpdateRequest(query);
 
         if (isSuccess)
         {
-            //¹è¿­ Ãß°¡
+            //ë°°ì—´ ì¶”ê°€
             networkManager.OwnedCharacters.Add(characterType);
         }
         else
