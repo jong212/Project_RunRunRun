@@ -13,6 +13,8 @@ public class DBManager : MonoBehaviour
     public NetworkManager networkManager;
     [Header("UI")]
 
+    // 로그인 Ui
+    [SerializeField] LoginView LoginView;
     [SerializeField] Text Input_CheckIdPw_Error;
     [SerializeField] Text Text_DBResult;
     [SerializeField] Text Text_Log;
@@ -162,14 +164,18 @@ public class DBManager : MonoBehaviour
         }
 
         Text_Log.text = string.Empty;
-        if (string.IsNullOrWhiteSpace(Input_Id.text) || string.IsNullOrWhiteSpace(Input_Pw.text))
+
+        string inputId = LoginView.GetInputId();
+        string inputPw = LoginView.GetInputPw();
+
+        if (string.IsNullOrWhiteSpace(inputId) || string.IsNullOrWhiteSpace(inputPw))
         {
             Input_CheckIdPw_Error.text = "아이디와 비밀번호를 입력해 주세요.";
             return;
         }
         else
         {
-            query = $"SELECT Password FROM u_info WHERE Nickname = '{Input_Id.text}'";
+            query = $"SELECT Password FROM u_info WHERE Nickname = '{inputId}'";
         }
 
         string result = SendQuery(query, "u_info");
@@ -182,11 +188,12 @@ public class DBManager : MonoBehaviour
 
         string retrievedPassword = ExtractPassword(result);
 
-        if (retrievedPassword == Input_Pw.text)
+        if (retrievedPassword == inputPw)
         {
 
             Input_CheckIdPw_Error.text = "로그인 성공!";
             //여기에 네트워크 매니저 connect 함수를 호출하고 싶어
+            Nickname = inputId;
 
             //사용자가 보유한 캐릭터들 리스트에 담음
             List<string> temp = GetMycharacter(Nickname);
