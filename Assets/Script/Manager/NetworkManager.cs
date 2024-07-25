@@ -75,6 +75,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public bool GameStart = false;
     public GameObject ObstracleParentPink; // Reference to the parent GameObject containing obstacles
 
+    public Text WinnerNickname;
 
     // B-1 게임 시작 시 체크포인트 및 거리 정보에 대한 플레이어 정보 초기화
     [PunRPC]
@@ -375,7 +376,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
                 CallFunctionOnSpecificClient(player);
                 int viewID = playerObject.GetComponent<PhotonView>().ViewID;
-                PV.RPC("FirstArrive", RpcTarget.All, viewID);
+                PV.RPC("FirstArrive", RpcTarget.All, viewID, player);
 
                 PV.RPC("StartCountdown", RpcTarget.All,10);
 
@@ -748,12 +749,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
     [PunRPC]
-    void FirstArrive(int viewID)
+    void FirstArrive(int viewID, Player player)
     {
         PhotonView firstView = PhotonView.Find(viewID);
         if (firstView != null)
         {
             _firstObjectName = firstView.gameObject.name;
+            if(WinnerNickname != null)
+            {
+                WinnerNickname.text = string.Format("{0} 님의 " +
+                    "하이라이트 영상 !!", player.NickName);
+            }
+            
         }
     }
     [PunRPC]
